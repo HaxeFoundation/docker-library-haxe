@@ -20,7 +20,7 @@ class GenerateStackbrewLibrary {
 	}
 
 	static public function fileCommit(file:String):String {
-		var p = new Process("git", ["log", "-1", "--format='format:%H'", "HEAD", "--", file]);
+		var p = new Process("git", ["log", "-1", "--format=%H", "HEAD", "--", file]);
 		var commit = p.stdout.readAll().toString().trim();
 		if (p.exitCode() != 0)
 			throw p.stderr.readAll().toString().trim();
