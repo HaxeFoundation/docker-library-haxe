@@ -61,6 +61,7 @@ class Update {
 					HAXE_VERSION: version.version,
 					HAXE_TAG: version.tag,
 					NEKO_VERSION: "2.1.0",
+					NEKO_SHA256: "0c93d5fe96240510e2d1975ae0caa9dd8eadf70d916a868684f66a099a4acf96",
 					HEADER: HEADER,
 				};
 				var path = dockerfilePath(version, variant);
