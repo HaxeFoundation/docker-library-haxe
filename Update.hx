@@ -34,6 +34,10 @@ class Update {
 		{
 			"variant": "debian",
 			"suffix": ""
+		},
+		{
+			"variant": "onbuild",
+			"suffix": "onbuild"
 		}
 	];
 

@@ -13,11 +13,13 @@ install:
 before_script:
   - env | sort
   - cd "$VERSION"
-  - image="haxe"
+  - image="$(awk '$1 == "FROM" { print $2; exit }' onbuild/Dockerfile)${VARIANT:+-$VARIANT}"
 
 script:
   - docker build -t "$image" .
   - ~/official-images/test/run.sh "$image"
+# the "onbuild" variant has to happen with the base variant because it's FROM it
+  - true && [ "$VARIANT" ] || docker build -t "${image}-onbuild" onbuild
 
 after_script:
   - docker images
