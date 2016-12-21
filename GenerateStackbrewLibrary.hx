@@ -13,7 +13,7 @@ class GenerateStackbrewLibrary {
 	static public function verAliases(version:String, suffix:String):Array<String> {
 		var versions = Lambda.array([
 			for (v in [version , verMajorMinorPatch(version), verMajorMinor(version)])
-			v => v + suffix
+			v => suffix == "" ? v : v + "-" + suffix
 		]);
 		versions.sort(function(v1, v2) return v2.length - v1.length);
 		return versions;
