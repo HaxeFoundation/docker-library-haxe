@@ -10,17 +10,17 @@ FROM buildpack-deps:jessie-scm
 ENV PATH /usr/local/bin:$PATH
 
 # runtime dependencies
-RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		libgc1c2 \
 		zlib1g \
 	&& rm -rf /var/lib/apt/lists/*
 
+# install neko, which is a dependency of haxelib
 ENV NEKO_VERSION 2.1.0
-ENV HAXE_VERSION 3.3.0-rc.1
-
+RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 RUN set -ex \
 	&& buildDeps=' \
+		build-essential \
 		cmake \
 		libgc-dev \
 		libssl-dev \
@@ -31,12 +31,6 @@ RUN set -ex \
 		libsqlite3-dev \
 		libmbedtls-dev \
 		libgtk2.0-dev \
-		\
-		ocaml \
-		ocaml-native-compilers \
-		camlp4 \
-		libxml-light-ocaml-dev \
-		ocaml-findlib \
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
 	\
@@ -50,6 +44,23 @@ RUN set -ex \
 	&& make \
 	&& make install \
 	\
+	&& apt-get purge -y --auto-remove $buildDeps \
+	&& rm -rf /usr/src/neko ~/.cache
+
+# install haxe
+ENV HAXE_VERSION 3.3.0-rc.1
+RUN set -ex \
+	&& buildDeps=' \
+		make \
+		ocaml \
+		ocaml-native-compilers \
+		camlp4 \
+		libxml-light-ocaml-dev \
+		ocaml-findlib \
+		zlib1g-dev \
+	' \
+	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
+	\
 	&& git clone --recursive --depth 1 --branch 3.3.0-rc1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& make OCAMLOPT=ocamlopt.opt \
@@ -57,6 +68,6 @@ RUN set -ex \
 	&& cd / && haxelib setup /usr/local/lib/haxe/lib \
 	\
 	&& apt-get purge -y --auto-remove $buildDeps \
-	&& rm -rf /usr/src/neko /usr/src/haxe ~/.cache
+	&& rm -rf /usr/src/haxe ~/.cache
 
 CMD ["haxe"]
