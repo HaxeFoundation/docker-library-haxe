@@ -48,7 +48,7 @@ RUN set -ex \
 	&& rm -rf /usr/src/neko ~/.cache
 
 # install haxe
-ENV HAXE_VERSION 3.4.0-rc.1
+ENV HAXE_VERSION 3.4.0-rc.2
 RUN set -ex \
 	&& buildDeps=' \
 		make \
@@ -61,7 +61,7 @@ RUN set -ex \
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
 	\
-	&& git clone --recursive --depth 1 --branch 3.4.0-rc1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 3.4.0-rc2 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& make OCAMLOPT=ocamlopt.opt \
 	&& make install INSTALL_DIR=/usr/local \
