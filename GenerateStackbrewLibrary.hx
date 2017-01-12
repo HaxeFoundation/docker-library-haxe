@@ -1,5 +1,6 @@
 import Update.*;
 import sys.io.*;
+import haxe.io.*;
 using StringTools;
 
 class GenerateStackbrewLibrary {
@@ -42,7 +43,8 @@ class GenerateStackbrewLibrary {
 			var commit = fileCommit(dockerfilePath(version, variant));
 			stackbrew.add('Tags: ${aliases.join(", ")}\n');
 			stackbrew.add('GitCommit: ${commit}\n');
-			stackbrew.add('Directory: ${verMajorMinor(version.version)}\n');
+			var dir = Path.directory(dockerfilePath(version, variant));
+			stackbrew.add('Directory: ${dir}\n');
 			stackbrew.add("\n");
 		}
 		File.saveContent("haxe", stackbrew.toString());
