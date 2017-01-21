@@ -1,6 +1,6 @@
 # About this Repo
 
-This is the Git repo of the Docker [official image](https://docs.docker.com/docker-hub/official_repos/) for [haxe](https://registry.hub.docker.com/_/haxe/). See [the Docker Hub page](https://registry.hub.docker.com/_/haxe/) for the full readme on how to use this Docker image and for information regarding contributing and issues.
+This is the Git repo of the Docker [official image](https://docs.docker.com/docker-hub/official_repos/) for [haxe](https://hub.docker.com/r/haxe/haxe/). See [the Docker Hub page](https://hub.docker.com/r/haxe/haxe/) for the full readme on how to use this Docker image and for information regarding contributing and issues.
 
 The full readme is generated over in [docker-library/docs](https://github.com/docker-library/docs), specifically in [docker-library/docs/haxe](https://github.com/docker-library/docs/tree/master/haxe).
 
