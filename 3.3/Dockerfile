@@ -20,7 +20,8 @@ ENV NEKO_VERSION 2.1.0
 RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 RUN set -ex \
 	&& buildDeps=' \
-		build-essential \
+		gcc \
+		make \
 		cmake \
 		libgc-dev \
 		libssl-dev \
