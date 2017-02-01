@@ -13,6 +13,7 @@ ENV PATH /usr/local/bin:$PATH
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		libgc1c2 \
 		zlib1g \
+		libpcre3 \
 	&& rm -rf /var/lib/apt/lists/*
 
 # install neko, which is a dependency of haxelib
@@ -49,7 +50,7 @@ RUN set -ex \
 	&& rm -rf /usr/src/neko ~/.cache
 
 # install haxe
-ENV HAXE_VERSION 3.4.0-rc.2
+ENV HAXE_VERSION 3.4.0
 RUN set -ex \
 	&& buildDeps=' \
 		make \
@@ -59,10 +60,11 @@ RUN set -ex \
 		libxml-light-ocaml-dev \
 		ocaml-findlib \
 		zlib1g-dev \
+		libpcre3-dev \
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
 	\
-	&& git clone --recursive --depth 1 --branch 3.4.0-rc2 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 3.4.0 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& make OCAMLOPT=ocamlopt.opt \
 	&& make install INSTALL_DIR=/usr/local \
