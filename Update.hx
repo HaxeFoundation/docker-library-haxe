@@ -25,8 +25,8 @@ class Update {
 			"tag": "3.3.0-rc1"
 		},
 		{
-			"version": "3.4.0",
-			"tag": "3.4.0"
+			"version": "3.4.2",
+			"tag": "3.4.2"
 		}
 	];
 
