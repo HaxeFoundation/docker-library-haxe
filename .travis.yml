@@ -2,10 +2,14 @@ language: bash
 services: docker
 
 env:
-  - VERSION=3.4
-  - VERSION=3.3
-  - VERSION=3.2
-  - VERSION=3.1
+  - VERSION=3.4 VARIANT=stretch ONBUILD=1
+  - VERSION=3.3 VARIANT=stretch ONBUILD=1
+  - VERSION=3.2 VARIANT=stretch ONBUILD=1
+  - VERSION=3.1 VARIANT=stretch ONBUILD=1
+  - VERSION=3.4 VARIANT=jessie
+  - VERSION=3.3 VARIANT=jessie
+  - VERSION=3.2 VARIANT=jessie
+  - VERSION=3.1 VARIANT=jessie
 
 install:
   - git clone https://github.com/docker-library/official-images.git ~/official-images
@@ -13,13 +17,12 @@ install:
 before_script:
   - env | sort
   - cd "$VERSION"
-  - image="$(awk '$1 == "FROM" { print $2; exit }' onbuild/Dockerfile)${VARIANT:+-$VARIANT}"
+  - image="haxe:$VERSION${VARIANT:+-$VARIANT}"
 
 script:
-  - docker build -t "$image" .
+  - docker build -t "$image" "${VARIANT:-.}"
   - ~/official-images/test/run.sh "$image"
-# the "onbuild" variant has to happen with the base variant because it's FROM it
-  - true && [ "$VARIANT" ] || docker build -t "${image}-onbuild" onbuild
+  - if [ -n "$ONBUILD" ]; then docker build -t "${image}-onbuild" onbuild; fi
 
 after_script:
   - docker images

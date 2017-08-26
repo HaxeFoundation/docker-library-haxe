@@ -13,27 +13,31 @@ class Update {
 
 	static public var versions = [
 		{
-			"version": "3.1.3",
-			"tag": "3.1.3"
-		},
-		{
-			"version": "3.2.1",
-			"tag": "3.2.1"
+			"version": "3.4.2",
+			"tag": "3.4.2"
 		},
 		{
 			"version": "3.3.0-rc.1",
 			"tag": "3.3.0-rc1"
 		},
 		{
-			"version": "3.4.2",
-			"tag": "3.4.2"
-		}
+			"version": "3.2.1",
+			"tag": "3.2.1"
+		},
+		{
+			"version": "3.1.3",
+			"tag": "3.1.3"
+		},
 	];
 
 	static public var variants = [
 		{
-			"variant": "debian",
-			"suffix": ""
+			"variant": "stretch",
+			"suffix": "stretch"
+		},
+		{
+			"variant": "jessie",
+			"suffix": "jessie"
 		},
 		{
 			"variant": "onbuild",

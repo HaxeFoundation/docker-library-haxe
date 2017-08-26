@@ -38,8 +38,11 @@ class GenerateStackbrewLibrary {
 		for (variant in variants)
 		{
 			var aliases = verAliases(version.version, variant.suffix);
-			if (variant.suffix == "" && version == versions[versions.length - 1])
-				aliases.push("latest");
+			if (variant == variants[0]) {
+				aliases = aliases.concat(verAliases(version.version, ""));
+				if (version == versions[0])
+					aliases.push("latest");
+			}
 			var commit = fileCommit(dockerfilePath(version, variant));
 			stackbrew.add('Tags: ${aliases.join(", ")}\n');
 			stackbrew.add('GitCommit: ${commit}\n');
