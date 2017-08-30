@@ -1,4 +1,8 @@
-::HEADER::
+#
+# NOTE: THIS DOCKERFILE IS GENERATED VIA "haxe update.hxml"
+#
+# PLEASE DO NOT EDIT IT DIRECTLY.
+#
 
 FROM microsoft/windowsservercore
 
@@ -19,13 +23,13 @@ RUN $newPath = ('{0};{1};{2}' -f $env:HAXEPATH, $env:NEKOPATH, $env:PATH); \
 RUN New-Item -ItemType directory -Path $env:HAXETOOLKIT_PATH;
 
 # install neko, which is a dependency of haxelib
-ENV NEKO_VERSION ::NEKO_VERSION::
-RUN $url = 'http://nekovm.org/media/neko-::NEKO_VERSION::-win.zip'; \
+ENV NEKO_VERSION 2.1.0
+RUN $url = 'http://nekovm.org/media/neko-2.1.0-win.zip'; \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	Invoke-WebRequest -Uri $url -OutFile 'neko.zip'; \
 	\
-	Write-Host 'Verifying sha256 (::NEKO_SHA256::) ...'; \
-	if ((Get-FileHash neko.zip -Algorithm sha256).Hash -ne '::NEKO_SHA256::') { \
+	Write-Host 'Verifying sha256 (ad7f8ead8300cdbfdc062bcf7ba63b1b1993d975023cde2dfd61936950eddb0e) ...'; \
+	if ((Get-FileHash neko.zip -Algorithm sha256).Hash -ne 'ad7f8ead8300cdbfdc062bcf7ba63b1b1993d975023cde2dfd61936950eddb0e') { \
 		Write-Host 'FAILED!'; \
 		exit 1; \
 	}; \
@@ -45,13 +49,13 @@ RUN $url = 'http://nekovm.org/media/neko-::NEKO_VERSION::-win.zip'; \
 	Write-Host 'Complete.';
 
 # install haxe
-ENV HAXE_VERSION ::HAXE_VERSION::
-RUN $url = 'https://github.com/HaxeFoundation/haxe/releases/download/::HAXE_TAG::/haxe-::HAXE_VERSION::-win.zip'; \
+ENV HAXE_VERSION 3.1.3
+RUN $url = 'https://github.com/HaxeFoundation/haxe/releases/download/3.1.3/haxe-3.1.3-win.zip'; \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	Invoke-WebRequest -Uri $url -OutFile haxe.zip; \
 	\
-	Write-Host 'Verifying sha256 (::HAXE_SHA256::) ...'; \
-	if ((Get-FileHash haxe.zip -Algorithm sha256).Hash -ne '::HAXE_SHA256::') { \
+	Write-Host 'Verifying sha256 (4cf84cdbf7960a61ae70b0d9166c6f9bde16388c3b81e54af91446f4c9e44ae4) ...'; \
+	if ((Get-FileHash haxe.zip -Algorithm sha256).Hash -ne '4cf84cdbf7960a61ae70b0d9166c6f9bde16388c3b81e54af91446f4c9e44ae4') { \
 		Write-Host 'FAILED!'; \
 		exit 1; \
 	}; \
