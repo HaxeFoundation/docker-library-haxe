@@ -20,7 +20,7 @@ build_script:
   - cmd: appveyor-retry docker build --pull -t %dockerImage% %buildDirectory%
 
 after_build:
-  - ps: docker images
+  - cmd: docker images
 
 test_script:
-  - ps: docker run --rm $env:dockerImage haxe -version
+  - cmd: docker run --rm %dockerImage% haxe -version
