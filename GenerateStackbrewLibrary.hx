@@ -45,6 +45,13 @@ class GenerateStackbrewLibrary {
 			}
 			var commit = fileCommit(dockerfilePath(version, variant));
 			stackbrew.add('Tags: ${aliases.join(", ")}\n');
+			var architectures = switch (variant.variant) {
+				case "windowsservercore":
+					["windows-amd64"];
+				case _:
+					["amd64"];
+			}
+			stackbrew.add('Architectures: ${architectures.join(", ")}\n');
 			stackbrew.add('GitCommit: ${commit}\n');
 			var dir = Path.directory(dockerfilePath(version, variant));
 			stackbrew.add('Directory: ${dir}\n');
