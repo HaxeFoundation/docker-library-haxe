@@ -55,6 +55,12 @@ class GenerateStackbrewLibrary {
 			stackbrew.add('GitCommit: ${commit}\n');
 			var dir = Path.directory(dockerfilePath(version, variant));
 			stackbrew.add('Directory: ${dir}\n');
+			switch (variant.variant) {
+				case "windowsservercore":
+					stackbrew.add('Constraints: windowsservercore\n');
+				case _:
+					//pass
+			}
 			stackbrew.add("\n");
 		}
 		File.saveContent("haxe", stackbrew.toString());
