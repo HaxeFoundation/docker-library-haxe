@@ -13,9 +13,9 @@ class Update {
 
 	static public var versions = [
 		{
-			"version": "3.4.2",
-			"tag": "3.4.2",
-			"sha256": {"win": "8251bac3e58abebfd4f6618a8b036dc83ae7309a3e11d622ad4132f1442cc38d"}
+			"version": "3.4.3",
+			"tag": "3.4.3",
+			"sha256": {"win": "0ac0b4115ff2a551c8784bdc415f2355a392e866aff61f17cb116539fcf55f93"}
 		},
 		{
 			"version": "3.3.0-rc.1",
