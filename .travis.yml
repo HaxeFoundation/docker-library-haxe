@@ -17,7 +17,7 @@ install:
 before_script:
   - env | sort
   - cd "$VERSION"
-  - image="haxe:$VERSION${VARIANT:+-$VARIANT}"
+  - image="haxe:$(awk '$1 == "ENV" && $2 == "HAXE_VERSION" { print $3; exit }' ${VARIANT:+$VARIANT}/Dockerfile)"
 
 script:
   - docker build -t "$image" "${VARIANT:-.}"
