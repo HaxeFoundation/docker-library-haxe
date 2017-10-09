@@ -55,6 +55,10 @@ class Update {
 			"variant": "windowsservercore",
 			"suffix": "windowsservercore"
 		},
+		{
+			"variant": "nanoserver",
+			"suffix": "nanoserver"
+		},
 	];
 
 	static public function verMajorMinor(version:String):String {
@@ -77,24 +81,30 @@ class Update {
 		for (variant in variants) {
 			var tmpl = new Template(File.getContent('Dockerfile-${variant.variant}.template'));
 			for (version in versions) {
+				switch ([variant.variant, version.win64]) {
+					case ["nanoserver", false]:
+						continue;
+					case _:
+						//pass
+				}
 				var vars = {
 					HAXE_VERSION: version.version,
 					HAXE_TAG: version.tag,
 					HAXE_FILE: switch(variant.variant) {
-						case "windowsservercore":
+						case "windowsservercore"|"nanoserver":
 							'https://github.com/HaxeFoundation/haxe/releases/download/${version.tag}/haxe-${version.version}-win${version.win64 ? "64" : ""}.zip';
 						case _:
 							null;
 					},
 					HAXE_SHA256: switch(variant.variant) {
-						case "windowsservercore":
+						case "windowsservercore"|"nanoserver":
 							version.sha256.win;
 						case _:
 							null;
 					},
 					NEKO_VERSION: "2.1.0",
 					NEKO_SHA256: switch(variant.variant) {
-						case "windowsservercore":
+						case "windowsservercore"|"nanoserver":
 							"ad7f8ead8300cdbfdc062bcf7ba63b1b1993d975023cde2dfd61936950eddb0e";
 						case _:
 							"0c93d5fe96240510e2d1975ae0caa9dd8eadf70d916a868684f66a099a4acf96";
