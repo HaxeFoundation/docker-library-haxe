@@ -46,7 +46,7 @@ RUN $url = 'http://nekovm.org/media/neko-::NEKO_VERSION::-win.zip'; \
 
 # install haxe
 ENV HAXE_VERSION ::HAXE_VERSION::
-RUN $url = 'https://github.com/HaxeFoundation/haxe/releases/download/::HAXE_TAG::/haxe-::HAXE_VERSION::-win.zip'; \
+RUN $url = '::HAXE_FILE::'; \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	Invoke-WebRequest -Uri $url -OutFile haxe.zip; \
 	\
