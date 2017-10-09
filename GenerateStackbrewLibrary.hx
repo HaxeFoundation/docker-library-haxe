@@ -46,7 +46,7 @@ class GenerateStackbrewLibrary {
 			var commit = fileCommit(dockerfilePath(version, variant));
 			stackbrew.add('Tags: ${aliases.join(", ")}\n');
 			var architectures = switch (variant.variant) {
-				case "windowsservercore":
+				case "windowsservercore"|"nanoserver":
 					["windows-amd64"];
 				case _:
 					["amd64"];
@@ -56,8 +56,8 @@ class GenerateStackbrewLibrary {
 			var dir = Path.directory(dockerfilePath(version, variant));
 			stackbrew.add('Directory: ${dir}\n');
 			switch (variant.variant) {
-				case "windowsservercore":
-					stackbrew.add('Constraints: windowsservercore\n');
+				case "windowsservercore"|"nanoserver":
+					stackbrew.add('Constraints: ${variant.variant}\n');
 				case _:
 					//pass
 			}
