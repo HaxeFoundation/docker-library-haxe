@@ -55,10 +55,11 @@ class Update {
 			"variant": "windowsservercore",
 			"suffix": "windowsservercore"
 		},
-		{
-			"variant": "nanoserver",
-			"suffix": "nanoserver"
-		},
+		// neko and haxelib are still 32-bit only
+		// {
+		// 	"variant": "nanoserver",
+		// 	"suffix": "nanoserver"
+		// },
 	];
 
 	static public function verMajorMinor(version:String):String {
