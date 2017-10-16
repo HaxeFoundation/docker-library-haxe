@@ -11,11 +11,16 @@ class GenerateStackbrewLibrary {
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #';
 
-	static public function verAliases(version:String, suffix:String):Array<String> {
-		var versions = Lambda.array([
+	static public function verAliases(version:String, suffix:Array<String>):Array<String> {
+		var versions = [
 			for (v in [version , verMajorMinorPatch(version), verMajorMinor(version)])
-			v => if (suffix == "") v else v + "-" + suffix
-		]);
+			v => v
+		];
+		var versions = [
+			for (v in versions)
+			for (s in suffix)
+			s == "" ? v : v + "-" + s
+		];
 		versions.sort(function(v1, v2) return v2.length - v1.length);
 		return versions;
 	}
@@ -38,10 +43,8 @@ class GenerateStackbrewLibrary {
 		for (variant in variants)
 		{
 			var aliases = verAliases(version.version, variant.suffix);
-			if (variant == variants[0]) {
-				aliases = aliases.concat(verAliases(version.version, ""));
-				if (version == versions[0])
-					aliases.push("latest");
+			if (variant == variants[0] && version == versions[0]) {
+				aliases.push("latest");
 			}
 			var commit = fileCommit(dockerfilePath(version, variant));
 			stackbrew.add('Tags: ${aliases.join(", ")}\n');

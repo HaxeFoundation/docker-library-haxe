@@ -41,28 +41,28 @@ class Update {
 	static public var variants = [
 		{
 			"variant": "stretch",
-			"suffix": "stretch"
+			"suffix": ["stretch", ""]
 		},
 		{
 			"variant": "jessie",
-			"suffix": "jessie"
+			"suffix": ["jessie"]
 		},
 		{
 			"variant": "onbuild",
-			"suffix": "onbuild"
+			"suffix": ["onbuild"]
 		},
 		{
 			"variant": "windowsservercore",
-			"suffix": "windowsservercore"
+			"suffix": ["windowsservercore"]
 		},
 		// neko and haxelib are still 32-bit only
 		// {
 		// 	"variant": "nanoserver",
-		// 	"suffix": "nanoserver"
+		// 	"suffix": ["nanoserver"]
 		// },
 		{
 			"variant": "alpine3.6",
-			"suffix": "alpine3.6"
+			"suffix": ["alpine3.6", "alpine"]
 		},
 	];
 
@@ -74,12 +74,12 @@ class Update {
 		return version.split("-")[0];
 	}
 
-	static public function dockerfilePath(version:{version:String, tag:String, sha256:Dynamic, win64:Bool}, variant:{variant:String, suffix:String}):String {
+	static public function dockerfilePath(version:{version:String, tag:String, sha256:Dynamic, win64:Bool}, variant:{variant:String, suffix:Array<String>}):String {
 		var majorMinor = verMajorMinor(version.version);
-		return if (variant.suffix == "")
+		return if (variant.suffix[0] == "")
 			Path.join([majorMinor, "Dockerfile"]);
 		else
-			Path.join([majorMinor, variant.suffix, "Dockerfile"]);
+			Path.join([majorMinor, variant.suffix[0], "Dockerfile"]);
 	}
 
 	static function main():Void {
