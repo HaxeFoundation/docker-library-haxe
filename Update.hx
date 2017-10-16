@@ -60,6 +60,10 @@ class Update {
 		// 	"variant": "nanoserver",
 		// 	"suffix": "nanoserver"
 		// },
+		{
+			"variant": "alpine3.6",
+			"suffix": "alpine3.6"
+		},
 	];
 
 	static public function verMajorMinor(version:String):String {
