@@ -41,6 +41,7 @@ class GenerateStackbrewLibrary {
 		stackbrew.add("\n");
 		for (version in versions)
 		for (variant in variants)
+		if (version.exclude.indexOf(variant.variant) < 0)
 		{
 			var aliases = verAliases(version.version, variant.suffix);
 			if (variant == variants[0] && version == versions[0]) {

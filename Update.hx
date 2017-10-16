@@ -3,6 +3,9 @@ import haxe.io.*;
 import sys.*;
 import sys.io.*;
 
+typedef Version = {version:String, tag:String, sha256:Dynamic, win64:Bool, exclude:Array<String>};
+typedef Variant = {variant:String, suffix:Array<String>};
+
 class Update {
 	static var HEADER =
 '#
@@ -11,34 +14,38 @@ class Update {
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #';
 
-	static public var versions = [
+	static public var versions:Array<Version> = [
 		{
 			"version": "3.4.4",
 			"tag": "3.4.4",
 			"win64": true,
-			"sha256": {"win": "fac48d13f50f625709a88226b9f946b3fb8e2f673de856eecd98331aa1830a02"}
+			"sha256": {"win": "fac48d13f50f625709a88226b9f946b3fb8e2f673de856eecd98331aa1830a02"},
+			"exclude": []
 		},
 		{
 			"version": "3.3.0-rc.1",
 			"tag": "3.3.0-rc1",
 			"win64": false,
-			"sha256": {"win": "fa51621132432328a47e5e0416ab3b9f2f734b217a2bc9b650826aae2f12c6f4"}
+			"sha256": {"win": "fa51621132432328a47e5e0416ab3b9f2f734b217a2bc9b650826aae2f12c6f4"},
+			"exclude": []
 		},
 		{
 			"version": "3.2.1",
 			"tag": "3.2.1",
 			"win64": false,
-			"sha256": {"win": "af57d42ca474bba826426e9403b2cb21c210d56addc8bbc0e8fafa88b3660db3"}
+			"sha256": {"win": "af57d42ca474bba826426e9403b2cb21c210d56addc8bbc0e8fafa88b3660db3"},
+			"exclude": []
 		},
 		{
 			"version": "3.1.3",
 			"tag": "3.1.3",
 			"win64": false,
-			"sha256": {"win": "4cf84cdbf7960a61ae70b0d9166c6f9bde16388c3b81e54af91446f4c9e44ae4"}
+			"sha256": {"win": "4cf84cdbf7960a61ae70b0d9166c6f9bde16388c3b81e54af91446f4c9e44ae4"},
+			"exclude": ["alpine3.6"]
 		},
 	];
 
-	static public var variants = [
+	static public var variants:Array<Variant> = [
 		{
 			"variant": "stretch",
 			"suffix": ["stretch", ""]
@@ -74,7 +81,7 @@ class Update {
 		return version.split("-")[0];
 	}
 
-	static public function dockerfilePath(version:{version:String, tag:String, sha256:Dynamic, win64:Bool}, variant:{variant:String, suffix:Array<String>}):String {
+	static public function dockerfilePath(version:Version, variant:Variant):String {
 		var majorMinor = verMajorMinor(version.version);
 		return if (variant.suffix[0] == "")
 			Path.join([majorMinor, "Dockerfile"]);
@@ -86,6 +93,8 @@ class Update {
 		for (variant in variants) {
 			var tmpl = new Template(File.getContent('Dockerfile-${variant.variant}.template'));
 			for (version in versions) {
+				if (version.exclude.indexOf(variant.variant) >= 0)
+					continue;
 				switch ([variant.variant, version.win64]) {
 					case ["nanoserver", false]:
 						continue;
