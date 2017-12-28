@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
 # install neko, which is a dependency of haxelib
-ENV NEKO_VERSION 2.1.0
+ENV NEKO_VERSION 2.2.0
 RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 RUN set -ex \
 	&& buildDeps=' \
@@ -36,8 +36,8 @@ RUN set -ex \
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
 	\
-	&& wget -O neko.tar.gz "http://nekovm.org/media/neko-2.1.0-src.tar.gz" \
-	&& echo "0c93d5fe96240510e2d1975ae0caa9dd8eadf70d916a868684f66a099a4acf96 *neko.tar.gz" | sha256sum -c - \
+	&& wget -O neko.tar.gz "https://github.com/HaxeFoundation/neko/archive/v2-2-0/neko-2.2.0.tar.gz" \
+	&& echo "cf101ca05db6cb673504efe217d8ed7ab5638f30e12c5e3095f06fa0d43f64e3 *neko.tar.gz" | sha256sum -c - \
 	&& mkdir -p /usr/src/neko \
 	&& tar -xC /usr/src/neko --strip-components=1 -f neko.tar.gz \
 	&& rm neko.tar.gz \

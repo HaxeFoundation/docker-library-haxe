@@ -20,7 +20,7 @@ RUN New-Item -ItemType directory -Path $env:HAXETOOLKIT_PATH;
 
 # install neko, which is a dependency of haxelib
 ENV NEKO_VERSION ::NEKO_VERSION::
-RUN $url = 'http://nekovm.org/media/neko-::NEKO_VERSION::-win.zip'; \
+RUN $url = 'https://github.com/HaxeFoundation/neko/releases/download/::NEKO_TAG::/neko-::NEKO_VERSION::-win.zip'; \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	Invoke-WebRequest -Uri $url -OutFile 'neko.zip'; \
 	\

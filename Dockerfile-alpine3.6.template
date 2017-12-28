@@ -18,13 +18,11 @@ RUN set -ex \
 		tar \
 		git \
 	\
-	&& wget -O neko.tar.gz "http://nekovm.org/media/neko-::NEKO_VERSION::-src.tar.gz" \
+	&& wget -O neko.tar.gz "https://github.com/HaxeFoundation/neko/archive/::NEKO_TAG::/neko-::NEKO_VERSION::.tar.gz" \
 	&& echo "::NEKO_SHA256:: *neko.tar.gz" | sha256sum -c - \
 	&& mkdir -p /usr/src/neko \
 	&& tar -xC /usr/src/neko --strip-components=1 -f neko.tar.gz \
 	&& rm neko.tar.gz \
-	&& wget -O /usr/src/neko/xlocale.patch "https://raw.githubusercontent.com/alpinelinux/aports/v3.6.2/testing/neko/compilation-fixes.patch" \
-	&& echo "d13fe905a0425d1ce0ec126aa3abc1940944572b92b72ec22d1e670623863949  /usr/src/neko/xlocale.patch" | sha256sum -c - \
 	&& apk add --no-cache --virtual .build-deps \
 		apache2-dev \
 		cmake \
@@ -37,10 +35,8 @@ RUN set -ex \
 		mbedtls-dev \
 		ninja \
 		sqlite-dev \
-		patch \
 	&& cd /usr/src/neko \
-	&& patch -p 1 < xlocale.patch \
-	&& cmake -GNinja -DRELOCATABLE=OFF -DRUN_LDCONFIG=OFF . \
+	&& cmake -GNinja -DNEKO_JIT_DISABLE=ON -DRELOCATABLE=OFF -DRUN_LDCONFIG=OFF . \
 	&& ninja \
 	&& ninja install \
 	\

@@ -116,12 +116,13 @@ class Update {
 						case _:
 							null;
 					},
-					NEKO_VERSION: "2.1.0",
+					NEKO_VERSION: "2.2.0",
+					NEKO_TAG: "v2-2-0",
 					NEKO_SHA256: switch(variant.variant) {
 						case "windowsservercore"|"nanoserver":
-							"ad7f8ead8300cdbfdc062bcf7ba63b1b1993d975023cde2dfd61936950eddb0e";
+							"93d7ca96698a6825f38ca8eea49e2e6b691c0849270174f6c1bd531290db8d69";
 						case _:
-							"0c93d5fe96240510e2d1975ae0caa9dd8eadf70d916a868684f66a099a4acf96";
+							"cf101ca05db6cb673504efe217d8ed7ab5638f30e12c5e3095f06fa0d43f64e3";
 					},
 					HEADER: HEADER,
 				};

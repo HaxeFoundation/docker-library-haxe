@@ -23,13 +23,13 @@ RUN $newPath = ('{0};{1};{2}' -f $env:HAXEPATH, $env:NEKOPATH, $env:PATH); \
 RUN New-Item -ItemType directory -Path $env:HAXETOOLKIT_PATH;
 
 # install neko, which is a dependency of haxelib
-ENV NEKO_VERSION 2.1.0
-RUN $url = 'http://nekovm.org/media/neko-2.1.0-win.zip'; \
+ENV NEKO_VERSION 2.2.0
+RUN $url = 'https://github.com/HaxeFoundation/neko/releases/download/v2-2-0/neko-2.2.0-win.zip'; \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	Invoke-WebRequest -Uri $url -OutFile 'neko.zip'; \
 	\
-	Write-Host 'Verifying sha256 (ad7f8ead8300cdbfdc062bcf7ba63b1b1993d975023cde2dfd61936950eddb0e) ...'; \
-	if ((Get-FileHash neko.zip -Algorithm sha256).Hash -ne 'ad7f8ead8300cdbfdc062bcf7ba63b1b1993d975023cde2dfd61936950eddb0e') { \
+	Write-Host 'Verifying sha256 (93d7ca96698a6825f38ca8eea49e2e6b691c0849270174f6c1bd531290db8d69) ...'; \
+	if ((Get-FileHash neko.zip -Algorithm sha256).Hash -ne '93d7ca96698a6825f38ca8eea49e2e6b691c0849270174f6c1bd531290db8d69') { \
 		Write-Host 'FAILED!'; \
 		exit 1; \
 	}; \
