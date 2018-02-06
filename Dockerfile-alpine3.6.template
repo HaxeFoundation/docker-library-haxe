@@ -49,7 +49,7 @@ RUN set -ex \
 		zlib-dev \
 		make \
 	&& cd /usr/src/haxe \
-	&& make OCAMLOPT=ocamlopt.opt \
+	&& make all tools OCAMLOPT=ocamlopt.opt \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p $HAXE_STD_PATH \
