@@ -16,10 +16,10 @@ class Update {
 
 	static public var versions:Array<Version> = [
 		{
-			"version": "3.4.4",
-			"tag": "3.4.4",
+			"version": "3.4.5",
+			"tag": "3.4.5",
 			"win64": true,
-			"sha256": {"win": "fac48d13f50f625709a88226b9f946b3fb8e2f673de856eecd98331aa1830a02"},
+			"sha256": {"win": "9b914263bf1e1fb7b9fc5b830a4c43f333fefdabb5a6358cd0104f33eabfec4d"},
 			"exclude": []
 		},
 		{
