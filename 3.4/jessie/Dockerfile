@@ -67,7 +67,7 @@ RUN set -ex \
 	\
 	&& git clone --recursive --depth 1 --branch 3.4.5 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
-	&& make OCAMLOPT=ocamlopt.opt \
+	&& make all tools OCAMLOPT=ocamlopt.opt \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p $HAXE_STD_PATH \
