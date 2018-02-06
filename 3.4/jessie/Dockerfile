@@ -51,6 +51,7 @@ RUN set -ex \
 
 # install haxe
 ENV HAXE_VERSION 3.4.5
+ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
 		make \
@@ -67,8 +68,12 @@ RUN set -ex \
 	&& git clone --recursive --depth 1 --branch 3.4.5 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& make OCAMLOPT=ocamlopt.opt \
-	&& make install INSTALL_DIR=/usr/local \
-	&& cd / && haxelib setup /usr/local/lib/haxe/lib \
+	&& mkdir -p /usr/local/bin \
+	&& cp haxe haxelib /usr/local/bin \
+	&& mkdir -p $HAXE_STD_PATH \
+	&& cp -r std/* $HAXE_STD_PATH \
+	&& mkdir -p /haxelib \
+	&& cd / && haxelib setup /haxelib \
 	\
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf /usr/src/haxe ~/.cache

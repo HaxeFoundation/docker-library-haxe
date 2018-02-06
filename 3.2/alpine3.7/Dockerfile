@@ -15,6 +15,7 @@ RUN apk add --no-cache ca-certificates
 
 ENV NEKO_VERSION 2.2.0
 ENV HAXE_VERSION 3.2.1
+ENV HAXE_STD_PATH /usr/local/share/haxe/std
 
 RUN set -ex \
 	&& apk add --no-cache --virtual .fetch-deps \
@@ -53,7 +54,12 @@ RUN set -ex \
 		make \
 	&& cd /usr/src/haxe \
 	&& make OCAMLOPT=ocamlopt.opt \
-	&& make install INSTALL_DIR=/usr/local \
+	&& mkdir -p /usr/local/bin \
+	&& cp haxe haxelib /usr/local/bin \
+	&& mkdir -p $HAXE_STD_PATH \
+	&& cp -r std/* $HAXE_STD_PATH \
+	&& mkdir -p /haxelib \
+	&& cd / && haxelib setup /haxelib \
 	\
 	&& runDeps="$( \
 		scanelf --needed --nobanner --recursive /usr/local \
@@ -64,8 +70,6 @@ RUN set -ex \
 	)" \
 	&& apk add --virtual .python-rundeps $runDeps \
 	&& apk del .build-deps \
-	&& apk del .fetch-deps \
-	\
-	&& cd / && haxelib setup /usr/local/lib/haxe/lib
+	&& apk del .fetch-deps
 
 CMD ["haxe"]
