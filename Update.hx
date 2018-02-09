@@ -3,7 +3,7 @@ import haxe.io.*;
 import sys.*;
 import sys.io.*;
 
-typedef Version = {version:String, tag:String, sha256:Dynamic, win64:Bool, exclude:Array<String>};
+typedef Version = {version:String, tag:String, sha256:Dynamic, win64:Bool, exclude:Array<String>, opam:Bool};
 typedef Variant = {variant:String, suffix:Array<String>};
 
 class Update {
@@ -14,34 +14,47 @@ class Update {
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #';
 
+	//The first item is considered as "latest". Beta/RC versions should not be put as the first item.
 	static public var versions:Array<Version> = [
 		{
 			"version": "3.4.5",
 			"tag": "3.4.5",
 			"win64": true,
 			"sha256": {"win": "9b914263bf1e1fb7b9fc5b830a4c43f333fefdabb5a6358cd0104f33eabfec4d"},
-			"exclude": []
+			"exclude": [],
+			"opam": false
 		},
 		{
 			"version": "3.3.0-rc.1",
 			"tag": "3.3.0-rc1",
 			"win64": false,
 			"sha256": {"win": "fa51621132432328a47e5e0416ab3b9f2f734b217a2bc9b650826aae2f12c6f4"},
-			"exclude": []
+			"exclude": [],
+			"opam": false
 		},
 		{
 			"version": "3.2.1",
 			"tag": "3.2.1",
 			"win64": false,
 			"sha256": {"win": "af57d42ca474bba826426e9403b2cb21c210d56addc8bbc0e8fafa88b3660db3"},
-			"exclude": []
+			"exclude": [],
+			"opam": false
 		},
 		{
 			"version": "3.1.3",
 			"tag": "3.1.3",
 			"win64": false,
 			"sha256": {"win": "4cf84cdbf7960a61ae70b0d9166c6f9bde16388c3b81e54af91446f4c9e44ae4"},
-			"exclude": ["alpine3.6", "alpine3.7"]
+			"exclude": ["alpine3.6", "alpine3.7"],
+			"opam": false
+		},
+		{
+			"version": "4.0.0-preview.2",
+			"tag": "4.0.0-preview.2",
+			"win64": true,
+			"sha256": {"win": "18924d25061a652fc9f7bddf7cd8516d30e4694bb370af3d9ec7a8418815e7d0"},
+			"exclude": ["alpine3.6", "alpine3.7"],
+			"opam": true
 		},
 	];
 
@@ -129,6 +142,7 @@ class Update {
 							"cf101ca05db6cb673504efe217d8ed7ab5638f30e12c5e3095f06fa0d43f64e3";
 					},
 					HEADER: HEADER,
+					USE_OPAM: version.opam,
 				};
 				var path = dockerfilePath(version, variant);
 				FileSystem.createDirectory(Path.directory(path));

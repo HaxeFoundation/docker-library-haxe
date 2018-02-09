@@ -50,7 +50,7 @@ RUN set -ex \
 	&& rm -rf /usr/src/neko ~/.cache
 
 # install haxe
-ENV HAXE_VERSION 3.2.1
+ENV HAXE_VERSION 4.0.0-preview.2
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
@@ -58,17 +58,20 @@ RUN set -ex \
 		zlib1g-dev \
 		libpcre3-dev \
 		\
-		ocaml-nox \
-		ocaml-native-compilers \
-		camlp4 \
-		ocaml-findlib \
-		libxml-light-ocaml-dev \
+		opam \
+		aspcud \
+		m4 \
+		unzip \
 		\
 	' \
-	&& git clone --recursive --depth 1 --branch 3.2.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 4.0.0-preview.2 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
 	\
+	\
+	&& opam init --comp 4.02.3 \
+	&& eval `opam config env` \
+	&& make opam_install \
 	\
 	&& make all tools \
 	&& mkdir -p /usr/local/bin \
@@ -78,6 +81,8 @@ RUN set -ex \
 	&& mkdir -p /haxelib \
 	&& cd / && haxelib setup /haxelib \
 	\
+	\
+	&& rm -rf ~/.opam \
 	\
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf /usr/src/haxe ~/.cache

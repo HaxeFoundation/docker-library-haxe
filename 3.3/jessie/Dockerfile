@@ -55,25 +55,29 @@ ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
 		make \
-		ocaml \
-		ocaml-native-compilers \
-		camlp4 \
-		libxml-light-ocaml-dev \
-		ocaml-findlib \
 		zlib1g-dev \
 		libpcre3-dev \
+		\
+		ocaml-nox \
+		ocaml-native-compilers \
+		camlp4 \
+		ocaml-findlib \
+		libxml-light-ocaml-dev \
+		\
 	' \
-	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-	\
 	&& git clone --recursive --depth 1 --branch 3.3.0-rc1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
-	&& make all tools OCAMLOPT=ocamlopt.opt \
+	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
+	\
+	\
+	&& make all tools \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p $HAXE_STD_PATH \
 	&& cp -r std/* $HAXE_STD_PATH \
 	&& mkdir -p /haxelib \
 	&& cd / && haxelib setup /haxelib \
+	\
 	\
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf /usr/src/haxe ~/.cache

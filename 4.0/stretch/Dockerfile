@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM buildpack-deps:jessie-scm
+FROM buildpack-deps:stretch-scm
 
 # ensure local haxe is preferred over distribution haxe
 ENV PATH /usr/local/bin:$PATH
@@ -18,7 +18,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # install neko, which is a dependency of haxelib
 ENV NEKO_VERSION 2.2.0
-RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 RUN set -ex \
 	&& buildDeps=' \
 		gcc \
@@ -50,25 +49,33 @@ RUN set -ex \
 	&& rm -rf /usr/src/neko ~/.cache
 
 # install haxe
-ENV HAXE_VERSION 3.2.1
+ENV HAXE_VERSION 4.0.0-preview.2
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
 		make \
-		zlib1g-dev \
-		libpcre3-dev \
-		\
 		ocaml-nox \
 		ocaml-native-compilers \
 		camlp4 \
 		ocaml-findlib \
+		zlib1g-dev \
+		libpcre3-dev \
 		libxml-light-ocaml-dev \
 		\
+		opam \
+		aspcud \
+		m4 \
+		unzip \
+		\
 	' \
-	&& git clone --recursive --depth 1 --branch 3.2.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 4.0.0-preview.2 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
-	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
+	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	\
+	\
+	&& opam init --comp system \
+	&& eval `opam config env` \
+	&& make opam_install \
 	\
 	&& make all tools \
 	&& mkdir -p /usr/local/bin \
@@ -79,6 +86,9 @@ RUN set -ex \
 	&& cd / && haxelib setup /haxelib \
 	\
 	\
+	&& rm -rf ~/.opam \
+	\
+	&& rm -rf /var/lib/apt/lists/* \
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf /usr/src/haxe ~/.cache
 

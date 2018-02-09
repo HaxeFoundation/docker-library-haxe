@@ -51,19 +51,31 @@ ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
 		make \
-		ocaml \
-		ocaml-native-compilers \
-		camlp4 \
-		libxml-light-ocaml-dev \
-		ocaml-findlib \
 		zlib1g-dev \
 		libpcre3-dev \
+		::if USE_OPAM::\
+		opam \
+		aspcud \
+		m4 \
+		unzip \
+		::else::\
+		ocaml-nox \
+		ocaml-native-compilers \
+		camlp4 \
+		ocaml-findlib \
+		libxml-light-ocaml-dev \
+		::end::\
 	' \
-	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-	\
 	&& git clone --recursive --depth 1 --branch ::HAXE_TAG:: "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
-	&& make all tools OCAMLOPT=ocamlopt.opt \
+	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
+	\
+	::if USE_OPAM::\
+	&& opam init --comp 4.02.3 \
+	&& eval `opam config env` \
+	&& make opam_install \
+	::end::\
+	&& make all tools \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p $HAXE_STD_PATH \
@@ -71,6 +83,9 @@ RUN set -ex \
 	&& mkdir -p /haxelib \
 	&& cd / && haxelib setup /haxelib \
 	\
+	::if USE_OPAM::\
+	&& rm -rf ~/.opam \
+	::end::\
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf /usr/src/haxe ~/.cache
 

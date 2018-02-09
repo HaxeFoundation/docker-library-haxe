@@ -5,6 +5,8 @@ environment:
   matrix:
     # - version: 3.4
     #   variant: nanoserver
+    - version: 4.0
+      variant: windowsservercore
     - version: 3.4
       variant: windowsservercore
     - version: 3.3
