@@ -46,14 +46,16 @@ RUN set -ex \
 	&& ninja install \
 	\
 	&& git clone --recursive --depth 1 --branch 3.3.0-rc1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& cd /usr/src/haxe \
 	&& apk add --no-cache --virtual .build-deps \
 		camlp4 \
 		ocaml \
 		pcre-dev \
 		zlib-dev \
 		make \
-	&& cd /usr/src/haxe \
-	&& make all tools OCAMLOPT=ocamlopt.opt \
+		\
+	\
+	&& make all tools \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p $HAXE_STD_PATH \
@@ -69,6 +71,7 @@ RUN set -ex \
 			| sort -u \
 	)" \
 	&& apk add --virtual .python-rundeps $runDeps \
+	\
 	&& apk del .build-deps \
 	&& apk del .fetch-deps
 

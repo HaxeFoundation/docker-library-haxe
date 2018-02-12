@@ -1,4 +1,8 @@
-::HEADER::
+#
+# NOTE: THIS DOCKERFILE IS GENERATED VIA "haxe update.hxml"
+#
+# PLEASE DO NOT EDIT IT DIRECTLY.
+#
 
 FROM alpine:3.6
 
@@ -9,8 +13,8 @@ ENV PATH /usr/local/bin:$PATH
 # the other runtime dependencies are installed later
 RUN apk add --no-cache ca-certificates
 
-ENV NEKO_VERSION ::NEKO_VERSION::
-ENV HAXE_VERSION ::HAXE_VERSION::
+ENV NEKO_VERSION 2.2.0
+ENV HAXE_VERSION 4.0.0-preview.2
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 
 RUN set -ex \
@@ -19,8 +23,8 @@ RUN set -ex \
 		tar \
 		git \
 	\
-	&& wget -O neko.tar.gz "https://github.com/HaxeFoundation/neko/archive/::NEKO_TAG::/neko-::NEKO_VERSION::.tar.gz" \
-	&& echo "::NEKO_SHA256:: *neko.tar.gz" | sha256sum -c - \
+	&& wget -O neko.tar.gz "https://github.com/HaxeFoundation/neko/archive/v2-2-0/neko-2.2.0.tar.gz" \
+	&& echo "cf101ca05db6cb673504efe217d8ed7ab5638f30e12c5e3095f06fa0d43f64e3 *neko.tar.gz" | sha256sum -c - \
 	&& mkdir -p /usr/src/neko \
 	&& tar -xC /usr/src/neko --strip-components=1 -f neko.tar.gz \
 	&& rm neko.tar.gz \
@@ -41,7 +45,7 @@ RUN set -ex \
 	&& ninja \
 	&& ninja install \
 	\
-	&& git clone --recursive --depth 1 --branch ::HAXE_TAG:: "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 4.0.0-preview.2 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& apk add --no-cache --virtual .build-deps \
 		camlp4 \
@@ -49,18 +53,18 @@ RUN set -ex \
 		pcre-dev \
 		zlib-dev \
 		make \
-		::if USE_OPAM::\
+		\
 		opam \
 		aspcud \
 		m4 \
 		unzip \
 		patch \
-		::end::\
-	::if USE_OPAM::\
+		\
+	\
 	&& opam init --comp system \
 	&& eval `opam config env` \
 	&& make opam_install \
-	::end::\
+	\
 	&& make all tools \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
@@ -77,9 +81,9 @@ RUN set -ex \
 			| sort -u \
 	)" \
 	&& apk add --virtual .python-rundeps $runDeps \
-	::if USE_OPAM::\
+	\
 	&& rm -rf ~/.opam \
-	::end::\
+	\
 	&& apk del .build-deps \
 	&& apk del .fetch-deps
 

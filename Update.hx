@@ -53,7 +53,7 @@ class Update {
 			"tag": "4.0.0-preview.2",
 			"win64": true,
 			"sha256": {"win": "18924d25061a652fc9f7bddf7cd8516d30e4694bb370af3d9ec7a8418815e7d0"},
-			"exclude": ["alpine3.6", "alpine3.7"],
+			"exclude": [],
 			"opam": true
 		},
 	];
