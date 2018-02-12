@@ -71,8 +71,9 @@ RUN set -ex \
 			| sort -u \
 	)" \
 	&& apk add --virtual .python-rundeps $runDeps \
-	\
 	&& apk del .build-deps \
-	&& apk del .fetch-deps
+	&& apk del .fetch-deps \
+	\
+	&& rm -rf /usr/src/neko /usr/src/haxe
 
 CMD ["haxe"]
