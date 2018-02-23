@@ -50,7 +50,7 @@ RUN set -ex \
 	&& rm -rf /usr/src/neko ~/.cache
 
 # install haxe
-ENV HAXE_VERSION 3.4.6
+ENV HAXE_VERSION 3.4.7
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
@@ -65,7 +65,7 @@ RUN set -ex \
 		libxml-light-ocaml-dev \
 		\
 	' \
-	&& git clone --recursive --depth 1 --branch 3.4.6 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 3.4.7 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
 	\

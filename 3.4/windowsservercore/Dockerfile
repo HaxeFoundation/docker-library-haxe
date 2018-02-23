@@ -49,13 +49,13 @@ RUN $url = 'https://github.com/HaxeFoundation/neko/releases/download/v2-2-0/neko
 	Write-Host 'Complete.';
 
 # install haxe
-ENV HAXE_VERSION 3.4.6
-RUN $url = 'https://github.com/HaxeFoundation/haxe/releases/download/3.4.6/haxe-3.4.6-win64.zip'; \
+ENV HAXE_VERSION 3.4.7
+RUN $url = 'https://github.com/HaxeFoundation/haxe/releases/download/3.4.7/haxe-3.4.7-win64.zip'; \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	Invoke-WebRequest -Uri $url -OutFile haxe.zip; \
 	\
-	Write-Host 'Verifying sha256 (561fbebebfe481076c5a028a2e191da7b85bff92a50f9dfb0b32ee34090d6ee8) ...'; \
-	if ((Get-FileHash haxe.zip -Algorithm sha256).Hash -ne '561fbebebfe481076c5a028a2e191da7b85bff92a50f9dfb0b32ee34090d6ee8') { \
+	Write-Host 'Verifying sha256 (609acdcb58a2253e357487d495ffe19e9034165f3102f8716ca968afbee8f1b2) ...'; \
+	if ((Get-FileHash haxe.zip -Algorithm sha256).Hash -ne '609acdcb58a2253e357487d495ffe19e9034165f3102f8716ca968afbee8f1b2') { \
 		Write-Host 'FAILED!'; \
 		exit 1; \
 	}; \
