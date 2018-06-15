@@ -49,10 +49,10 @@ class Update {
 			"opam": false
 		},
 		{
-			"version": "4.0.0-preview.3",
-			"tag": "4.0.0-preview.3",
+			"version": "4.0.0-preview.4",
+			"tag": "4.0.0-preview.4",
 			"win64": true,
-			"sha256": {"win": "f7915a688cf288ca1dbd52bfe83313d006128210f4e64f5dcea9d058056d259c"},
+			"sha256": {"win": "f81f9aa9cfa9ed882d5076db5fe159748d207fd4cc56c02fd96fa862d7422a66"},
 			"exclude": [],
 			"opam": true
 		},
