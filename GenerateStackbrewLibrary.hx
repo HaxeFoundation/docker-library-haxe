@@ -52,6 +52,8 @@ class GenerateStackbrewLibrary {
 			var architectures = switch (variant.variant) {
 				case "windowsservercore"|"nanoserver":
 					["windows-amd64"];
+				case "stretch":
+					["amd64", "arm32v7", "arm64v8"];
 				case _:
 					["amd64"];
 			}
