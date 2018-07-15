@@ -48,11 +48,12 @@ RUN set -ex \
 	&& git clone --recursive --depth 1 --branch 3.2.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& apk add --no-cache --virtual .build-deps \
-		camlp4 \
-		ocaml \
 		pcre-dev \
 		zlib-dev \
 		make \
+		\
+		ocaml \
+		camlp4 \
 		\
 	\
 	&& make all tools \

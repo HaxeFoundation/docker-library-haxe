@@ -48,8 +48,6 @@ RUN set -ex \
 	&& git clone --recursive --depth 1 --branch 4.0.0-preview.4 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& apk add --no-cache --virtual .build-deps \
-		camlp4 \
-		ocaml \
 		pcre-dev \
 		zlib-dev \
 		make \
@@ -61,7 +59,7 @@ RUN set -ex \
 		patch \
 		\
 	\
-	&& opam init --comp system \
+	&& opam init --comp 4.06.1 \
 	&& eval `opam config env` \
 	&& make opam_install \
 	\
