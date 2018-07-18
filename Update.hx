@@ -45,7 +45,7 @@ class Update {
 			"tag": "3.1.3",
 			"win64": false,
 			"sha256": {"win": "4cf84cdbf7960a61ae70b0d9166c6f9bde16388c3b81e54af91446f4c9e44ae4"},
-			"exclude": ["alpine3.6", "alpine3.7"],
+			"exclude": ["alpine3.6", "alpine3.7", "alpine3.8"],
 			"opam": false
 		},
 		{
@@ -81,8 +81,12 @@ class Update {
 		// 	"suffix": ["nanoserver"]
 		// },
 		{
+			"variant": "alpine3.8",
+			"suffix": ["alpine3.8", "alpine"]
+		},
+		{
 			"variant": "alpine3.7",
-			"suffix": ["alpine3.7", "alpine"]
+			"suffix": ["alpine3.7"]
 		},
 		{
 			"variant": "alpine3.6",
