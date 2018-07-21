@@ -54,6 +54,8 @@ class GenerateStackbrewLibrary {
 					["windows-amd64"];
 				case "stretch":
 					["amd64", "arm32v7", "arm64v8"];
+				case v if (StringTools.startsWith(v, "alpine")):
+					["amd64", "arm64v8"];
 				case _:
 					["amd64"];
 			}
