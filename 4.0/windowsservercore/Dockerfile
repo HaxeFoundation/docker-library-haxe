@@ -56,8 +56,8 @@ RUN $url = 'https://github.com/HaxeFoundation/haxe/releases/download/4.0.0-previ
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
 	Invoke-WebRequest -Uri $url -OutFile haxe.zip; \
 	\
-	Write-Host 'Verifying sha256 (fa632a480b4cc7a4cdb868d84bcf0d3b4af7e8bdcd91abaedd8e25ecc78ac03d) ...'; \
-	if ((Get-FileHash haxe.zip -Algorithm sha256).Hash -ne 'fa632a480b4cc7a4cdb868d84bcf0d3b4af7e8bdcd91abaedd8e25ecc78ac03d') { \
+	Write-Host 'Verifying sha256 (15409fce0a1d6a43c3ff5c24d1c39e9e56de63f06bb0a3d1a6641139a26aed26) ...'; \
+	if ((Get-FileHash haxe.zip -Algorithm sha256).Hash -ne '15409fce0a1d6a43c3ff5c24d1c39e9e56de63f06bb0a3d1a6641139a26aed26') { \
 		Write-Host 'FAILED!'; \
 		exit 1; \
 	}; \

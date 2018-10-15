@@ -52,7 +52,7 @@ class Update {
 			"version": "4.0.0-preview.5",
 			"tag": "4.0.0-preview.5",
 			"win64": true,
-			"sha256": {"win": "fa632a480b4cc7a4cdb868d84bcf0d3b4af7e8bdcd91abaedd8e25ecc78ac03d"},
+			"sha256": {"win": "15409fce0a1d6a43c3ff5c24d1c39e9e56de63f06bb0a3d1a6641139a26aed26"},
 			"exclude": [],
 			"opam": true
 		},
