@@ -10,6 +10,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		libgc1c2 \
 		zlib1g \
 		libpcre3 \
+		libmariadb2 \
+		libsqlite3-0 \
+		libmbedcrypto0 \
+		libmbedtls10 \
+		libmbedx509-0 \
 	&& rm -rf /var/lib/apt/lists/*
 
 # install neko, which is a dependency of haxelib
