@@ -10,6 +10,7 @@ FROM buildpack-deps:jessie-scm
 ENV PATH /usr/local/bin:$PATH
 
 # runtime dependencies
+RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		libgc1c2 \
 		zlib1g \
@@ -23,7 +24,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # install neko, which is a dependency of haxelib
 ENV NEKO_VERSION 2.2.0
-RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 RUN set -ex \
 	&& buildDeps=' \
 		gcc \
