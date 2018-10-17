@@ -73,7 +73,7 @@ RUN set -ex \
 			| xargs -r apk info --installed \
 			| sort -u \
 	)" \
-	&& apk add --virtual .python-rundeps $runDeps \
+	&& apk add --virtual .haxe-rundeps $runDeps \
 	&& apk del .build-deps \
 	&& apk del .fetch-deps \
 	\
