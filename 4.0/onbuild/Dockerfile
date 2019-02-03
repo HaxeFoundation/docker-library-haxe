@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM haxe:4.0.0-preview.5
+FROM haxe:4.0.0-rc.1
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
