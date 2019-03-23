@@ -14,7 +14,7 @@ ENV PATH /usr/local/bin:$PATH
 RUN apk add --no-cache ca-certificates
 
 ENV NEKO_VERSION 2.2.0
-ENV HAXE_VERSION 4.0.0-rc.1
+ENV HAXE_VERSION 4.0.0-rc.2
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 
 RUN set -ex \
@@ -45,7 +45,7 @@ RUN set -ex \
 	&& ninja \
 	&& ninja install \
 	\
-	&& git clone --recursive --depth 1 --branch 4.0.0-rc.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 4.0.0-rc.2 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& apk add --no-cache --virtual .haxe-build-deps \
 		pcre-dev \
@@ -66,7 +66,8 @@ RUN set -ex \
 	\
 	&& opam init --disable-sandboxing \
 	&& eval $(opam env) \
-	&& make opam_install \
+	&& opam pin add haxe . --no-action \
+	&& opam install haxe --deps-only --yes \
 	&& make all tools \
 	\
 	&& mkdir -p /usr/local/bin \
