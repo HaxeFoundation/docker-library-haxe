@@ -10,16 +10,12 @@ FROM buildpack-deps:jessie-scm
 ENV PATH /usr/local/bin:$PATH
 
 # runtime dependencies
-RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		libgc1c2 \
 		zlib1g \
 		libpcre3 \
 		libmariadb2 \
 		libsqlite3-0 \
-		libmbedcrypto0 \
-		libmbedtls10 \
-		libmbedx509-0 \
 	&& rm -rf /var/lib/apt/lists/*
 
 # install neko, which is a dependency of haxelib
@@ -36,7 +32,6 @@ RUN set -ex \
 		apache2-dev \
 		libmariadb-client-lgpl-dev-compat \
 		libsqlite3-dev \
-		libmbedtls-dev \
 		libgtk2.0-dev \
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
@@ -47,7 +42,7 @@ RUN set -ex \
 	&& tar -xC /usr/src/neko --strip-components=1 -f neko.tar.gz \
 	&& rm neko.tar.gz \
 	&& cd /usr/src/neko \
-	&& cmake -DRELOCATABLE=OFF . \
+	&& cmake -DRELOCATABLE=OFF -DSTATIC_DEPS=MbedTLS . \
 	&& make \
 	&& make install \
 	\

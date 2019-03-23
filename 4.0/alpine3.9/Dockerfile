@@ -66,7 +66,8 @@ RUN set -ex \
 	\
 	&& opam init --disable-sandboxing \
 	&& eval $(opam env) \
-	&& make opam_install \
+	&& opam pin add haxe . --no-action \
+	&& opam install haxe --deps-only --yes \
 	&& make all tools \
 	\
 	&& mkdir -p /usr/local/bin \
