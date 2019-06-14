@@ -68,10 +68,6 @@ class Update {
 			"suffix": ["jessie"]
 		},
 		{
-			"variant": "onbuild",
-			"suffix": ["onbuild"]
-		},
-		{
 			"variant": "windowsservercore-ltsc2016",
 			"suffix": ["windowsservercore-ltsc2016", "windowsservercore"]
 		},

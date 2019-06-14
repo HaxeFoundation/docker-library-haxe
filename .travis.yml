@@ -18,11 +18,11 @@ env:
   - VERSION=3.4 VARIANT=alpine3.6
   - VERSION=3.3 VARIANT=alpine3.6
   - VERSION=3.2 VARIANT=alpine3.6
-  - VERSION=4.0 VARIANT=stretch ONBUILD=1
-  - VERSION=3.4 VARIANT=stretch ONBUILD=1
-  - VERSION=3.3 VARIANT=stretch ONBUILD=1
-  - VERSION=3.2 VARIANT=stretch ONBUILD=1
-  - VERSION=3.1 VARIANT=stretch ONBUILD=1
+  - VERSION=4.0 VARIANT=stretch
+  - VERSION=3.4 VARIANT=stretch
+  - VERSION=3.3 VARIANT=stretch
+  - VERSION=3.2 VARIANT=stretch
+  - VERSION=3.1 VARIANT=stretch
   - VERSION=4.0 VARIANT=jessie
   - VERSION=3.4 VARIANT=jessie
   - VERSION=3.3 VARIANT=jessie
@@ -40,7 +40,6 @@ before_script:
 script:
   - docker build -t "$image" "${VARIANT:-.}"
   - ~/official-images/test/run.sh "$image"
-  - if [ -n "$ONBUILD" ]; then docker build -t "${image}-onbuild" onbuild; fi
 
 after_script:
   - docker images
