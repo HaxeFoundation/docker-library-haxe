@@ -3,18 +3,16 @@ image: Visual Studio 2017
 
 environment:
   matrix:
-    # - version: 3.4
-    #   variant: nanoserver
     - version: 4.0
-      variant: windowsservercore
+      variant: windowsservercore-ltsc2016
     - version: 3.4
-      variant: windowsservercore
+      variant: windowsservercore-ltsc2016
     - version: 3.3
-      variant: windowsservercore
+      variant: windowsservercore-ltsc2016
     - version: 3.2
-      variant: windowsservercore
+      variant: windowsservercore-ltsc2016
     - version: 3.1
-      variant: windowsservercore
+      variant: windowsservercore-ltsc2016
 
 install:
   - ps: |
