@@ -50,7 +50,7 @@ class GenerateStackbrewLibrary {
 			var commit = fileCommit(dockerfilePath(version, variant));
 			stackbrew.add('Tags: ${aliases.join(", ")}\n');
 			var architectures = switch (variant.variant) {
-				case "windowsservercore"|"nanoserver":
+				case "windowsservercore-ltsc2016"|"nanoserver":
 					["windows-amd64"];
 				case "stretch":
 					["amd64", "arm32v7", "arm64v8"];
