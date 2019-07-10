@@ -1,0 +1,46 @@
+jobs:
+  - job: TestLinux
+    pool:
+      vmImage: 'ubuntu-16.04'
+    strategy:
+      matrix:
+        haxe4.0-alpine3.9: { VERSION: 4.0, VARIANT: alpine3.9 }
+        haxe3.4-alpine3.9: { VERSION: 3.4, VARIANT: alpine3.9 }
+        haxe3.3-alpine3.9: { VERSION: 3.3, VARIANT: alpine3.9 }
+        haxe3.2-alpine3.9: { VERSION: 3.2, VARIANT: alpine3.9 }
+        haxe4.0-alpine3.8: { VERSION: 4.0, VARIANT: alpine3.8 }
+        haxe3.4-alpine3.8: { VERSION: 3.4, VARIANT: alpine3.8 }
+        haxe3.3-alpine3.8: { VERSION: 3.3, VARIANT: alpine3.8 }
+        haxe3.2-alpine3.8: { VERSION: 3.2, VARIANT: alpine3.8 }
+        haxe4.0-alpine3.7: { VERSION: 4.0, VARIANT: alpine3.7 }
+        haxe3.4-alpine3.7: { VERSION: 3.4, VARIANT: alpine3.7 }
+        haxe3.3-alpine3.7: { VERSION: 3.3, VARIANT: alpine3.7 }
+        haxe3.2-alpine3.7: { VERSION: 3.2, VARIANT: alpine3.7 }
+        haxe4.0-alpine3.6: { VERSION: 4.0, VARIANT: alpine3.6 }
+        haxe3.4-alpine3.6: { VERSION: 3.4, VARIANT: alpine3.6 }
+        haxe3.3-alpine3.6: { VERSION: 3.3, VARIANT: alpine3.6 }
+        haxe3.2-alpine3.6: { VERSION: 3.2, VARIANT: alpine3.6 }
+        haxe4.0-stretch: { VERSION: 4.0, VARIANT: stretch }
+        haxe3.4-stretch: { VERSION: 3.4, VARIANT: stretch }
+        haxe3.3-stretch: { VERSION: 3.3, VARIANT: stretch }
+        haxe3.2-stretch: { VERSION: 3.2, VARIANT: stretch }
+        haxe3.1-stretch: { VERSION: 3.1, VARIANT: stretch }
+        haxe4.0-jessie: { VERSION: 4.0, VARIANT: jessie }
+        haxe3.4-jessie: { VERSION: 3.4, VARIANT: jessie }
+        haxe3.3-jessie: { VERSION: 3.3, VARIANT: jessie }
+        haxe3.2-jessie: { VERSION: 3.2, VARIANT: jessie }
+        haxe3.1-jessie: { VERSION: 3.1, VARIANT: jessie }
+    steps:
+      - template: azure-pipelines-steps.yml
+  # - job: TestWindows
+  #   pool:
+  #     vmImage: 'win1803'
+  #   strategy:
+  #     matrix:
+  #       haxe4.0-windowsservercore-ltsc2016: { VERSION: 4.0, VARIANT: windowsservercore-ltsc2016 }
+  #       haxe3.4-windowsservercore-ltsc2016: { VERSION: 3.4, VARIANT: windowsservercore-ltsc2016 }
+  #       haxe3.3-windowsservercore-ltsc2016: { VERSION: 3.3, VARIANT: windowsservercore-ltsc2016 }
+  #       haxe3.2-windowsservercore-ltsc2016: { VERSION: 3.2, VARIANT: windowsservercore-ltsc2016 }
+  #       haxe3.1-windowsservercore-ltsc2016: { VERSION: 3.1, VARIANT: windowsservercore-ltsc2016 }
+  #   steps:
+  #     - template: azure-pipelines-steps.yml
