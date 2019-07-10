@@ -1,6 +1,4 @@
 steps:
-  - bash: git clone --depth 1 https://github.com/docker-library/official-images.git ~/official-images
-    displayName: Clone docker-library/official-images
   - bash: |
       IMAGE="haxe:$(awk '$1 == "ENV" && $2 == "HAXE_VERSION" { print $3; exit }' ${VARIANT:+$VARIANT}/Dockerfile)"
       echo "$IMAGE"
@@ -9,7 +7,5 @@ steps:
     displayName: Define image name
   - bash: docker build --pull -t "${IMAGE}" "$(VERSION)/${VARIANT:-.}"
     displayName: Build image
-  - bash: ~/official-images/test/run.sh "${IMAGE}"
-    displayName: Test image
   - bash: docker images
     displayName: List images

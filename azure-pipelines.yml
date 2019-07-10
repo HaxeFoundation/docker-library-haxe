@@ -32,6 +32,10 @@ jobs:
         haxe3.1-jessie: { VERSION: 3.1, VARIANT: jessie }
     steps:
       - template: azure-pipelines-steps.yml
+      - bash: git clone --depth 1 https://github.com/docker-library/official-images.git ~/official-images
+        displayName: Clone docker-library/official-images
+      - bash: ~/official-images/test/run.sh "${IMAGE}"
+        displayName: Test image
   - job: TestWindows
     pool:
       vmImage: 'win1803'
@@ -44,3 +48,7 @@ jobs:
         haxe3.1-windowsservercore-1803: { VERSION: 3.1, VARIANT: windowsservercore-1803 }
     steps:
       - template: azure-pipelines-steps.yml
+      - bash: docker run --rm "${IMAGE}" haxe -version
+        displayName: Test haxe
+      - bash: docker run --rm "${IMAGE}" haxelib install jQueryExtern
+        displayName: Test haxelib

@@ -26,3 +26,4 @@ after_build:
 
 test_script:
   - cmd: docker run --rm %dockerImage% haxe -version
+  - cmd: docker run --rm %dockerImage% haxelib install jQueryExtern
