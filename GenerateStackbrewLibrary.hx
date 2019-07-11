@@ -51,10 +51,9 @@ class GenerateStackbrewLibrary {
 		for (variant in variants)
 		if (version.exclude.indexOf(variant.variant) < 0)
 		{
-			var aliases = verAliases(version.version, variant.suffix);
+			var aliases = verAliases(version.version, variant.suffix.filter(function(s) return !isShared(s)));
 			var sharedAliases = verAliases(version.version, variant.suffix.filter(isShared));
 			if (variant.suffix.indexOf("") >= 0 && version == versions[0]) {
-				aliases.push("latest");
 				sharedAliases.push("latest");
 			}
 			stackbrew.add('Tags: ${aliases.join(", ")}\n');
