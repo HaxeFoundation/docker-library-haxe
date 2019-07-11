@@ -44,15 +44,15 @@ class GenerateStackbrewLibrary {
 		if (version.exclude.indexOf(variant.variant) < 0)
 		{
 			var aliases = verAliases(version.version, variant.suffix);
-			if (variant == variants[0] && version == versions[0]) {
+			if (variant.suffix.indexOf("") >= 0 && version == versions[0]) {
 				aliases.push("latest");
 			}
 			var commit = fileCommit(dockerfilePath(version, variant));
 			stackbrew.add('Tags: ${aliases.join(", ")}\n');
 			var architectures = switch (variant.variant) {
-				case "windowsservercore-ltsc2016"|"nanoserver":
+				case "windowsservercore-1803"|"windowsservercore-ltsc2016"|"nanoserver":
 					["windows-amd64"];
-				case "stretch":
+				case "buster"|"stretch":
 					["amd64", "arm32v7", "arm64v8"];
 				case v if (StringTools.startsWith(v, "alpine")):
 					["amd64", "arm64v8"];
@@ -64,7 +64,7 @@ class GenerateStackbrewLibrary {
 			var dir = Path.directory(dockerfilePath(version, variant));
 			stackbrew.add('Directory: ${dir}\n');
 			switch (variant.variant) {
-				case "windowsservercore"|"nanoserver":
+				case "windowsservercore-1803"|"windowsservercore-ltsc2016"|"nanoserver":
 					stackbrew.add('Constraints: ${variant.variant}\n');
 				case _:
 					//pass

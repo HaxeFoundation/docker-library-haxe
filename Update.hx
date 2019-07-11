@@ -45,7 +45,7 @@ class Update {
 			"tag": "3.1.3",
 			"win64": false,
 			"sha256": {"win": "4cf84cdbf7960a61ae70b0d9166c6f9bde16388c3b81e54af91446f4c9e44ae4"},
-			"exclude": ["alpine3.6", "alpine3.7", "alpine3.8", "alpine3.9"],
+			"exclude": ["alpine3.7", "alpine3.8", "alpine3.9", "alpine3.10", "buster"],
 			"opam": false
 		},
 		{
@@ -60,8 +60,12 @@ class Update {
 
 	static public var variants:Array<Variant> = [
 		{
+			"variant": "buster",
+			"suffix": ["buster", ""]
+		},
+		{
 			"variant": "stretch",
-			"suffix": ["stretch", ""]
+			"suffix": ["stretch"]
 		},
 		{
 			"variant": "jessie",
@@ -69,11 +73,11 @@ class Update {
 		},
 		{
 			"variant": "windowsservercore-1803",
-			"suffix": ["windowsservercore-1803", "windowsservercore"]
+			"suffix": ["windowsservercore-1803", "windowsservercore", ""]
 		},
 		{
 			"variant": "windowsservercore-ltsc2016",
-			"suffix": ["windowsservercore-ltsc2016"]
+			"suffix": ["windowsservercore-ltsc2016", "windowsservercore", ""]
 		},
 		// neko and haxelib are still 32-bit only
 		// {
@@ -81,8 +85,12 @@ class Update {
 		// 	"suffix": ["nanoserver"]
 		// },
 		{
+			"variant": "alpine3.10",
+			"suffix": ["alpine3.10", "alpine"]
+		},
+		{
 			"variant": "alpine3.9",
-			"suffix": ["alpine3.9", "alpine"]
+			"suffix": ["alpine3.9"]
 		},
 		{
 			"variant": "alpine3.8",
@@ -91,10 +99,6 @@ class Update {
 		{
 			"variant": "alpine3.7",
 			"suffix": ["alpine3.7"]
-		},
-		{
-			"variant": "alpine3.6",
-			"suffix": ["alpine3.6"]
 		},
 	];
 
