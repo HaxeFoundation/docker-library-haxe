@@ -20,6 +20,26 @@ RUN $newPath = ('{0};{1};{2}' -f $env:HAXEPATH, $env:NEKOPATH, $env:PATH); \
 	[Environment]::SetEnvironmentVariable('PATH', $newPath, [EnvironmentVariableTarget]::Machine);
 # doing this first to share cache across versions more aggressively
 
+# haxelib.exe needs msvcr120.dll
+RUN $url = 'https://download.microsoft.com/download/0/5/6/056dcda9-d667-4e27-8001-8a0c6971d6b1/vcredist_x86.exe'; \
+	Write-Host ('Downloading {0} ...' -f $url); \
+	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
+	Invoke-WebRequest -Uri $url -OutFile 'vcredist_x86.exe'; \
+	\
+	Write-Host 'Verifying sha256 (89f4e593ea5541d1c53f983923124f9fd061a1c0c967339109e375c661573c17) ...'; \
+	if ((Get-FileHash vcredist_x86.exe -Algorithm sha256).Hash -ne '89f4e593ea5541d1c53f983923124f9fd061a1c0c967339109e375c661573c17') { \
+		Write-Host 'FAILED!'; \
+		exit 1; \
+	}; \
+	\
+	Write-Host 'Installing ...'; \
+	Start-Process -FilePath "vcredist_x86.exe" -ArgumentList "/Q" -Wait; \
+	\
+	Write-Host 'Removing installer...'; \
+	Remove-Item .\vcredist_x86.exe; \
+	\
+	Write-Host 'Complete.';
+
 RUN New-Item -ItemType directory -Path $env:HAXETOOLKIT_PATH;
 
 # install neko, which is a dependency of haxelib
@@ -73,6 +93,7 @@ RUN $url = 'https://github.com/HaxeFoundation/haxe/releases/download/3.2.1/haxe-
 	\
 	Write-Host 'Verifying install ...'; \
 	Write-Host '  haxe -version'; haxe -version; \
+	Write-Host '  haxelib version'; haxelib version; \
 	\
 	Write-Host 'Complete.';
 
