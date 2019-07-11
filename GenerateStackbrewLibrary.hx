@@ -2,6 +2,7 @@ import Update.*;
 import sys.io.*;
 import haxe.io.*;
 using StringTools;
+using Lambda;
 
 class GenerateStackbrewLibrary {
 	static var HEADER =
@@ -10,6 +11,13 @@ class GenerateStackbrewLibrary {
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #';
+
+	static public function isShared(suffix:String):Bool {
+		return switch (suffix) {
+			case "" | "windowsservercore": true;
+			case _: false;
+		}
+	}
 
 	static public function verAliases(version:String, suffix:Array<String>):Array<String> {
 		var versions = [
@@ -44,11 +52,16 @@ class GenerateStackbrewLibrary {
 		if (version.exclude.indexOf(variant.variant) < 0)
 		{
 			var aliases = verAliases(version.version, variant.suffix);
+			var sharedAliases = verAliases(version.version, variant.suffix.filter(isShared));
 			if (variant.suffix.indexOf("") >= 0 && version == versions[0]) {
 				aliases.push("latest");
+				sharedAliases.push("latest");
 			}
-			var commit = fileCommit(dockerfilePath(version, variant));
 			stackbrew.add('Tags: ${aliases.join(", ")}\n');
+
+			if (sharedAliases.length > 0) {
+				stackbrew.add('SharedTags: ${sharedAliases.join(", ")}\n');
+			}
 			var architectures = switch (variant.variant) {
 				case "windowsservercore-1803"|"windowsservercore-ltsc2016"|"nanoserver":
 					["windows-amd64"];
@@ -60,6 +73,7 @@ class GenerateStackbrewLibrary {
 					["amd64"];
 			}
 			stackbrew.add('Architectures: ${architectures.join(", ")}\n');
+			var commit = fileCommit(dockerfilePath(version, variant));
 			stackbrew.add('GitCommit: ${commit}\n');
 			var dir = Path.directory(dockerfilePath(version, variant));
 			stackbrew.add('Directory: ${dir}\n');
