@@ -40,7 +40,23 @@ jobs:
         displayName: Clone docker-library/official-images
       - bash: ~/official-images/test/run.sh "${IMAGE}"
         displayName: Test image
-  - job: TestWindows
+  - job: TestWin2019
+    pool:
+      vmImage: 'windows-2019'
+    strategy:
+      matrix:
+        haxe4.0-windowsservercore-ltsc2019: { VERSION: 4.0, VARIANT: windowsservercore-ltsc2019 }
+        haxe3.4-windowsservercore-ltsc2019: { VERSION: 3.4, VARIANT: windowsservercore-ltsc2019 }
+        haxe3.3-windowsservercore-ltsc2019: { VERSION: 3.3, VARIANT: windowsservercore-ltsc2019 }
+        haxe3.2-windowsservercore-ltsc2019: { VERSION: 3.2, VARIANT: windowsservercore-ltsc2019 }
+        haxe3.1-windowsservercore-ltsc2019: { VERSION: 3.1, VARIANT: windowsservercore-ltsc2019 }
+    steps:
+      - template: azure-pipelines-steps.yml
+      - bash: docker run --rm "${IMAGE}" haxe -version
+        displayName: Test haxe
+      - bash: docker run --rm "${IMAGE}" haxelib install jQueryExtern
+        displayName: Test haxelib
+  - job: TestWin1803
     pool:
       vmImage: 'win1803'
     strategy:
