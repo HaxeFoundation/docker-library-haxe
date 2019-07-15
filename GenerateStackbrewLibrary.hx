@@ -62,7 +62,7 @@ class GenerateStackbrewLibrary {
 				stackbrew.add('SharedTags: ${sharedAliases.join(", ")}\n');
 			}
 			var architectures = switch (variant.variant) {
-				case "windowsservercore-ltsc2019"|"windowsservercore-1803"|"windowsservercore-ltsc2016"|"nanoserver":
+				case "windowsservercore-1809"|"windowsservercore-1803"|"windowsservercore-ltsc2016"|"nanoserver":
 					["windows-amd64"];
 				case "buster"|"stretch":
 					["amd64", "arm32v7", "arm64v8"];
@@ -77,7 +77,7 @@ class GenerateStackbrewLibrary {
 			var dir = Path.directory(dockerfilePath(version, variant));
 			stackbrew.add('Directory: ${dir}\n');
 			switch (variant.variant) {
-				case "windowsservercore-ltsc2019"|"windowsservercore-1803"|"windowsservercore-ltsc2016"|"nanoserver":
+				case "windowsservercore-1809"|"windowsservercore-1803"|"windowsservercore-ltsc2016"|"nanoserver":
 					stackbrew.add('Constraints: ${variant.variant}\n');
 				case _:
 					//pass

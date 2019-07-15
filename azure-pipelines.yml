@@ -40,16 +40,16 @@ jobs:
         displayName: Clone docker-library/official-images
       - bash: ~/official-images/test/run.sh "${IMAGE}"
         displayName: Test image
-  - job: TestWin2019
+  - job: TestWin1809
     pool:
       vmImage: 'windows-2019'
     strategy:
       matrix:
-        haxe4.0-windowsservercore-ltsc2019: { VERSION: 4.0, VARIANT: windowsservercore-ltsc2019 }
-        haxe3.4-windowsservercore-ltsc2019: { VERSION: 3.4, VARIANT: windowsservercore-ltsc2019 }
-        haxe3.3-windowsservercore-ltsc2019: { VERSION: 3.3, VARIANT: windowsservercore-ltsc2019 }
-        haxe3.2-windowsservercore-ltsc2019: { VERSION: 3.2, VARIANT: windowsservercore-ltsc2019 }
-        haxe3.1-windowsservercore-ltsc2019: { VERSION: 3.1, VARIANT: windowsservercore-ltsc2019 }
+        haxe4.0-windowsservercore-1809: { VERSION: 4.0, VARIANT: windowsservercore-1809 }
+        haxe3.4-windowsservercore-1809: { VERSION: 3.4, VARIANT: windowsservercore-1809 }
+        haxe3.3-windowsservercore-1809: { VERSION: 3.3, VARIANT: windowsservercore-1809 }
+        haxe3.2-windowsservercore-1809: { VERSION: 3.2, VARIANT: windowsservercore-1809 }
+        haxe3.1-windowsservercore-1809: { VERSION: 3.1, VARIANT: windowsservercore-1809 }
     steps:
       - template: azure-pipelines-steps.yml
       - bash: docker run --rm "${IMAGE}" haxe -version
