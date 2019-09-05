@@ -44,13 +44,13 @@ RUN New-Item -ItemType directory -Path $env:HAXETOOLKIT_PATH;
 
 # install neko, which is a dependency of haxelib
 ENV NEKO_VERSION 2.2.0
-RUN $url = 'https://github.com/HaxeFoundation/neko/releases/download/v2-2-0/neko-2.2.0-win.zip'; \
+RUN $url = 'https://github.com/HaxeFoundation/neko/releases/download/v2-2-0/neko-2.2.0-win64.zip'; \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
 	Invoke-WebRequest -Uri $url -OutFile 'neko.zip'; \
 	\
-	Write-Host 'Verifying sha256 (93d7ca96698a6825f38ca8eea49e2e6b691c0849270174f6c1bd531290db8d69) ...'; \
-	if ((Get-FileHash neko.zip -Algorithm sha256).Hash -ne '93d7ca96698a6825f38ca8eea49e2e6b691c0849270174f6c1bd531290db8d69') { \
+	Write-Host 'Verifying sha256 (913d90223399088fd38c721f7b5e5a7d615326f8edf26e5fc3b2959e5945939d) ...'; \
+	if ((Get-FileHash neko.zip -Algorithm sha256).Hash -ne '913d90223399088fd38c721f7b5e5a7d615326f8edf26e5fc3b2959e5945939d') { \
 		Write-Host 'FAILED!'; \
 		exit 1; \
 	}; \
@@ -70,14 +70,14 @@ RUN $url = 'https://github.com/HaxeFoundation/neko/releases/download/v2-2-0/neko
 	Write-Host 'Complete.';
 
 # install haxe
-ENV HAXE_VERSION 4.0.0-rc.3
-RUN $url = 'https://github.com/HaxeFoundation/haxe/releases/download/4.0.0-rc.3/haxe-4.0.0-rc.3-win64.zip'; \
+ENV HAXE_VERSION 4.0.0-rc.4
+RUN $url = 'https://github.com/HaxeFoundation/haxe/releases/download/4.0.0-rc.4/haxe-4.0.0-rc.4-win64.zip'; \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
 	Invoke-WebRequest -Uri $url -OutFile haxe.zip; \
 	\
-	Write-Host 'Verifying sha256 (ab10b6d2fcff6637aa3481bc682cb0f18c3f204134afa4a16941b642d693f29e) ...'; \
-	if ((Get-FileHash haxe.zip -Algorithm sha256).Hash -ne 'ab10b6d2fcff6637aa3481bc682cb0f18c3f204134afa4a16941b642d693f29e') { \
+	Write-Host 'Verifying sha256 (5ae553009c5ca22ecf2026ac27a9fae97bbaed549032eecbc6c783e347fc8372) ...'; \
+	if ((Get-FileHash haxe.zip -Algorithm sha256).Hash -ne '5ae553009c5ca22ecf2026ac27a9fae97bbaed549032eecbc6c783e347fc8372') { \
 		Write-Host 'FAILED!'; \
 		exit 1; \
 	}; \
