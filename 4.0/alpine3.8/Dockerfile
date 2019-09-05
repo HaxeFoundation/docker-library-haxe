@@ -69,6 +69,7 @@ RUN set -ex \
 	&& echo "776c7e64d6e24c2ef1efd1e6a71d36e007645efae94eaf860c05c1929effc76f *opam.tar.gz" | sha256sum -c - \
 	&& mkdir -p /usr/src/opam \
 	&& tar -xC /usr/src/opam --strip-components=1 -f opam.tar.gz \
+	&& rm opam.tar.gz \
 	&& cd /usr/src/opam \
 	&& ./configure \
 	&& make -j1 lib-ext all install \

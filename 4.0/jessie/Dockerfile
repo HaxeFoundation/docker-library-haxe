@@ -55,25 +55,48 @@ ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
 		make \
+		ocaml-nox \
+		ocaml-native-compilers \
+		ocaml-findlib \
 		zlib1g-dev \
 		libpcre3-dev \
 		\
 		opam \
-		aspcud \
+		gcc \
+		g++ \
+		pkg-config \
 		m4 \
 		unzip \
+		patch \
+		rsync \
 		\
 	' \
-	&& git clone --recursive --depth 1 --branch 4.0.0-rc.4 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
-	&& cd /usr/src/haxe \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
+	&& git clone --recursive --depth 1 --branch 4.0.0-rc.4 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	\
 	\
 	&& opam init --comp 4.02.3 \
 	&& eval `opam config env` \
-	&& make opam_install \
-	\
+	&& curl -sL https://github.com/ocaml/opam/releases/download/2.0.5/opam-full-2.0.5.tar.gz -o opam.tar.gz \
+	&& echo "776c7e64d6e24c2ef1efd1e6a71d36e007645efae94eaf860c05c1929effc76f *opam.tar.gz" | sha256sum -c - \
+	&& mkdir -p /usr/src/opam \
+	&& tar -xC /usr/src/opam --strip-components=1 -f opam.tar.gz \
+	&& rm opam.tar.gz \
+	&& cd /usr/src/opam \
+	&& ./configure --with-mccs \
+	&& make -j1 lib-ext all install \
+	&& mv ~/.opam ~/.opam.bak \
+	&& opam init --comp 4.02.3 --disable-sandboxing \
+	&& eval $(opam env) \
+	&& opam install /usr/src/haxe --deps-only --yes \
+	&& cd /usr/src/haxe \
 	&& make all tools \
+	&& cd /usr/src/opam \
+	&& rm -rf ~/.opam \
+	&& mv ~/.opam.bak ~/.opam \
+	&& make uninstall \
+	&& cd /usr/src/haxe \
+	\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p $HAXE_STD_PATH \
@@ -83,6 +106,7 @@ RUN set -ex \
 	\
 	\
 	&& rm -rf ~/.opam \
+	&& rm -rf /usr/src/opam \
 	\
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf /usr/src/haxe ~/.cache

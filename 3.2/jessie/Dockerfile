@@ -55,22 +55,23 @@ ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
 		make \
+		ocaml-nox \
+		ocaml-native-compilers \
+		ocaml-findlib \
 		zlib1g-dev \
 		libpcre3-dev \
 		\
-		ocaml-nox \
-		ocaml-native-compilers \
 		camlp4 \
-		ocaml-findlib \
 		libxml-light-ocaml-dev \
 		\
 	' \
-	&& git clone --recursive --depth 1 --branch 3.2.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
-	&& cd /usr/src/haxe \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
+	&& git clone --recursive --depth 1 --branch 3.2.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	\
 	\
+	&& cd /usr/src/haxe \
 	&& make all tools \
+	\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p $HAXE_STD_PATH \
