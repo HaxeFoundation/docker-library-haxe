@@ -54,8 +54,8 @@ RUN set -ex \
 		unzip \
 		patch \
 		musl-dev \
-		::if (HAXE_VERSION < 4)::camlp4 \::end::
-		::if (HAXE_VERSION < 4)::ocaml-camlp4-dev \::end::
+		::if (HAXE_VERSION < 4)::camlp4::end::\
+		::if (HAXE_VERSION < 4)::ocaml-camlp4-dev::end::\
 		ocaml-compiler-libs \
 		ocaml-ocamldoc \
 		::else::\
