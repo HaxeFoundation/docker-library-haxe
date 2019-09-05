@@ -57,9 +57,9 @@ RUN set -ex \
 		m4 \
 		unzip \
 		patch \
-		camlp4 \
 		musl-dev \
-		ocaml-camlp4-dev \
+		
+		
 		ocaml-compiler-libs \
 		ocaml-ocamldoc \
 		\
