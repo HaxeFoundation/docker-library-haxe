@@ -46,23 +46,40 @@ RUN set -ex \
 	&& ninja install \
 	\
 	&& git clone --recursive --depth 1 --branch 4.0.0-rc.4 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
-	&& cd /usr/src/haxe \
 	&& apk add --no-cache --virtual .build-deps \
 		pcre-dev \
 		zlib-dev \
 		make \
 		\
-		opam \
-		aspcud \
+		curl \
+		bash \
+		ocaml \
+		ocaml-compiler-libs \
+		ocaml-ocamldoc \
+		gcc \
+		g++ \
+		musl-dev \
 		m4 \
 		unzip \
 		patch \
+		rsync \
 		\
 	\
-	&& opam init --comp 4.06.1 \
-	&& eval `opam config env` \
-	&& make opam_install \
+	&& curl -sL https://github.com/ocaml/opam/releases/download/2.0.5/opam-full-2.0.5.tar.gz -o opam.tar.gz \
+	&& echo "776c7e64d6e24c2ef1efd1e6a71d36e007645efae94eaf860c05c1929effc76f *opam.tar.gz" | sha256sum -c - \
+	&& mkdir -p /usr/src/opam \
+	&& tar -xC /usr/src/opam --strip-components=1 -f opam.tar.gz \
+	&& cd /usr/src/opam \
+	&& ./configure \
+	&& make -j1 lib-ext all install \
+	&& opam init --disable-sandboxing \
+	&& eval $(opam env) \
+	&& opam install /usr/src/haxe --deps-only --yes \
+	&& cd /usr/src/haxe \
 	&& make all tools \
+	&& cd /usr/src/opam \
+	&& make uninstall \
+	&& cd /usr/src/haxe \
 	\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
@@ -83,6 +100,7 @@ RUN set -ex \
 	&& apk del .fetch-deps \
 	\
 	&& rm -rf ~/.opam \
+	&& rm -rf /usr/src/opam \
 	\
 	&& rm -rf /usr/src/neko /usr/src/haxe
 

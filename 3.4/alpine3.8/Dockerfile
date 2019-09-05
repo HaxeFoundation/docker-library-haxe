@@ -46,7 +46,6 @@ RUN set -ex \
 	&& ninja install \
 	\
 	&& git clone --recursive --depth 1 --branch 3.4.7 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
-	&& cd /usr/src/haxe \
 	&& apk add --no-cache --virtual .build-deps \
 		pcre-dev \
 		zlib-dev \
@@ -57,6 +56,7 @@ RUN set -ex \
 		ocaml-camlp4-dev \
 		\
 	\
+	&& cd /usr/src/haxe \
 	&& OCAMLPARAM=safe-string=0,_ make all tools \
 	\
 	&& mkdir -p /usr/local/bin \
