@@ -70,14 +70,14 @@ RUN $url = 'https://github.com/HaxeFoundation/neko/releases/download/v2-2-0/neko
 	Write-Host 'Complete.';
 
 # install haxe
-ENV HAXE_VERSION 4.0.0-rc.4
-RUN $url = 'https://github.com/HaxeFoundation/haxe/releases/download/4.0.0-rc.4/haxe-4.0.0-rc.4-win64.zip'; \
+ENV HAXE_VERSION 4.0.0-rc.5
+RUN $url = 'https://github.com/HaxeFoundation/haxe/releases/download/4.0.0-rc.5/haxe-4.0.0-rc.5-win64.zip'; \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
 	Invoke-WebRequest -Uri $url -OutFile haxe.zip; \
 	\
-	Write-Host 'Verifying sha256 (5ae553009c5ca22ecf2026ac27a9fae97bbaed549032eecbc6c783e347fc8372) ...'; \
-	if ((Get-FileHash haxe.zip -Algorithm sha256).Hash -ne '5ae553009c5ca22ecf2026ac27a9fae97bbaed549032eecbc6c783e347fc8372') { \
+	Write-Host 'Verifying sha256 (900ff65b64011918361c137556027d7379f7066e2f467f74aabd852b65fefa00) ...'; \
+	if ((Get-FileHash haxe.zip -Algorithm sha256).Hash -ne '900ff65b64011918361c137556027d7379f7066e2f467f74aabd852b65fefa00') { \
 		Write-Host 'FAILED!'; \
 		exit 1; \
 	}; \

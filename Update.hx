@@ -53,11 +53,11 @@ class Update {
 			"opam": false
 		},
 		{
-			"version": "4.0.0-rc.4",
-			"tag": "4.0.0-rc.4",
+			"version": "4.0.0-rc.5",
+			"tag": "4.0.0-rc.5",
 			"win64": true,
 			"nekowin64": true,
-			"sha256": {"win": "5ae553009c5ca22ecf2026ac27a9fae97bbaed549032eecbc6c783e347fc8372"},
+			"sha256": {"win": "900ff65b64011918361c137556027d7379f7066e2f467f74aabd852b65fefa00"},
 			"exclude": [],
 			"opam": true
 		},
