@@ -17,6 +17,15 @@ class Update {
 	//The first item is considered as "latest". Beta/RC versions should not be put as the first item.
 	static public var versions:Array<Version> = [
 		{
+			"version": "4.0.0",
+			"tag": "4.0.0",
+			"win64": true,
+			"nekowin64": true,
+			"sha256": {"win": "68e3d4cb8ebb881ed52b574901a75b8190112e5a9b1370c45d7a8ab37df83498"},
+			"exclude": [],
+			"opam": true
+		},
+		{
 			"version": "3.4.7",
 			"tag": "3.4.7",
 			"win64": true,
@@ -51,15 +60,6 @@ class Update {
 			"sha256": {"win": "4cf84cdbf7960a61ae70b0d9166c6f9bde16388c3b81e54af91446f4c9e44ae4"},
 			"exclude": ["alpine3.7", "alpine3.8", "alpine3.9", "alpine3.10", "buster"],
 			"opam": false
-		},
-		{
-			"version": "4.0.0-rc.5",
-			"tag": "4.0.0-rc.5",
-			"win64": true,
-			"nekowin64": true,
-			"sha256": {"win": "900ff65b64011918361c137556027d7379f7066e2f467f74aabd852b65fefa00"},
-			"exclude": [],
-			"opam": true
 		},
 	];
 
