@@ -154,16 +154,16 @@ class Update {
 						case _:
 							null;
 					},
-					NEKO_VERSION: "2.2.0",
-					NEKO_TAG: "v2-2-0",
+					NEKO_VERSION: "2.3.0",
+					NEKO_TAG: "v2-3-0",
 					NEKO_SHA256: switch(variant.variant) {
 						case "windowsservercore-1809"|"windowsservercore-1803"|"windowsservercore-ltsc2016"|"nanoserver":
 							if (version.nekowin64)
-								"913d90223399088fd38c721f7b5e5a7d615326f8edf26e5fc3b2959e5945939d"
+								"d09fdf362cd2e3274f6c8528be7211663260c3a5323ce893b7637c2818995f0b"
 							else
-								"93d7ca96698a6825f38ca8eea49e2e6b691c0849270174f6c1bd531290db8d69";
+								"fe5a11350d2dd74338f971d62115f2bd21ec6912f193db04c5d28eb987a50485";
 						case _:
-							"cf101ca05db6cb673504efe217d8ed7ab5638f30e12c5e3095f06fa0d43f64e3";
+							"850e7e317bdaf24ed652efeff89c1cb21380ca19f20e68a296c84f6bad4ee995";
 					},
 					NEKO_WIN: version.nekowin64 ? "win64" : "win",
 					HEADER: HEADER,
