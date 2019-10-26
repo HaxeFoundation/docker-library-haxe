@@ -105,7 +105,9 @@ RUN $newPath = ('{0}\Users\{1}' -f $env:HOMEDRIVE, $env:USERNAME); \
 	Write-Host ('Updating HOMEPATH: {0}' -f $newPath); \
 	[Environment]::SetEnvironmentVariable('HOMEPATH', $newPath, [EnvironmentVariableTarget]::Machine);
 
-# Make a request to lib.haxe.org once such that Windows fetches the cert, which can then used by haxelib.
+# Make a request to lib.haxe.org, and to the cloudfront distro that serves files,
+# such that Windows fetches the certs, which can then used by haxelib.
 RUN (New-Object System.Net.WebClient).DownloadString('https://lib.haxe.org') >$null
+RUN (New-Object System.Net.WebClient).DownloadString('https://d1smpvufia21az.cloudfront.net') >$null
 
 CMD ["haxe"]
