@@ -56,19 +56,3 @@ jobs:
         displayName: Test haxe
       - bash: docker run --rm "${IMAGE}" haxelib install jQueryExtern
         displayName: Test haxelib
-  - job: TestWin1803
-    pool:
-      vmImage: 'win1803'
-    strategy:
-      matrix:
-        haxe4.0-windowsservercore-1803: { VERSION: 4.0, VARIANT: windowsservercore-1803 }
-        haxe3.4-windowsservercore-1803: { VERSION: 3.4, VARIANT: windowsservercore-1803 }
-        haxe3.3-windowsservercore-1803: { VERSION: 3.3, VARIANT: windowsservercore-1803 }
-        haxe3.2-windowsservercore-1803: { VERSION: 3.2, VARIANT: windowsservercore-1803 }
-        haxe3.1-windowsservercore-1803: { VERSION: 3.1, VARIANT: windowsservercore-1803 }
-    steps:
-      - template: azure-pipelines-steps.yml
-      - bash: docker run --rm "${IMAGE}" haxe -version
-        displayName: Test haxe
-      - bash: docker run --rm "${IMAGE}" haxelib install jQueryExtern
-        displayName: Test haxelib

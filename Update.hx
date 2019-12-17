@@ -81,10 +81,6 @@ class Update {
 			"suffix": ["windowsservercore-1809", "windowsservercore", ""]
 		},
 		{
-			"variant": "windowsservercore-1803",
-			"suffix": ["windowsservercore-1803", "windowsservercore", ""]
-		},
-		{
 			"variant": "windowsservercore-ltsc2016",
 			"suffix": ["windowsservercore-ltsc2016", "windowsservercore", ""]
 		},
@@ -143,13 +139,13 @@ class Update {
 					HAXE_VERSION: version.version,
 					HAXE_TAG: version.tag,
 					HAXE_FILE: switch(variant.variant) {
-						case "windowsservercore-1809"|"windowsservercore-1803"|"windowsservercore-ltsc2016"|"nanoserver":
+						case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
 							'https://github.com/HaxeFoundation/haxe/releases/download/${version.tag}/haxe-${version.version}-win${version.win64 ? "64" : ""}.zip';
 						case _:
 							null;
 					},
 					HAXE_SHA256: switch(variant.variant) {
-						case "windowsservercore-1809"|"windowsservercore-1803"|"windowsservercore-ltsc2016"|"nanoserver":
+						case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
 							version.sha256.win;
 						case _:
 							null;
@@ -157,7 +153,7 @@ class Update {
 					NEKO_VERSION: "2.3.0",
 					NEKO_TAG: "v2-3-0",
 					NEKO_SHA256: switch(variant.variant) {
-						case "windowsservercore-1809"|"windowsservercore-1803"|"windowsservercore-ltsc2016"|"nanoserver":
+						case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
 							if (version.nekowin64)
 								"d09fdf362cd2e3274f6c8528be7211663260c3a5323ce893b7637c2818995f0b"
 							else
