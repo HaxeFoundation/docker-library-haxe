@@ -54,7 +54,7 @@ RUN set -ex \
 	&& rm -rf /usr/src/neko ~/.cache
 
 # install haxe
-ENV HAXE_VERSION 4.0.3
+ENV HAXE_VERSION 4.0.5
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
@@ -75,7 +75,7 @@ RUN set -ex \
 		\
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
-	&& git clone --recursive --depth 1 --branch 4.0.3 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 4.0.5 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	\
 	\
 	&& curl -sL https://github.com/ocaml/opam/releases/download/2.0.5/opam-full-2.0.5.tar.gz -o opam.tar.gz \
