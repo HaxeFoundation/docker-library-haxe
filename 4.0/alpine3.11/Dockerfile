@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM alpine:3.7
+FROM alpine:3.11
 
 # ensure local haxe is preferred over distribution haxe
 ENV PATH /usr/local/bin:$PATH
@@ -14,7 +14,7 @@ ENV PATH /usr/local/bin:$PATH
 RUN apk add --no-cache ca-certificates
 
 ENV NEKO_VERSION 2.3.0
-ENV HAXE_VERSION 3.3.0-rc.1
+ENV HAXE_VERSION 4.0.5
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 
 RUN set -ex \
@@ -28,7 +28,7 @@ RUN set -ex \
 	&& mkdir -p /usr/src/neko \
 	&& tar -xC /usr/src/neko --strip-components=1 -f neko.tar.gz \
 	&& rm neko.tar.gz \
-	&& apk add --no-cache --virtual .build-deps \
+	&& apk add --no-cache --virtual .neko-build-deps \
 		apache2-dev \
 		cmake \
 		gc-dev \
@@ -45,18 +45,30 @@ RUN set -ex \
 	&& ninja \
 	&& ninja install \
 	\
-	&& git clone --recursive --depth 1 --branch 3.3.0-rc1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
-	&& apk add --no-cache --virtual .build-deps \
+	&& git clone --recursive --depth 1 --branch 4.0.5 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& cd /usr/src/haxe \
+	&& apk add --no-cache --virtual .haxe-build-deps \
 		pcre-dev \
 		zlib-dev \
 		make \
 		\
-		ocaml \
-		camlp4 \
+		opam \
+		aspcud \
+		m4 \
+		unzip \
+		patch \
+		musl-dev \
+		\
+		\
+		ocaml-compiler-libs \
+		ocaml-ocamldoc \
 		\
 	\
-	&& cd /usr/src/haxe \
-	&& OCAMLPARAM=safe-string=0,_ make all tools \
+	&& opam init --disable-sandboxing \
+	&& eval $(opam env) \
+	&& opam pin add haxe . --no-action \
+	&& opam install haxe --deps-only --yes \
+	&& make all tools \
 	\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
@@ -73,8 +85,9 @@ RUN set -ex \
 			| sort -u \
 	)" \
 	&& apk add --virtual .haxe-rundeps $runDeps \
-	&& apk del .build-deps \
-	&& apk del .fetch-deps \
+	&& apk del .fetch-deps .neko-build-deps .haxe-build-deps \
+	\
+	&& rm -rf ~/.opam \
 	\
 	&& rm -rf /usr/src/neko /usr/src/haxe
 

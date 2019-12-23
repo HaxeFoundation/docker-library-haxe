@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM alpine:3.7
+FROM alpine:3.11
 
 # ensure local haxe is preferred over distribution haxe
 ENV PATH /usr/local/bin:$PATH
@@ -28,7 +28,7 @@ RUN set -ex \
 	&& mkdir -p /usr/src/neko \
 	&& tar -xC /usr/src/neko --strip-components=1 -f neko.tar.gz \
 	&& rm neko.tar.gz \
-	&& apk add --no-cache --virtual .build-deps \
+	&& apk add --no-cache --virtual .neko-build-deps \
 		apache2-dev \
 		cmake \
 		gc-dev \
@@ -46,16 +46,17 @@ RUN set -ex \
 	&& ninja install \
 	\
 	&& git clone --recursive --depth 1 --branch 3.2.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
-	&& apk add --no-cache --virtual .build-deps \
+	&& cd /usr/src/haxe \
+	&& apk add --no-cache --virtual .haxe-build-deps \
 		pcre-dev \
 		zlib-dev \
 		make \
 		\
 		ocaml \
 		camlp4 \
+		ocaml-camlp4-dev \
 		\
 	\
-	&& cd /usr/src/haxe \
 	&& OCAMLPARAM=safe-string=0,_ make all tools \
 	\
 	&& mkdir -p /usr/local/bin \
@@ -73,8 +74,7 @@ RUN set -ex \
 			| sort -u \
 	)" \
 	&& apk add --virtual .haxe-rundeps $runDeps \
-	&& apk del .build-deps \
-	&& apk del .fetch-deps \
+	&& apk del .fetch-deps .neko-build-deps .haxe-build-deps \
 	\
 	&& rm -rf /usr/src/neko /usr/src/haxe
 
