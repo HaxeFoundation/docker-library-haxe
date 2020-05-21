@@ -86,7 +86,7 @@ RUN set -ex \
 	&& eval `opam env` \
 	&& ( [ -f /usr/src/haxe/opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
 	\
-	&& make \
+	&& make all tools \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p /haxelib \

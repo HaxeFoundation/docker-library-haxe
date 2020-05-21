@@ -76,7 +76,7 @@ RUN set -ex \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	\
 	\
-	&& make \
+	&& make all tools \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p /haxelib \
