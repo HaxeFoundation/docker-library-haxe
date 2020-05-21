@@ -71,7 +71,8 @@ RUN set -ex \
 	&& eval $(opam env) \
 	&& opam pin add haxe . --no-action \
 	&& opam install haxe --deps-only --yes \
-	&& make all tools \
+	&& make \
+	&& eval $(opam env --revert) \
 	\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \

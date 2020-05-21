@@ -80,7 +80,8 @@ RUN set -ex \
 	&& eval $(opam env) \
 	&& opam install /usr/src/haxe --deps-only --yes \
 	&& cd /usr/src/haxe \
-	&& make all tools \
+	&& make \
+	&& eval $(opam env --revert) \
 	&& cd /usr/src/opam \
 	&& make uninstall \
 	&& cd /usr/src/haxe \
