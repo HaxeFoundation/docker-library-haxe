@@ -22,7 +22,7 @@ class Update {
 			"win64": true,
 			"nekowin64": true,
 			"sha256": {"win": "ed5d323a565cc9a51891f9a79fdb516a87110d4f36fa6b334d000690d3a1cfb1"},
-			"exclude": [],
+			"exclude": ["jessie"],
 			"opam": true
 		},
 		{
