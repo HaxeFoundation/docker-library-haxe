@@ -74,7 +74,7 @@ RUN set -ex \
 	&& cd /usr/src/opam \
 	&& ./configure \
 	&& make -j1 lib-ext all install \
-	&& opam init --disable-sandboxing \
+	&& opam init --compiler=4.07.1 --disable-sandboxing \
 	&& eval $(opam env) \
 	&& opam install /usr/src/haxe --deps-only --yes \
 	&& cd /usr/src/haxe \
