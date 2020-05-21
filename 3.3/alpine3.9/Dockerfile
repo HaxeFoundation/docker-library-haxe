@@ -47,6 +47,8 @@ RUN set -ex \
 	\
 	&& git clone --recursive --depth 1 --branch 3.3.0-rc1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
+	&& mkdir -p $HAXE_STD_PATH \
+	&& cp -r std/* $HAXE_STD_PATH \
 	&& apk add --no-cache --virtual .haxe-build-deps \
 		pcre-dev \
 		zlib-dev \

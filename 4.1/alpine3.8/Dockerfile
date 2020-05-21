@@ -46,6 +46,8 @@ RUN set -ex \
 	&& ninja install \
 	\
 	&& git clone --recursive --depth 1 --branch 4.1.0 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& mkdir -p $HAXE_STD_PATH \
+	&& cp -r /usr/src/haxe/std/* $HAXE_STD_PATH \
 	&& apk add --no-cache --virtual .build-deps \
 		pcre-dev \
 		zlib-dev \
@@ -85,8 +87,6 @@ RUN set -ex \
 	\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
-	&& mkdir -p $HAXE_STD_PATH \
-	&& cp -r std/* $HAXE_STD_PATH \
 	&& mkdir -p /haxelib \
 	&& cd / && haxelib setup /haxelib \
 	\
