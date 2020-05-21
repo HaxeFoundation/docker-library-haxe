@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM alpine:3.9
+FROM alpine:3.8
 
 # ensure local haxe is preferred over distribution haxe
 ENV PATH /usr/local/bin:$PATH
@@ -14,7 +14,7 @@ ENV PATH /usr/local/bin:$PATH
 RUN apk add --no-cache ca-certificates
 
 ENV NEKO_VERSION 2.3.0
-ENV HAXE_VERSION 3.2.1
+ENV HAXE_VERSION 4.1.0
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 
 RUN set -ex \
@@ -28,7 +28,7 @@ RUN set -ex \
 	&& mkdir -p /usr/src/neko \
 	&& tar -xC /usr/src/neko --strip-components=1 -f neko.tar.gz \
 	&& rm neko.tar.gz \
-	&& apk add --no-cache --virtual .neko-build-deps \
+	&& apk add --no-cache --virtual .build-deps \
 		apache2-dev \
 		cmake \
 		gc-dev \
@@ -45,20 +45,43 @@ RUN set -ex \
 	&& ninja \
 	&& ninja install \
 	\
-	&& git clone --recursive --depth 1 --branch 3.2.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
-	&& cd /usr/src/haxe \
-	&& apk add --no-cache --virtual .haxe-build-deps \
+	&& git clone --recursive --depth 1 --branch 4.1.0 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& apk add --no-cache --virtual .build-deps \
 		pcre-dev \
 		zlib-dev \
 		mbedtls-dev \
 		make \
 		\
+		curl \
+		bash \
 		ocaml \
-		camlp4 \
-		ocaml-camlp4-dev \
+		ocaml-compiler-libs \
+		ocaml-ocamldoc \
+		gcc \
+		g++ \
+		musl-dev \
+		m4 \
+		unzip \
+		patch \
+		rsync \
 		\
 	\
-	&& OCAMLPARAM=safe-string=0,_ make all tools \
+	&& curl -sL https://github.com/ocaml/opam/releases/download/2.0.5/opam-full-2.0.5.tar.gz -o opam.tar.gz \
+	&& echo "776c7e64d6e24c2ef1efd1e6a71d36e007645efae94eaf860c05c1929effc76f *opam.tar.gz" | sha256sum -c - \
+	&& mkdir -p /usr/src/opam \
+	&& tar -xC /usr/src/opam --strip-components=1 -f opam.tar.gz \
+	&& rm opam.tar.gz \
+	&& cd /usr/src/opam \
+	&& ./configure \
+	&& make -j1 lib-ext all install \
+	&& opam init --disable-sandboxing \
+	&& eval $(opam env) \
+	&& opam install /usr/src/haxe --deps-only --yes \
+	&& cd /usr/src/haxe \
+	&& make all tools \
+	&& cd /usr/src/opam \
+	&& make uninstall \
+	&& cd /usr/src/haxe \
 	\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
@@ -75,7 +98,11 @@ RUN set -ex \
 			| sort -u \
 	)" \
 	&& apk add --virtual .haxe-rundeps $runDeps \
-	&& apk del .fetch-deps .neko-build-deps .haxe-build-deps \
+	&& apk del .build-deps \
+	&& apk del .fetch-deps \
+	\
+	&& rm -rf ~/.opam \
+	&& rm -rf /usr/src/opam \
 	\
 	&& rm -rf /usr/src/neko /usr/src/haxe
 

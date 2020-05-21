@@ -64,6 +64,7 @@ RUN set -ex \
 		ocaml-findlib \
 		zlib1g-dev \
 		libpcre3-dev \
+		libmbedtls-dev \
 		\
 		gcc \
 		g++ \

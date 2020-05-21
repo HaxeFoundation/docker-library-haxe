@@ -54,7 +54,7 @@ RUN set -ex \
 	&& rm -rf /usr/src/neko ~/.cache
 
 # install haxe
-ENV HAXE_VERSION 3.4.7
+ENV HAXE_VERSION 4.1.0
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
@@ -68,11 +68,21 @@ RUN set -ex \
 		libmbedtls-dev \
 		libxml-light-ocaml-dev \
 		\
+		opam \
+		mccs \
+		m4 \
+		unzip \
+		pkg-config \
+		\
 	' \
-	&& git clone --recursive --depth 1 --branch 3.4.7 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 4.1.0 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	\
+	\
+	&& opam init --disable-sandboxing \
+	&& eval `opam env` \
+	&& ( [ -f /usr/src/haxe/opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
 	\
 	&& make all tools \
 	&& mkdir -p /usr/local/bin \
@@ -82,6 +92,8 @@ RUN set -ex \
 	&& mkdir -p /haxelib \
 	&& cd / && haxelib setup /haxelib \
 	\
+	\
+	&& rm -rf ~/.opam \
 	\
 	&& rm -rf /var/lib/apt/lists/* \
 	&& apt-get purge -y --auto-remove $buildDeps \

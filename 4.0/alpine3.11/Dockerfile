@@ -50,6 +50,7 @@ RUN set -ex \
 	&& apk add --no-cache --virtual .haxe-build-deps \
 		pcre-dev \
 		zlib-dev \
+		mbedtls-dev \
 		make \
 		\
 		opam \

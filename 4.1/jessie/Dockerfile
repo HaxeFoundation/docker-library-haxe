@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM buildpack-deps:buster-scm
+FROM buildpack-deps:jessie-scm
 
 # ensure local haxe is preferred over distribution haxe
 ENV PATH /usr/local/bin:$PATH
@@ -14,11 +14,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		libgc1c2 \
 		zlib1g \
 		libpcre3 \
-		libmariadb3 \
+		libmariadb2 \
 		libsqlite3-0 \
-		libmbedcrypto3 \
-		libmbedtls12 \
-		libmbedx509-0 \
 	&& rm -rf /var/lib/apt/lists/*
 
 # install neko, which is a dependency of haxelib
@@ -35,7 +32,6 @@ RUN set -ex \
 		apache2-dev \
 		libmariadb-client-lgpl-dev-compat \
 		libsqlite3-dev \
-		libmbedtls-dev \
 		libgtk2.0-dev \
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
@@ -46,7 +42,7 @@ RUN set -ex \
 	&& tar -xC /usr/src/neko --strip-components=1 -f neko.tar.gz \
 	&& rm neko.tar.gz \
 	&& cd /usr/src/neko \
-	&& cmake -DRELOCATABLE=OFF . \
+	&& cmake -DRELOCATABLE=OFF -DSTATIC_DEPS=MbedTLS . \
 	&& make \
 	&& make install \
 	\
@@ -54,27 +50,54 @@ RUN set -ex \
 	&& rm -rf /usr/src/neko ~/.cache
 
 # install haxe
-ENV HAXE_VERSION 3.4.7
+ENV HAXE_VERSION 4.1.0
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
 		make \
 		ocaml-nox \
 		ocaml-native-compilers \
-		camlp4 \
 		ocaml-findlib \
 		zlib1g-dev \
 		libpcre3-dev \
 		libmbedtls-dev \
-		libxml-light-ocaml-dev \
+		\
+		opam \
+		gcc \
+		g++ \
+		pkg-config \
+		m4 \
+		unzip \
+		patch \
+		rsync \
 		\
 	' \
-	&& git clone --recursive --depth 1 --branch 3.4.7 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
+	&& git clone --recursive --depth 1 --branch 4.1.0 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	\
+	\
+	&& opam init --comp 4.02.3 \
+	&& eval `opam config env` \
+	&& curl -sL https://github.com/ocaml/opam/releases/download/2.0.5/opam-full-2.0.5.tar.gz -o opam.tar.gz \
+	&& echo "776c7e64d6e24c2ef1efd1e6a71d36e007645efae94eaf860c05c1929effc76f *opam.tar.gz" | sha256sum -c - \
+	&& mkdir -p /usr/src/opam \
+	&& tar -xC /usr/src/opam --strip-components=1 -f opam.tar.gz \
+	&& rm opam.tar.gz \
+	&& cd /usr/src/opam \
+	&& ./configure --with-mccs \
+	&& make -j1 lib-ext all install \
+	&& mv ~/.opam ~/.opam.bak \
+	&& opam init --comp 4.02.3 --disable-sandboxing \
+	&& eval $(opam env) \
+	&& opam install /usr/src/haxe --deps-only --yes \
 	&& cd /usr/src/haxe \
-	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
-	\
-	\
 	&& make all tools \
+	&& cd /usr/src/opam \
+	&& rm -rf ~/.opam \
+	&& mv ~/.opam.bak ~/.opam \
+	&& make uninstall \
+	&& cd /usr/src/haxe \
+	\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p $HAXE_STD_PATH \
@@ -83,7 +106,9 @@ RUN set -ex \
 	&& cd / && haxelib setup /haxelib \
 	\
 	\
-	&& rm -rf /var/lib/apt/lists/* \
+	&& rm -rf ~/.opam \
+	&& rm -rf /usr/src/opam \
+	\
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf /usr/src/haxe ~/.cache
 

@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM alpine:3.9
+FROM alpine:3.11
 
 # ensure local haxe is preferred over distribution haxe
 ENV PATH /usr/local/bin:$PATH
@@ -14,7 +14,7 @@ ENV PATH /usr/local/bin:$PATH
 RUN apk add --no-cache ca-certificates
 
 ENV NEKO_VERSION 2.3.0
-ENV HAXE_VERSION 3.2.1
+ENV HAXE_VERSION 4.1.0
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 
 RUN set -ex \
@@ -45,7 +45,7 @@ RUN set -ex \
 	&& ninja \
 	&& ninja install \
 	\
-	&& git clone --recursive --depth 1 --branch 3.2.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 4.1.0 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& apk add --no-cache --virtual .haxe-build-deps \
 		pcre-dev \
@@ -53,12 +53,23 @@ RUN set -ex \
 		mbedtls-dev \
 		make \
 		\
-		ocaml \
-		camlp4 \
-		ocaml-camlp4-dev \
+		opam \
+		aspcud \
+		m4 \
+		unzip \
+		patch \
+		musl-dev \
+		\
+		\
+		ocaml-compiler-libs \
+		ocaml-ocamldoc \
 		\
 	\
-	&& OCAMLPARAM=safe-string=0,_ make all tools \
+	&& opam init --disable-sandboxing \
+	&& eval $(opam env) \
+	&& opam pin add haxe . --no-action \
+	&& opam install haxe --deps-only --yes \
+	&& make all tools \
 	\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
@@ -76,6 +87,8 @@ RUN set -ex \
 	)" \
 	&& apk add --virtual .haxe-rundeps $runDeps \
 	&& apk del .fetch-deps .neko-build-deps .haxe-build-deps \
+	\
+	&& rm -rf ~/.opam \
 	\
 	&& rm -rf /usr/src/neko /usr/src/haxe
 
