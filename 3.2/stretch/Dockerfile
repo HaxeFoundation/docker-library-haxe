@@ -72,6 +72,8 @@ RUN set -ex \
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	&& git clone --recursive --depth 1 --branch 3.2.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& mkdir -p $HAXE_STD_PATH \
+	&& cp -r /usr/src/haxe/std/* $HAXE_STD_PATH \
 	\
 	\
 	&& cd /usr/src/haxe \
@@ -79,8 +81,6 @@ RUN set -ex \
 	\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
-	&& mkdir -p $HAXE_STD_PATH \
-	&& cp -r std/* $HAXE_STD_PATH \
 	&& mkdir -p /haxelib \
 	&& cd / && haxelib setup /haxelib \
 	\

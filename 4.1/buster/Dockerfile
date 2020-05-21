@@ -77,6 +77,8 @@ RUN set -ex \
 	' \
 	&& git clone --recursive --depth 1 --branch 4.1.0 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
+	&& mkdir -p $HAXE_STD_PATH \
+	&& cp -r std/* $HAXE_STD_PATH \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	\
 	\
@@ -84,15 +86,14 @@ RUN set -ex \
 	&& eval `opam env` \
 	&& ( [ -f /usr/src/haxe/opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
 	\
-	&& make all tools \
+	&& make \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
-	&& mkdir -p $HAXE_STD_PATH \
-	&& cp -r std/* $HAXE_STD_PATH \
 	&& mkdir -p /haxelib \
 	&& cd / && haxelib setup /haxelib \
 	\
 	\
+	&& eval `opam env --revert` \
 	&& rm -rf ~/.opam \
 	\
 	&& rm -rf /var/lib/apt/lists/* \

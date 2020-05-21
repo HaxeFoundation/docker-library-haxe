@@ -47,6 +47,8 @@ RUN set -ex \
 	\
 	&& git clone --recursive --depth 1 --branch 4.0.5 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
+	&& mkdir -p $HAXE_STD_PATH \
+	&& cp -r std/* $HAXE_STD_PATH \
 	&& apk add --no-cache --virtual .haxe-build-deps \
 		pcre-dev \
 		zlib-dev \
@@ -69,12 +71,11 @@ RUN set -ex \
 	&& eval $(opam env) \
 	&& opam pin add haxe . --no-action \
 	&& opam install haxe --deps-only --yes \
-	&& make all tools \
+	&& make \
+	&& eval $(opam env --revert) \
 	\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
-	&& mkdir -p $HAXE_STD_PATH \
-	&& cp -r std/* $HAXE_STD_PATH \
 	&& mkdir -p /haxelib \
 	&& cd / && haxelib setup /haxelib \
 	\

@@ -77,6 +77,8 @@ RUN set -ex \
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	&& git clone --recursive --depth 1 --branch 4.0.5 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& mkdir -p $HAXE_STD_PATH \
+	&& cp -r /usr/src/haxe/std/* $HAXE_STD_PATH \
 	\
 	\
 	&& curl -sL https://github.com/ocaml/opam/releases/download/2.0.5/opam-full-2.0.5.tar.gz -o opam.tar.gz \
@@ -91,15 +93,14 @@ RUN set -ex \
 	&& eval $(opam env) \
 	&& opam install /usr/src/haxe --deps-only --yes \
 	&& cd /usr/src/haxe \
-	&& make all tools \
+	&& make \
+	&& eval $(opam env --revert) \
 	&& cd /usr/src/opam \
 	&& make uninstall \
 	&& cd /usr/src/haxe \
 	\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
-	&& mkdir -p $HAXE_STD_PATH \
-	&& cp -r std/* $HAXE_STD_PATH \
 	&& mkdir -p /haxelib \
 	&& cd / && haxelib setup /haxelib \
 	\
