@@ -14,7 +14,7 @@ ENV PATH /usr/local/bin:$PATH
 RUN apk add --no-cache ca-certificates
 
 ENV NEKO_VERSION 2.3.0
-ENV HAXE_VERSION 4.1.0
+ENV HAXE_VERSION 4.1.1
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 
 RUN set -ex \
@@ -45,7 +45,7 @@ RUN set -ex \
 	&& ninja \
 	&& ninja install \
 	\
-	&& git clone --recursive --depth 1 --branch 4.1.0 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 4.1.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& mkdir -p $HAXE_STD_PATH \
 	&& cp -r /usr/src/haxe/std/* $HAXE_STD_PATH \
 	&& apk add --no-cache --virtual .build-deps \

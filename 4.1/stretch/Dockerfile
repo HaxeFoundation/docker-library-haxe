@@ -54,7 +54,7 @@ RUN set -ex \
 	&& rm -rf /usr/src/neko ~/.cache
 
 # install haxe
-ENV HAXE_VERSION 4.1.0
+ENV HAXE_VERSION 4.1.1
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
@@ -76,7 +76,7 @@ RUN set -ex \
 		\
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
-	&& git clone --recursive --depth 1 --branch 4.1.0 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 4.1.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& mkdir -p $HAXE_STD_PATH \
 	&& cp -r /usr/src/haxe/std/* $HAXE_STD_PATH \
 	\
