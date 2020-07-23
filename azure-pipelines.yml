@@ -35,11 +35,6 @@ jobs:
         haxe3.3-stretch: { VERSION: 3.3, VARIANT: stretch }
         haxe3.2-stretch: { VERSION: 3.2, VARIANT: stretch }
         haxe3.1-stretch: { VERSION: 3.1, VARIANT: stretch }
-        haxe4.0-jessie: { VERSION: 4.0, VARIANT: jessie }
-        haxe3.4-jessie: { VERSION: 3.4, VARIANT: jessie }
-        haxe3.3-jessie: { VERSION: 3.3, VARIANT: jessie }
-        haxe3.2-jessie: { VERSION: 3.2, VARIANT: jessie }
-        haxe3.1-jessie: { VERSION: 3.1, VARIANT: jessie }
     steps:
       - template: azure-pipelines-steps.yml
       - bash: git clone --depth 1 https://github.com/docker-library/official-images.git ~/official-images

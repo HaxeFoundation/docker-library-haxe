@@ -22,7 +22,7 @@ class Update {
 			"win64": true,
 			"nekowin64": true,
 			"sha256": {"win": "a75a685f7ab975fa4749ba990e8aeb395403ab2e977ffecfe5321fc9c6c7000b"},
-			"exclude": ["jessie"],
+			"exclude": [],
 			"opam": true
 		},
 		{
@@ -80,10 +80,6 @@ class Update {
 		{
 			"variant": "stretch",
 			"suffix": ["stretch"]
-		},
-		{
-			"variant": "jessie",
-			"suffix": ["jessie"]
 		},
 		{
 			"variant": "windowsservercore-1809",
