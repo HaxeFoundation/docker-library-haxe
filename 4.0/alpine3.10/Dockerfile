@@ -67,7 +67,7 @@ RUN set -ex \
 		ocaml-ocamldoc \
 		\
 	\
-	&& opam init --disable-sandboxing \
+	&& opam init --compiler=4.11.0 --disable-sandboxing \
 	&& eval $(opam env) \
 	&& opam pin add haxe . --no-action \
 	&& opam install haxe --deps-only --yes \
