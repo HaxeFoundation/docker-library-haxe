@@ -69,6 +69,8 @@ RUN set -ex \
 		unzip \
 		patch \
 		rsync \
+		libstring-shellquote-perl \
+		libipc-system-simple-perl \
 		::else::\
 		camlp4 \
 		libxml-light-ocaml-dev \

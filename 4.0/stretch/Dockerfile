@@ -73,6 +73,8 @@ RUN set -ex \
 		unzip \
 		patch \
 		rsync \
+		libstring-shellquote-perl \
+		libipc-system-simple-perl \
 		\
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \

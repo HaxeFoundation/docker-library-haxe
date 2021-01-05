@@ -29,7 +29,6 @@ jobs:
         haxe3.4-buster: { VERSION: 3.4, VARIANT: buster }
         haxe3.3-buster: { VERSION: 3.3, VARIANT: buster }
         haxe3.2-buster: { VERSION: 3.2, VARIANT: buster }
-        haxe4.1-stretch: { VERSION: 4.1, VARIANT: stretch }
         haxe4.0-stretch: { VERSION: 4.0, VARIANT: stretch }
         haxe3.4-stretch: { VERSION: 3.4, VARIANT: stretch }
         haxe3.3-stretch: { VERSION: 3.3, VARIANT: stretch }

@@ -61,6 +61,8 @@ RUN set -ex \
 		unzip \
 		patch \
 		musl-dev \
+		perl-string-shellquote \
+		perl-ipc-system-simple \
 		\
 		\
 		ocaml-compiler-libs \

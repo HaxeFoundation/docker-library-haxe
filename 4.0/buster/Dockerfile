@@ -73,6 +73,8 @@ RUN set -ex \
 		m4 \
 		unzip \
 		pkg-config \
+		libstring-shellquote-perl \
+		libipc-system-simple-perl \
 		\
 	' \
 	&& git clone --recursive --depth 1 --branch 4.0.5 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
