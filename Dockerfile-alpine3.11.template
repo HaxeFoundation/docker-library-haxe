@@ -72,6 +72,7 @@ RUN set -ex \
 	&& opam init --disable-sandboxing \
 	&& eval $(opam env) \
 	&& opam pin add haxe . --no-action \
+	&& opam pin add extlib 1.7.7 --no-action \
 	&& opam install haxe --deps-only --yes \
 	&& make \
 	&& eval $(opam env --revert) \

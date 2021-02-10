@@ -92,6 +92,7 @@ RUN set -ex \
 	&& make -j1 lib-ext all install \
 	&& opam init --disable-sandboxing \
 	&& eval $(opam env) \
+	&& opam pin add extlib 1.7.7 --no-action \
 	&& opam install /usr/src/haxe --deps-only --yes \
 	&& cd /usr/src/haxe \
 	&& make \
