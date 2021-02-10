@@ -67,7 +67,7 @@ class Update {
 			"win64": false,
 			"nekowin64": false,
 			"sha256": {"win": "4cf84cdbf7960a61ae70b0d9166c6f9bde16388c3b81e54af91446f4c9e44ae4"},
-			"exclude": ["alpine3.9", "alpine3.10", "alpine3.11", "alpine3.12", "buster"],
+			"exclude": ["alpine3.10", "alpine3.11", "alpine3.12", "buster"],
 			"opam": false
 		},
 	];
@@ -105,10 +105,6 @@ class Update {
 		{
 			"variant": "alpine3.10",
 			"suffix": ["alpine3.10"]
-		},
-		{
-			"variant": "alpine3.9",
-			"suffix": ["alpine3.9"]
 		},
 	];
 
