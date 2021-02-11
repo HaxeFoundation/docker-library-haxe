@@ -17,6 +17,15 @@ class Update {
 	//The first item is considered as "latest". Beta/RC versions should not be put as the first item.
 	static public var versions:Array<Version> = [
 		{
+			"version": "4.2.0",
+			"tag": "4.2.0",
+			"win64": true,
+			"nekowin64": true,
+			"sha256": {"win": "83be481d03892562155ed77c4f0f2ac30f34683cb0b55b57765ef90fc1d623ee"},
+			"exclude": ["stretch"],
+			"opam": true
+		},
+		{
 			"version": "4.1.5",
 			"tag": "4.1.5",
 			"win64": true,
@@ -112,12 +121,25 @@ class Update {
 		},
 	];
 
+	static public function parseVersion(version:String) {
+		var t = version.split("-");
+		var nums = t[0].split(".").map(Std.parseInt);
+		return {
+			major: nums[0],
+			minor: nums[1],
+			patch: nums[2],
+			tag: t[1],
+		}
+	}
+
 	static public function verMajorMinor(version:String):String {
-		return version.split(".").slice(0, 2).join(".");
+		var v = parseVersion(version);
+		return v.major + "." + v.minor;
 	}
 
 	static public function verMajorMinorPatch(version:String):String {
-		return version.split("-")[0];
+		var v = parseVersion(version);
+		return v.major + "." + v.minor + "." + v.patch;
 	}
 
 	static public function dockerfilePath(version:Version, variant:Variant):String {
@@ -140,8 +162,12 @@ class Update {
 					case _:
 						//pass
 				}
+				var v = parseVersion(version.version);
 				var vars = {
 					HAXE_VERSION: version.version,
+					HAXE_VERSION_MAJOR: v.major,
+					HAXE_VERSION_MINOR: v.minor,
+					HAXE_VERSION_PATCH: v.patch,
 					HAXE_TAG: version.tag,
 					HAXE_FILE: switch(variant.variant) {
 						case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":

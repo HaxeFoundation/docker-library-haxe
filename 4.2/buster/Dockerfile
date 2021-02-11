@@ -1,4 +1,8 @@
-::HEADER::
+#
+# NOTE: THIS DOCKERFILE IS GENERATED VIA "haxe update.hxml"
+#
+# PLEASE DO NOT EDIT IT DIRECTLY.
+#
 
 FROM buildpack-deps:buster-scm
 
@@ -18,7 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
 # install neko, which is a dependency of haxelib
-ENV NEKO_VERSION ::NEKO_VERSION::
+ENV NEKO_VERSION 2.3.0
 RUN set -ex \
 	&& buildDeps=' \
 		gcc \
@@ -36,8 +40,8 @@ RUN set -ex \
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
 	\
-	&& wget -O neko.tar.gz "https://github.com/HaxeFoundation/neko/archive/::NEKO_TAG::/neko-::NEKO_VERSION::.tar.gz" \
-	&& echo "::NEKO_SHA256:: *neko.tar.gz" | sha256sum -c - \
+	&& wget -O neko.tar.gz "https://github.com/HaxeFoundation/neko/archive/v2-3-0/neko-2.3.0.tar.gz" \
+	&& echo "850e7e317bdaf24ed652efeff89c1cb21380ca19f20e68a296c84f6bad4ee995 *neko.tar.gz" | sha256sum -c - \
 	&& mkdir -p /usr/src/neko \
 	&& tar -xC /usr/src/neko --strip-components=1 -f neko.tar.gz \
 	&& rm neko.tar.gz \
@@ -50,7 +54,7 @@ RUN set -ex \
 	&& rm -rf /usr/src/neko ~/.cache
 
 # install haxe
-ENV HAXE_VERSION ::HAXE_VERSION::
+ENV HAXE_VERSION 4.2.0
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
@@ -63,7 +67,7 @@ RUN set -ex \
 		libpcre3-dev \
 		libmbedtls-dev \
 		libxml-light-ocaml-dev \
-		::if USE_OPAM::\
+		\
 		opam \
 		mccs \
 		m4 \
@@ -71,30 +75,30 @@ RUN set -ex \
 		pkg-config \
 		libstring-shellquote-perl \
 		libipc-system-simple-perl \
-		::end::\
+		\
 	' \
-	&& git clone --recursive --depth 1 --branch ::HAXE_TAG:: "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 4.2.0 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& mkdir -p $HAXE_STD_PATH \
 	&& cp -r std/* $HAXE_STD_PATH \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	\
-	::if USE_OPAM::\
+	\
 	&& opam init --disable-sandboxing \
 	&& eval `opam env` \
-	::if ((HAXE_VERSION_MAJOR == 4) && (HAXE_VERSION_MINOR < 2))::&& opam pin add extlib 1.7.7 --no-action ::end::\
+	\
 	&& ( [ -f /usr/src/haxe/opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
-	::end::\
+	\
 	&& make all tools \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p /haxelib \
 	&& cd / && haxelib setup /haxelib \
 	\
-	::if USE_OPAM::\
+	\
 	&& eval `opam env --revert` \
 	&& rm -rf ~/.opam \
-	::end::\
+	\
 	&& rm -rf /var/lib/apt/lists/* \
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf /usr/src/haxe ~/.cache
