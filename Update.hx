@@ -17,11 +17,11 @@ class Update {
 	//The first item is considered as "latest". Beta/RC versions should not be put as the first item.
 	static public var versions:Array<Version> = [
 		{
-			"version": "4.2.1",
-			"tag": "4.2.1",
+			"version": "4.2.2",
+			"tag": "4.2.2",
 			"win64": true,
 			"nekowin64": true,
-			"sha256": {"win": "68caf3d86f6e707a0f0a655a9bc367a8489233f08daafb90945d2b195090f307"},
+			"sha256": {"win": "c7c97b48009d0390f614c82771a93488b38037892b674836d44b4c030166a4dc"},
 			"exclude": ["stretch"],
 			"opam": true
 		},
