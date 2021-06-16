@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM alpine:3.10
+FROM alpine:3.14
 
 # ensure local haxe is preferred over distribution haxe
 ENV PATH /usr/local/bin:$PATH
@@ -19,7 +19,6 @@ ENV HAXE_STD_PATH /usr/local/share/haxe/std
 
 RUN set -ex \
 	&& apk add --no-cache --virtual .fetch-deps \
-		libressl \
 		tar \
 		git \
 	\
