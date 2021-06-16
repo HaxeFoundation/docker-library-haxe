@@ -53,14 +53,25 @@ RUN set -ex \
 		zlib-dev \
 		mbedtls-dev \
 		make \
-		\
-		ocaml \
-		camlp4 \
-		ocaml-camlp4-dev \
-		\
+		opam \
+		aspcud \
+		m4 \
+		unzip \
+		patch \
+		musl-dev \
+		perl-string-shellquote \
+		perl-ipc-system-simple \
+		ocaml-compiler-libs \
+		ocaml-ocamldoc \
+	&& opam init --compiler=4.09.1 --disable-sandboxing \
+	&& eval $(opam env) \
+	&& opam pin add haxe . --no-action \
 	\
-	&& OCAMLPARAM=safe-string=0,_ make all tools \
+	&& opam install haxe --deps-only --yes \
+	&& opam install camlp4 \
+	&& env OCAMLPARAM=safe-string=0,_ make all tools \
 	\
+	&& eval $(opam env --revert) \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p /haxelib \
@@ -75,7 +86,7 @@ RUN set -ex \
 	)" \
 	&& apk add --virtual .haxe-rundeps $runDeps \
 	&& apk del .fetch-deps .neko-build-deps .haxe-build-deps \
-	\
+	&& rm -rf ~/.opam \
 	&& rm -rf /usr/src/neko /usr/src/haxe
 
 CMD ["haxe"]

@@ -49,7 +49,6 @@ RUN set -ex \
 		zlib-dev \
 		mbedtls-dev \
 		make \
-		::if USE_OPAM::\
 		opam \
 		aspcud \
 		m4 \
@@ -58,26 +57,17 @@ RUN set -ex \
 		musl-dev \
 		perl-string-shellquote \
 		perl-ipc-system-simple \
-		::if (HAXE_VERSION < 4)::camlp4::end::\
-		::if (HAXE_VERSION < 4)::ocaml-camlp4-dev::end::\
 		ocaml-compiler-libs \
 		ocaml-ocamldoc \
-		::else::\
-		ocaml \
-		camlp4 \
-		ocaml-camlp4-dev \
-		::end::\
-	::if USE_OPAM::\
-	&& opam init --compiler=4.11.0 --disable-sandboxing \
+	&& opam init ::if (HAXE_VERSION_MAJOR >= 4)::--compiler=4.11.0::else::--compiler=4.09.1::end:: --disable-sandboxing \
 	&& eval $(opam env) \
 	&& opam pin add haxe . --no-action \
 	::if ((HAXE_VERSION_MAJOR == 4) && (HAXE_VERSION_MINOR < 2))::&& opam pin add extlib 1.7.7 --no-action ::end::\
 	&& opam install haxe --deps-only --yes \
-	&& make \
+	::if (HAXE_VERSION_MAJOR < 4)::&& opam install camlp4 ::end::\
+	::if (HAXE_VERSION_MAJOR < 4)::&& env OCAMLPARAM=safe-string=0,_ make all tools ::end::\
+	::if (HAXE_VERSION_MAJOR >= 4)::&& make ::end::\
 	&& eval $(opam env --revert) \
-	::else::\
-	&& OCAMLPARAM=safe-string=0,_ make all tools \
-	::end::\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p /haxelib \
@@ -92,9 +82,7 @@ RUN set -ex \
 	)" \
 	&& apk add --virtual .haxe-rundeps $runDeps \
 	&& apk del .fetch-deps .neko-build-deps .haxe-build-deps \
-	::if USE_OPAM::\
 	&& rm -rf ~/.opam \
-	::end::\
 	&& rm -rf /usr/src/neko /usr/src/haxe
 
 CMD ["haxe"]
