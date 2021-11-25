@@ -72,37 +72,51 @@ class GenerateStackbrewLibrary {
 
 		var entries:Array<Entry> = [
 			for (version in versions)
-			for (variant in variants)
-			if (version.exclude.indexOf(variant.variant) < 0)
-			{
-				tags: verAliases(version.version, variant.suffix.filter(function(s) return !isShared(s))),
-				sharedTags: verAliases(version.version, variant.suffix.filter(isShared)),
-				architectures: switch (variant.variant) {
-					case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
-						["windows-amd64"];
-					case "bullseye"|"buster"|"stretch":
-						["amd64", "arm32v7", "arm64v8"];
-					case v if (StringTools.startsWith(v, "alpine")):
-						["amd64", "arm64v8"];
+			for (family => variants in variants)
+			for (i => variant in variants.filter(variant -> version.exclude.indexOf(variant) < 0)) {
+				var suffix = [variant];
+				
+				switch [family, i] {
+					case [Debian, 0]:
+						suffix.push("");
+					case [Alpine, 0]:
+						suffix.push("alpine");
+					case [WindowsServerCore, _]:
+						suffix.push("windowsservercore");
+						suffix.push("");
 					case _:
-						["amd64"];
-				},
-				gitCommit: fileCommit(dockerfilePath(version, variant)),
-				directory: Path.directory(dockerfilePath(version, variant)),
-				constraints: switch (variant.variant) {
-					case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
-						[variant.variant];
-					case _:
-						[];
-				},
+						//pass
+				}
+
+				{
+					tags: verAliases(version.version, suffix.filter(function(s) return !isShared(s))),
+					sharedTags: verAliases(version.version, suffix.filter(isShared)),
+					architectures: switch (family) {
+						case WindowsServerCore:
+							["windows-amd64"];
+						case Debian:
+							["amd64", "arm32v7", "arm64v8"];
+						case Alpine:
+							["amd64", "arm64v8"];
+					},
+					gitCommit: fileCommit(dockerfilePath(version, variant)),
+					directory: Path.directory(dockerfilePath(version, variant)),
+					constraints: switch (family) {
+						case WindowsServerCore:
+							[variant];
+						case _:
+							[];
+					},
+				}
 			}
 		];
 
 		// add "latest" tags
+		for (family => variants in variants)
 		for (variant in variants)
 		{
 			switch (entries.find(e ->
-				e.tags.contains('${versions[0].version}-${variant.variant}')
+				e.tags.contains('${versions[0].version}-${variant}')
 				&&
 				e.sharedTags.contains(versions[0].version)
 			)) {

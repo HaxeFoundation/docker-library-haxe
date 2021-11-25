@@ -6,6 +6,12 @@ import sys.io.*;
 typedef Version = {version:String, tag:String, sha256:Dynamic, win64:Bool, nekowin64:Bool, exclude:Array<String>, opam:Bool};
 typedef Variant = {variant:String, suffix:Array<String>};
 
+enum Family {
+	Debian;
+	WindowsServerCore;
+	Alpine;
+}
+
 class Update {
 	static var HEADER =
 '#
@@ -81,48 +87,10 @@ class Update {
 		},
 	];
 
-	static public var variants:Array<Variant> = [
-		{
-			"variant": "bullseye",
-			"suffix": ["bullseye", ""]
-		},
-		{
-			"variant": "buster",
-			"suffix": ["buster"]
-		},
-		{
-			"variant": "stretch",
-			"suffix": ["stretch"]
-		},
-		{
-			"variant": "windowsservercore-1809",
-			"suffix": ["windowsservercore-1809", "windowsservercore", ""]
-		},
-		{
-			"variant": "windowsservercore-ltsc2016",
-			"suffix": ["windowsservercore-ltsc2016", "windowsservercore", ""]
-		},
-		// neko and haxelib are still 32-bit only
-		// {
-		// 	"variant": "nanoserver",
-		// 	"suffix": ["nanoserver"]
-		// },
-		{
-			"variant": "alpine3.15",
-			"suffix": ["alpine3.15", "alpine"]
-		},
-		{
-			"variant": "alpine3.14",
-			"suffix": ["alpine3.14"]
-		},
-		{
-			"variant": "alpine3.13",
-			"suffix": ["alpine3.13"]
-		},
-		{
-			"variant": "alpine3.12",
-			"suffix": ["alpine3.12"]
-		},
+	static public var variants = [
+		Debian => ["bullseye", "buster", "stretch"],
+		WindowsServerCore => ["windowsservercore-1809", "windowsservercore-ltsc2016"],
+		Alpine => ["alpine3.15", "alpine3.14", "alpine3.13", "alpine3.12"],
 	];
 
 	static public function parseVersion(version:String) {
@@ -146,21 +114,20 @@ class Update {
 		return v.major + "." + v.minor + "." + v.patch;
 	}
 
-	static public function dockerfilePath(version:Version, variant:Variant):String {
+	static public function dockerfilePath(version:Version, variant:String):String {
 		var majorMinor = verMajorMinor(version.version);
-		return if (variant.suffix[0] == "")
-			Path.join([majorMinor, "Dockerfile"]);
-		else
-			Path.join([majorMinor, variant.suffix[0], "Dockerfile"]);
+		return Path.join([majorMinor, variant, "Dockerfile"]);
 	}
 
 	static function main():Void {
-		for (variant in variants) {
-			var tmpl = new Template(File.getContent('Dockerfile-${variant.variant}.template'));
+		for (family => variants in variants)
+		for (variant in variants)
+		{
+			var tmpl = new Template(File.getContent('Dockerfile-${variant}.template'));
 			for (version in versions) {
-				if (version.exclude.indexOf(variant.variant) >= 0)
+				if (version.exclude.indexOf(variant) >= 0)
 					continue;
-				switch ([variant.variant, version.win64]) {
+				switch ([variant, version.win64]) {
 					case ["nanoserver", false]:
 						continue;
 					case _:
@@ -173,13 +140,13 @@ class Update {
 					HAXE_VERSION_MINOR: v.minor,
 					HAXE_VERSION_PATCH: v.patch,
 					HAXE_TAG: version.tag,
-					HAXE_FILE: switch(variant.variant) {
+					HAXE_FILE: switch(variant) {
 						case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
 							'https://github.com/HaxeFoundation/haxe/releases/download/${version.tag}/haxe-${version.version}-win${version.win64 ? "64" : ""}.zip';
 						case _:
 							null;
 					},
-					HAXE_SHA256: switch(variant.variant) {
+					HAXE_SHA256: switch(variant) {
 						case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
 							version.sha256.win;
 						case _:
@@ -187,7 +154,7 @@ class Update {
 					},
 					NEKO_VERSION: "2.3.0",
 					NEKO_TAG: "v2-3-0",
-					NEKO_SHA256: switch(variant.variant) {
+					NEKO_SHA256: switch(variant) {
 						case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
 							if (version.nekowin64)
 								"d09fdf362cd2e3274f6c8528be7211663260c3a5323ce893b7637c2818995f0b"
