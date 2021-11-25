@@ -76,7 +76,7 @@ class Update {
 			"win64": false,
 			"nekowin64": false,
 			"sha256": {"win": "4cf84cdbf7960a61ae70b0d9166c6f9bde16388c3b81e54af91446f4c9e44ae4"},
-			"exclude": ["alpine3.10", "alpine3.11", "alpine3.12", "alpine3.13", "alpine3.14", "buster"],
+			"exclude": ["alpine3.10", "alpine3.11", "alpine3.12", "alpine3.13", "alpine3.14", "alpine3.15", "buster"],
 			"opam": false
 		},
 	];
@@ -104,8 +104,12 @@ class Update {
 		// 	"suffix": ["nanoserver"]
 		// },
 		{
+			"variant": "alpine3.15",
+			"suffix": ["alpine3.15", "alpine"]
+		},
+		{
 			"variant": "alpine3.14",
-			"suffix": ["alpine3.14", "alpine"]
+			"suffix": ["alpine3.14"]
 		},
 		{
 			"variant": "alpine3.13",
@@ -114,10 +118,6 @@ class Update {
 		{
 			"variant": "alpine3.12",
 			"suffix": ["alpine3.12"]
-		},
-		{
-			"variant": "alpine3.11",
-			"suffix": ["alpine3.11"]
 		},
 	];
 

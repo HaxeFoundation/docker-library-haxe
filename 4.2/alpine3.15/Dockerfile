@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM alpine:3.11
+FROM alpine:3.15
 
 # ensure local haxe is preferred over distribution haxe
 ENV PATH /usr/local/bin:$PATH
@@ -19,7 +19,6 @@ ENV HAXE_STD_PATH /usr/local/share/haxe/std
 
 RUN set -ex \
 	&& apk add --no-cache --virtual .fetch-deps \
-		libressl \
 		tar \
 		git \
 	\
@@ -54,7 +53,6 @@ RUN set -ex \
 		zlib-dev \
 		mbedtls-dev \
 		make \
-		\
 		opam \
 		aspcud \
 		m4 \
@@ -63,20 +61,17 @@ RUN set -ex \
 		musl-dev \
 		perl-string-shellquote \
 		perl-ipc-system-simple \
-		\
-		\
 		ocaml-compiler-libs \
 		ocaml-ocamldoc \
-		\
-	\
-	&& opam init --disable-sandboxing \
+	&& opam init --compiler=4.11.0 --disable-sandboxing \
 	&& eval $(opam env) \
 	&& opam pin add haxe . --no-action \
 	\
 	&& opam install haxe --deps-only --yes \
+	\
+	\
 	&& make \
 	&& eval $(opam env --revert) \
-	\
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p /haxelib \
@@ -91,9 +86,7 @@ RUN set -ex \
 	)" \
 	&& apk add --virtual .haxe-rundeps $runDeps \
 	&& apk del .fetch-deps .neko-build-deps .haxe-build-deps \
-	\
 	&& rm -rf ~/.opam \
-	\
 	&& rm -rf /usr/src/neko /usr/src/haxe
 
 CMD ["haxe"]
