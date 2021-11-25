@@ -49,7 +49,7 @@ class Update {
 			"win64": true,
 			"nekowin64": false,
 			"sha256": {"win": "609acdcb58a2253e357487d495ffe19e9034165f3102f8716ca968afbee8f1b2"},
-			"exclude": [],
+			"exclude": ["alpine3.14", "alpine3.15", "bullseye"],
 			"opam": false
 		},
 		{
@@ -58,7 +58,7 @@ class Update {
 			"win64": false,
 			"nekowin64": false,
 			"sha256": {"win": "fa51621132432328a47e5e0416ab3b9f2f734b217a2bc9b650826aae2f12c6f4"},
-			"exclude": [],
+			"exclude": ["alpine3.14", "alpine3.15", "bullseye"],
 			"opam": false
 		},
 		{
@@ -67,7 +67,7 @@ class Update {
 			"win64": false,
 			"nekowin64": false,
 			"sha256": {"win": "af57d42ca474bba826426e9403b2cb21c210d56addc8bbc0e8fafa88b3660db3"},
-			"exclude": [],
+			"exclude": ["alpine3.14", "alpine3.15", "bullseye"],
 			"opam": false
 		},
 		{
