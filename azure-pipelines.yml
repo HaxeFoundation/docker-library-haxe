@@ -28,6 +28,12 @@ jobs:
         haxe3.4-alpine3.12: { VERSION: 3.4, VARIANT: alpine3.12 }
         haxe3.3-alpine3.12: { VERSION: 3.3, VARIANT: alpine3.12 }
         haxe3.2-alpine3.12: { VERSION: 3.2, VARIANT: alpine3.12 }
+        haxe4.2-bullseye: { VERSION: 4.2, VARIANT: bullseye }
+        haxe4.1-bullseye: { VERSION: 4.1, VARIANT: bullseye }
+        haxe4.0-bullseye: { VERSION: 4.0, VARIANT: bullseye }
+        haxe3.4-bullseye: { VERSION: 3.4, VARIANT: bullseye }
+        haxe3.3-bullseye: { VERSION: 3.3, VARIANT: bullseye }
+        haxe3.2-bullseye: { VERSION: 3.2, VARIANT: bullseye }
         haxe4.2-buster: { VERSION: 4.2, VARIANT: buster }
         haxe4.1-buster: { VERSION: 4.1, VARIANT: buster }
         haxe4.0-buster: { VERSION: 4.0, VARIANT: buster }

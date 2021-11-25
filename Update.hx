@@ -76,15 +76,19 @@ class Update {
 			"win64": false,
 			"nekowin64": false,
 			"sha256": {"win": "4cf84cdbf7960a61ae70b0d9166c6f9bde16388c3b81e54af91446f4c9e44ae4"},
-			"exclude": ["alpine3.10", "alpine3.11", "alpine3.12", "alpine3.13", "alpine3.14", "alpine3.15", "buster"],
+			"exclude": ["alpine3.10", "alpine3.11", "alpine3.12", "alpine3.13", "alpine3.14", "alpine3.15", "buster", "bullseye"],
 			"opam": false
 		},
 	];
 
 	static public var variants:Array<Variant> = [
 		{
+			"variant": "bullseye",
+			"suffix": ["bullseye", ""]
+		},
+		{
 			"variant": "buster",
-			"suffix": ["buster", ""]
+			"suffix": ["buster"]
 		},
 		{
 			"variant": "stretch",
