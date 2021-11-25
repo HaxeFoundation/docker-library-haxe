@@ -38,6 +38,8 @@ jobs:
         haxe3.1-stretch: { VERSION: 3.1, VARIANT: stretch }
     steps:
       - template: azure-pipelines-steps.yml
+      - bash: docker run --rm "${IMAGE}" haxe -version | grep "$VERSION"
+        displayName: Test haxe
       - bash: git clone --depth 1 https://github.com/docker-library/official-images.git ~/official-images
         displayName: Clone docker-library/official-images
       - bash: ~/official-images/test/run.sh "${IMAGE}"
