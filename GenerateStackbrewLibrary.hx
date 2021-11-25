@@ -4,6 +4,15 @@ import haxe.io.*;
 using StringTools;
 using Lambda;
 
+typedef Entry = {
+	tags:Array<String>,
+	?sharedTags:Array<String>,
+	architectures:Array<String>,
+	gitCommit:String,
+	directory:String,
+	?constraints:Array<String>,
+}
+
 class GenerateStackbrewLibrary {
 	static var HEADER =
 '#
@@ -42,48 +51,72 @@ class GenerateStackbrewLibrary {
 		return commit;
 	}
 
+	static public function printEntry(e:Entry):String {
+		var buf = new StringBuf();
+		buf.add('Tags: ' + e.tags.join(", ") + "\n");
+		if (e.sharedTags != null && e.sharedTags.length > 0)
+			buf.add('SharedTags: ' + e.sharedTags.join(", ") + "\n");
+		buf.add('Architectures: ' + e.architectures.join(", ") + "\n");
+		buf.add('GitCommit: ' + e.gitCommit + "\n");
+		buf.add('Directory: ' + e.directory + "\n");
+		if (e.constraints != null && e.constraints.length > 0)
+			buf.add('Constraints: ' + e.constraints.join(", ") + "\n");
+		return buf.toString();
+	}
+
 	static function main():Void {
 		var stackbrew = new StringBuf();
 		stackbrew.add("Maintainers: Andy Li <andy@onthewings.net> (@andyli)\n");
 		stackbrew.add("GitRepo: https://github.com/HaxeFoundation/docker-library-haxe.git\n");
 		stackbrew.add("\n");
-		for (version in versions)
-		for (variant in variants)
-		if (version.exclude.indexOf(variant.variant) < 0)
-		{
-			var aliases = verAliases(version.version, variant.suffix.filter(function(s) return !isShared(s)));
-			var sharedAliases = verAliases(version.version, variant.suffix.filter(isShared));
-			if (variant.suffix.indexOf("") >= 0 && version == versions[0]) {
-				sharedAliases.push("latest");
-			}
-			stackbrew.add('Tags: ${aliases.join(", ")}\n');
 
-			if (sharedAliases.length > 0) {
-				stackbrew.add('SharedTags: ${sharedAliases.join(", ")}\n');
+		var entries:Array<Entry> = [
+			for (version in versions)
+			for (variant in variants)
+			if (version.exclude.indexOf(variant.variant) < 0)
+			{
+				tags: verAliases(version.version, variant.suffix.filter(function(s) return !isShared(s))),
+				sharedTags: verAliases(version.version, variant.suffix.filter(isShared)),
+				architectures: switch (variant.variant) {
+					case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
+						["windows-amd64"];
+					case "bullseye"|"buster"|"stretch":
+						["amd64", "arm32v7", "arm64v8"];
+					case v if (StringTools.startsWith(v, "alpine")):
+						["amd64", "arm64v8"];
+					case _:
+						["amd64"];
+				},
+				gitCommit: fileCommit(dockerfilePath(version, variant)),
+				directory: Path.directory(dockerfilePath(version, variant)),
+				constraints: switch (variant.variant) {
+					case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
+						[variant.variant];
+					case _:
+						[];
+				},
 			}
-			var architectures = switch (variant.variant) {
-				case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
-					["windows-amd64"];
-				case "bullseye"|"buster"|"stretch":
-					["amd64", "arm32v7", "arm64v8"];
-				case v if (StringTools.startsWith(v, "alpine")):
-					["amd64", "arm64v8"];
-				case _:
-					["amd64"];
+		];
+
+		// add "latest" tags
+		for (variant in variants)
+		{
+			switch (entries.find(e ->
+				e.tags.contains('${versions[0].version}-${variant.variant}')
+				&&
+				e.sharedTags.contains(versions[0].version)
+			)) {
+				case null: //pass
+				case e:
+					e.sharedTags.push("latest");
 			}
-			stackbrew.add('Architectures: ${architectures.join(", ")}\n');
-			var commit = fileCommit(dockerfilePath(version, variant));
-			stackbrew.add('GitCommit: ${commit}\n');
-			var dir = Path.directory(dockerfilePath(version, variant));
-			stackbrew.add('Directory: ${dir}\n');
-			switch (variant.variant) {
-				case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
-					stackbrew.add('Constraints: ${variant.variant}\n');
-				case _:
-					//pass
-			}
+		}
+
+		for (e in entries) {
+			stackbrew.add(printEntry(e));
 			stackbrew.add("\n");
 		}
+
 		File.saveContent("haxe", stackbrew.toString());
 	}
 }
