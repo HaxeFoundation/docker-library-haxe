@@ -1,6 +1,10 @@
-::HEADER::
+#
+# NOTE: THIS DOCKERFILE IS GENERATED VIA "haxe update.hxml"
+#
+# PLEASE DO NOT EDIT IT DIRECTLY.
+#
 
-FROM mcr.microsoft.com/windows/servercore:ltsc2016
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
 
@@ -39,14 +43,14 @@ RUN $url = 'https://download.microsoft.com/download/0/5/6/056dcda9-d667-4e27-800
 RUN New-Item -ItemType directory -Path $env:HAXETOOLKIT_PATH;
 
 # install neko, which is a dependency of haxelib
-ENV NEKO_VERSION ::NEKO_VERSION::
-RUN $url = 'https://github.com/HaxeFoundation/neko/releases/download/::NEKO_TAG::/neko-::NEKO_VERSION::-::NEKO_WIN::.zip'; \
+ENV NEKO_VERSION 2.3.0
+RUN $url = 'https://github.com/HaxeFoundation/neko/releases/download/v2-3-0/neko-2.3.0-win64.zip'; \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
 	Invoke-WebRequest -Uri $url -OutFile 'neko.zip'; \
 	\
-	Write-Host 'Verifying sha256 (::NEKO_SHA256::) ...'; \
-	if ((Get-FileHash neko.zip -Algorithm sha256).Hash -ne '::NEKO_SHA256::') { \
+	Write-Host 'Verifying sha256 (d09fdf362cd2e3274f6c8528be7211663260c3a5323ce893b7637c2818995f0b) ...'; \
+	if ((Get-FileHash neko.zip -Algorithm sha256).Hash -ne 'd09fdf362cd2e3274f6c8528be7211663260c3a5323ce893b7637c2818995f0b') { \
 		Write-Host 'FAILED!'; \
 		exit 1; \
 	}; \
@@ -66,14 +70,14 @@ RUN $url = 'https://github.com/HaxeFoundation/neko/releases/download/::NEKO_TAG:
 	Write-Host 'Complete.';
 
 # install haxe
-ENV HAXE_VERSION ::HAXE_VERSION::
-RUN $url = '::HAXE_FILE::'; \
+ENV HAXE_VERSION 4.0.5
+RUN $url = 'https://github.com/HaxeFoundation/haxe/releases/download/4.0.5/haxe-4.0.5-win64.zip'; \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
 	Invoke-WebRequest -Uri $url -OutFile haxe.zip; \
 	\
-	Write-Host 'Verifying sha256 (::HAXE_SHA256::) ...'; \
-	if ((Get-FileHash haxe.zip -Algorithm sha256).Hash -ne '::HAXE_SHA256::') { \
+	Write-Host 'Verifying sha256 (93130ae2b1083efbcd9b8911afe2ba00d5af995f016149fd7ec629fa439c6120) ...'; \
+	if ((Get-FileHash haxe.zip -Algorithm sha256).Hash -ne '93130ae2b1083efbcd9b8911afe2ba00d5af995f016149fd7ec629fa439c6120') { \
 		Write-Host 'FAILED!'; \
 		exit 1; \
 	}; \

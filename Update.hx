@@ -89,7 +89,7 @@ class Update {
 
 	static public var variants = [
 		Debian => ["bullseye", "buster", "stretch"],
-		WindowsServerCore => ["windowsservercore-1809"],
+		WindowsServerCore => ["windowsservercore-ltsc2022", "windowsservercore-ltsc2019", "windowsservercore-1809"],
 		Alpine => ["alpine3.15", "alpine3.14", "alpine3.13", "alpine3.12"],
 	];
 
