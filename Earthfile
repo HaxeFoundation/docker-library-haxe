@@ -34,3 +34,32 @@ haxe-images:
             END
         END
     END
+
+github-src:
+    FROM buildpack-deps:focal-curl
+    ARG --required REPO
+    ARG --required COMMIT
+    ARG DIR=/src
+    WORKDIR $DIR
+    RUN curl -fsSL "https://github.com/${REPO}/archive/${COMMIT}.tar.gz" | tar xz --strip-components=1 -C "$DIR"
+    SAVE ARTIFACT "$DIR"
+
+bashbrew-src:
+    FROM +github-src --REPO="docker-library/bashbrew" --COMMIT="22e529f066b4bee5c6141f53c1059877b386bdbe" --DIR=/bashbrew
+    SAVE ARTIFACT /bashbrew
+
+bashbrew:
+    FROM golang:1.17
+    COPY +bashbrew-src/bashbrew /bashbrew
+    WORKDIR /bashbrew
+    RUN go mod download
+    RUN ./bashbrew.sh --version
+    SAVE ARTIFACT bin/bashbrew
+
+bashbrew-ls-haxe:
+    FROM ubuntu:focal
+    WORKDIR /workspace
+    COPY +bashbrew/* /usr/local/bin/
+    COPY +haxe-stackbrew-library/haxe library/haxe
+    ENV BASHBREW_LIBRARY=library
+    RUN bashbrew ls haxe
