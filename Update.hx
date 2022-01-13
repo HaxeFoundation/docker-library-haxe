@@ -140,22 +140,22 @@ class Update {
 					HAXE_VERSION_MINOR: v.minor,
 					HAXE_VERSION_PATCH: v.patch,
 					HAXE_TAG: version.tag,
-					HAXE_FILE: switch(variant) {
-						case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
+					HAXE_FILE: switch(family) {
+						case WindowsServerCore:
 							'https://github.com/HaxeFoundation/haxe/releases/download/${version.tag}/haxe-${version.version}-win${version.win64 ? "64" : ""}.zip';
 						case _:
 							null;
 					},
-					HAXE_SHA256: switch(variant) {
-						case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
+					HAXE_SHA256: switch(family) {
+						case WindowsServerCore:
 							version.sha256.win;
 						case _:
 							null;
 					},
 					NEKO_VERSION: "2.3.0",
 					NEKO_TAG: "v2-3-0",
-					NEKO_SHA256: switch(variant) {
-						case "windowsservercore-1809"|"windowsservercore-ltsc2016"|"nanoserver":
+					NEKO_SHA256: switch(family) {
+						case WindowsServerCore:
 							if (version.nekowin64)
 								"d09fdf362cd2e3274f6c8528be7211663260c3a5323ce893b7637c2818995f0b"
 							else
