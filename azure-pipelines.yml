@@ -55,14 +55,6 @@ jobs:
         haxe3.3-windowsservercore-ltsc2022: { VMIMAGE: 'windows-2022', VERSION: 3.3, VARIANT: windowsservercore-ltsc2022 }
         haxe3.2-windowsservercore-ltsc2022: { VMIMAGE: 'windows-2022', VERSION: 3.2, VARIANT: windowsservercore-ltsc2022 }
         haxe3.1-windowsservercore-ltsc2022: { VMIMAGE: 'windows-2022', VERSION: 3.1, VARIANT: windowsservercore-ltsc2022 }
-        # ltsc2019
-        haxe4.2-windowsservercore-ltsc2019: { VMIMAGE: 'windows-2019', VERSION: 4.2, VARIANT: windowsservercore-ltsc2019 }
-        haxe4.1-windowsservercore-ltsc2019: { VMIMAGE: 'windows-2019', VERSION: 4.1, VARIANT: windowsservercore-ltsc2019 }
-        haxe4.0-windowsservercore-ltsc2019: { VMIMAGE: 'windows-2019', VERSION: 4.0, VARIANT: windowsservercore-ltsc2019 }
-        haxe3.4-windowsservercore-ltsc2019: { VMIMAGE: 'windows-2019', VERSION: 3.4, VARIANT: windowsservercore-ltsc2019 }
-        haxe3.3-windowsservercore-ltsc2019: { VMIMAGE: 'windows-2019', VERSION: 3.3, VARIANT: windowsservercore-ltsc2019 }
-        haxe3.2-windowsservercore-ltsc2019: { VMIMAGE: 'windows-2019', VERSION: 3.2, VARIANT: windowsservercore-ltsc2019 }
-        haxe3.1-windowsservercore-ltsc2019: { VMIMAGE: 'windows-2019', VERSION: 3.1, VARIANT: windowsservercore-ltsc2019 }
         # 1809
         haxe4.2-windowsservercore-1809: { VMIMAGE: 'windows-2019', VERSION: 4.2, VARIANT: windowsservercore-1809 }
         haxe4.1-windowsservercore-1809: { VMIMAGE: 'windows-2019', VERSION: 4.1, VARIANT: windowsservercore-1809 }
