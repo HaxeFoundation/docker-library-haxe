@@ -54,7 +54,7 @@ RUN set -ex \
 	&& rm -rf /usr/src/neko ~/.cache
 
 # install haxe
-ENV HAXE_VERSION 4.2.4
+ENV HAXE_VERSION 4.2.5
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
@@ -77,7 +77,7 @@ RUN set -ex \
 		libipc-system-simple-perl \
 		\
 	' \
-	&& git clone --recursive --depth 1 --branch 4.2.4 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 4.2.5 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& mkdir -p $HAXE_STD_PATH \
 	&& cp -r std/* $HAXE_STD_PATH \
