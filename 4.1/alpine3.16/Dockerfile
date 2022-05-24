@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM alpine:3.12
+FROM alpine:3.16
 
 # ensure local haxe is preferred over distribution haxe
 ENV PATH /usr/local/bin:$PATH
@@ -14,12 +14,11 @@ ENV PATH /usr/local/bin:$PATH
 RUN apk add --no-cache ca-certificates
 
 ENV NEKO_VERSION 2.3.0
-ENV HAXE_VERSION 3.4.7
+ENV HAXE_VERSION 4.1.5
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 
 RUN set -ex \
 	&& apk add --no-cache --virtual .fetch-deps \
-		libressl \
 		tar \
 		git \
 	\
@@ -45,23 +44,36 @@ RUN set -ex \
 	&& ninja \
 	&& ninja install \
 	\
-	&& git clone --recursive --depth 1 --branch 3.4.7 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 4.1.5 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& mkdir -p $HAXE_STD_PATH \
 	&& cp -r std/* $HAXE_STD_PATH \
 	&& apk add --no-cache --virtual .haxe-build-deps \
+		bash \
 		pcre-dev \
 		zlib-dev \
 		mbedtls-dev \
 		make \
-		\
-		ocaml \
-		camlp4 \
-		ocaml-camlp4-dev \
-		\
+		opam \
+		aspcud \
+		m4 \
+		unzip \
+		patch \
+		pkgconf \
+		rsync \
+		musl-dev \
+		perl-string-shellquote \
+		perl-ipc-system-simple \
+		ocaml-compiler-libs \
+		ocaml-ocamldoc \
+	&& opam init --compiler=4.11.0 --disable-sandboxing \
+	&& eval $(opam env) \
+	&& opam pin add extlib 1.7.7 --no-action \
+	&& opam install . --deps-only --no-depexts --yes \
 	\
-	&& OCAMLPARAM=safe-string=0,_ make all tools \
 	\
+	&& make \
+	&& eval $(opam env --revert) \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p /haxelib \
@@ -76,7 +88,7 @@ RUN set -ex \
 	)" \
 	&& apk add --virtual .haxe-rundeps $runDeps \
 	&& apk del .fetch-deps .neko-build-deps .haxe-build-deps \
-	\
+	&& rm -rf ~/.opam \
 	&& rm -rf /usr/src/neko /usr/src/haxe
 
 CMD ["haxe"]
