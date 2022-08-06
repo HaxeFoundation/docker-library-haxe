@@ -28,7 +28,7 @@ class Update {
 			"win64": true,
 			"nekowin64": true,
 			"sha256": {"win": "9e7913999eb3693d540926219b45107b3dc249feb44204c0378fcdc6a74a9132"},
-			"exclude": ["stretch"],
+			"exclude": [],
 			"opam": true
 		},
 		{
@@ -37,7 +37,7 @@ class Update {
 			"win64": true,
 			"nekowin64": true,
 			"sha256": {"win": "ce4134cdf49814f8f8694648408d006116bd171b957a37be74c79cf403db9633"},
-			"exclude": ["stretch"],
+			"exclude": [],
 			"opam": true
 		},
 		{
@@ -88,7 +88,7 @@ class Update {
 	];
 
 	static public var variants = [
-		Debian => ["bullseye", "buster", "stretch"],
+		Debian => ["bullseye", "buster"],
 		WindowsServerCore => ["windowsservercore-ltsc2022", "windowsservercore-1809"],
 		Alpine => ["alpine3.16", "alpine3.15", "alpine3.14", "alpine3.13"],
 	];
