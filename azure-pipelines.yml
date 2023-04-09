@@ -1,9 +1,10 @@
 jobs:
   - job: TestLinux
     pool:
-      vmImage: 'ubuntu-20.04'
+      vmImage: 'ubuntu-latest'
     strategy:
       matrix:
+        haxe4.2-alpine3.17: { VERSION: 4.3, VARIANT: alpine3.17 }
         haxe4.2-alpine3.17: { VERSION: 4.2, VARIANT: alpine3.17 }
         haxe4.1-alpine3.17: { VERSION: 4.1, VARIANT: alpine3.17 }
         haxe4.0-alpine3.17: { VERSION: 4.0, VARIANT: alpine3.17 }
@@ -16,9 +17,11 @@ jobs:
         haxe4.2-alpine3.14: { VERSION: 4.2, VARIANT: alpine3.14 }
         haxe4.1-alpine3.14: { VERSION: 4.1, VARIANT: alpine3.14 }
         haxe4.0-alpine3.14: { VERSION: 4.0, VARIANT: alpine3.14 }
+        haxe4.2-bullseye: { VERSION: 4.3, VARIANT: bullseye }
         haxe4.2-bullseye: { VERSION: 4.2, VARIANT: bullseye }
         haxe4.1-bullseye: { VERSION: 4.1, VARIANT: bullseye }
         haxe4.0-bullseye: { VERSION: 4.0, VARIANT: bullseye }
+        haxe4.2-buster: { VERSION: 4.3, VARIANT: buster }
         haxe4.2-buster: { VERSION: 4.2, VARIANT: buster }
         haxe4.1-buster: { VERSION: 4.1, VARIANT: buster }
         haxe4.0-buster: { VERSION: 4.0, VARIANT: buster }
@@ -37,6 +40,7 @@ jobs:
     strategy:
       matrix:
         # ltsc2022
+        haxe4.2-windowsservercore-ltsc2022: { VMIMAGE: 'windows-2022', VERSION: 4.3, VARIANT: windowsservercore-ltsc2022 }
         haxe4.2-windowsservercore-ltsc2022: { VMIMAGE: 'windows-2022', VERSION: 4.2, VARIANT: windowsservercore-ltsc2022 }
         haxe4.1-windowsservercore-ltsc2022: { VMIMAGE: 'windows-2022', VERSION: 4.1, VARIANT: windowsservercore-ltsc2022 }
         haxe4.0-windowsservercore-ltsc2022: { VMIMAGE: 'windows-2022', VERSION: 4.0, VARIANT: windowsservercore-ltsc2022 }
@@ -45,6 +49,7 @@ jobs:
         haxe3.2-windowsservercore-ltsc2022: { VMIMAGE: 'windows-2022', VERSION: 3.2, VARIANT: windowsservercore-ltsc2022 }
         haxe3.1-windowsservercore-ltsc2022: { VMIMAGE: 'windows-2022', VERSION: 3.1, VARIANT: windowsservercore-ltsc2022 }
         # 1809
+        haxe4.2-windowsservercore-1809: { VMIMAGE: 'windows-2019', VERSION: 4.3, VARIANT: windowsservercore-1809 }
         haxe4.2-windowsservercore-1809: { VMIMAGE: 'windows-2019', VERSION: 4.2, VARIANT: windowsservercore-1809 }
         haxe4.1-windowsservercore-1809: { VMIMAGE: 'windows-2019', VERSION: 4.1, VARIANT: windowsservercore-1809 }
         haxe4.0-windowsservercore-1809: { VMIMAGE: 'windows-2019', VERSION: 4.0, VARIANT: windowsservercore-1809 }

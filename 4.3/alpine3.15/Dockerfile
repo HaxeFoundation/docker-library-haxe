@@ -1,6 +1,10 @@
-::HEADER::
+#
+# NOTE: THIS DOCKERFILE IS GENERATED VIA "haxe update.hxml"
+#
+# PLEASE DO NOT EDIT IT DIRECTLY.
+#
 
-FROM alpine:3.17
+FROM alpine:3.15
 
 # ensure local haxe is preferred over distribution haxe
 ENV PATH /usr/local/bin:$PATH
@@ -9,8 +13,8 @@ ENV PATH /usr/local/bin:$PATH
 # the other runtime dependencies are installed later
 RUN apk add --no-cache ca-certificates
 
-ENV NEKO_VERSION ::NEKO_VERSION::
-ENV HAXE_VERSION ::HAXE_VERSION::
+ENV NEKO_VERSION 2.3.0
+ENV HAXE_VERSION 4.3.0
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 
 RUN set -ex \
@@ -18,8 +22,8 @@ RUN set -ex \
 		tar \
 		git \
 	\
-	&& wget -O neko.tar.gz "https://github.com/HaxeFoundation/neko/archive/::NEKO_TAG::/neko-::NEKO_VERSION::.tar.gz" \
-	&& echo "::NEKO_SHA256:: *neko.tar.gz" | sha256sum -c - \
+	&& wget -O neko.tar.gz "https://github.com/HaxeFoundation/neko/archive/v2-3-0/neko-2.3.0.tar.gz" \
+	&& echo "850e7e317bdaf24ed652efeff89c1cb21380ca19f20e68a296c84f6bad4ee995 *neko.tar.gz" | sha256sum -c - \
 	&& mkdir -p /usr/src/neko \
 	&& tar -xC /usr/src/neko --strip-components=1 -f neko.tar.gz \
 	&& rm neko.tar.gz \
@@ -31,7 +35,6 @@ RUN set -ex \
 		gtk+2.0-dev \
 		libc-dev \
 		linux-headers \
-		pcre-dev \
 		mariadb-dev \
 		mbedtls-dev \
 		ninja \
@@ -41,13 +44,12 @@ RUN set -ex \
 	&& ninja \
 	&& ninja install \
 	\
-	&& git clone --recursive --depth 1 --branch ::HAXE_TAG:: "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 4.3.0 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& mkdir -p $HAXE_STD_PATH \
 	&& cp -r std/* $HAXE_STD_PATH \
 	&& apk add --no-cache --virtual .haxe-build-deps \
-		bash \
-		::if PCRE2::pcre2-dev::else::pcre-dev::end:: \
+		pcre2-dev \
 		zlib-dev \
 		mbedtls-dev \
 		make \
@@ -56,20 +58,19 @@ RUN set -ex \
 		m4 \
 		unzip \
 		patch \
-		pkgconf \
-		rsync \
 		musl-dev \
 		perl-string-shellquote \
 		perl-ipc-system-simple \
 		ocaml-compiler-libs \
 		ocaml-ocamldoc \
-	&& opam init ::if (HAXE_VERSION_MAJOR >= 4)::--compiler=4.11.0::else::--compiler=4.09.1::end:: --disable-sandboxing \
+	&& opam init --compiler=4.11.0 --disable-sandboxing \
 	&& eval $(opam env) \
-	::if ((HAXE_VERSION_MAJOR == 4) && (HAXE_VERSION_MINOR < 2))::&& opam pin add extlib 1.7.7 --no-action ::end::\
-	&& opam install . --deps-only --no-depexts --yes \
-	::if (HAXE_VERSION_MAJOR < 4)::&& opam install camlp4 ::end::\
-	::if (HAXE_VERSION_MAJOR < 4)::&& env OCAMLPARAM=safe-string=0,_ make all tools ::end::\
-	::if (HAXE_VERSION_MAJOR >= 4)::&& make ::end::\
+	&& opam pin add haxe . --no-action \
+	\
+	&& opam install haxe --deps-only --yes \
+	\
+	\
+	&& make \
 	&& eval $(opam env --revert) \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \

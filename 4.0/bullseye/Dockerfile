@@ -13,6 +13,7 @@ ENV PATH /usr/local/bin:$PATH
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		libgc1 \
 		zlib1g \
+		 \
 		libpcre3 \
 		libmariadb3 \
 		libsqlite3-0 \

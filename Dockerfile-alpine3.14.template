@@ -45,7 +45,7 @@ RUN set -ex \
 	&& mkdir -p $HAXE_STD_PATH \
 	&& cp -r std/* $HAXE_STD_PATH \
 	&& apk add --no-cache --virtual .haxe-build-deps \
-		pcre-dev \
+		::if PCRE2::pcre2-dev::else::pcre-dev::end:: \
 		zlib-dev \
 		mbedtls-dev \
 		make \

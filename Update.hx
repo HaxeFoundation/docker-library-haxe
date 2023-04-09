@@ -3,7 +3,7 @@ import haxe.io.*;
 import sys.*;
 import sys.io.*;
 
-typedef Version = {version:String, tag:String, sha256:Dynamic, win64:Bool, nekowin64:Bool, exclude:Array<String>, opam:Bool};
+typedef Version = {version:String, tag:String, sha256:Dynamic, win64:Bool, nekowin64:Bool, exclude:Array<String>, opam:Bool, ?pcre2:Bool };
 typedef Variant = {variant:String, suffix:Array<String>};
 
 enum Family {
@@ -22,6 +22,16 @@ class Update {
 
 	//The first item is considered as "latest". Beta/RC versions should not be put as the first item.
 	static public var versions:Array<Version> = [
+		{
+			"version": "4.3.0",
+			"tag": "4.3.0",
+			"win64": true,
+			"nekowin64": true,
+			"sha256": {"win": "35d4d0e1f00a8b6904acd0e0a32a3e3abd4f33c5143b7ddc569f58a2504d2ece"},
+			"exclude": [],
+			"opam": true,
+			"pcre2": true,
+		},
 		{
 			"version": "4.2.5",
 			"tag": "4.2.5",
@@ -166,6 +176,7 @@ class Update {
 					NEKO_WIN: version.nekowin64 ? "win64" : "win",
 					HEADER: HEADER,
 					USE_OPAM: version.opam,
+					PCRE2: version.pcre2,
 				};
 				var path = dockerfilePath(version, variant);
 				FileSystem.createDirectory(Path.directory(path));
