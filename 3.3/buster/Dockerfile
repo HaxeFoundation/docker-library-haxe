@@ -60,14 +60,15 @@ ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
 		make \
-		ocaml-nox \
-		ocaml-native-compilers \
-		camlp4 \
-		ocaml-findlib \
 		zlib1g-dev \
 		libpcre3-dev \
 		libmbedtls-dev \
 		libxml-light-ocaml-dev \
+		\
+		ocaml-nox \
+		ocaml-native-compilers \
+		camlp4 \
+		ocaml-findlib \
 		\
 	' \
 	&& git clone --recursive --depth 1 --branch 3.3.0-rc1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \

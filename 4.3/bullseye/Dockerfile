@@ -88,7 +88,7 @@ RUN set -ex \
 	&& opam init --disable-sandboxing \
 	&& eval `opam env` \
 	\
-	&& ( [ -f /usr/src/haxe/opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
+	&& ( [ -f /usr/src/haxe/opam ] || [ -f /usr/src/haxe/haxe.opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
 	\
 	&& make all tools \
 	&& mkdir -p /usr/local/bin \

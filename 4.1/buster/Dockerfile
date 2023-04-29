@@ -60,10 +60,6 @@ ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
 		make \
-		ocaml-nox \
-		ocaml-native-compilers \
-		camlp4 \
-		ocaml-findlib \
 		zlib1g-dev \
 		libpcre3-dev \
 		libmbedtls-dev \
@@ -85,10 +81,10 @@ RUN set -ex \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	\
 	\
-	&& opam init --disable-sandboxing \
+	&& opam init --compiler=4.08.1 --disable-sandboxing \
 	&& eval `opam env` \
 	&& opam pin add extlib 1.7.7 --no-action \
-	&& ( [ -f /usr/src/haxe/opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
+	&& ( [ -f /usr/src/haxe/opam ] || [ -f /usr/src/haxe/haxe.opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
 	\
 	&& make all tools \
 	&& mkdir -p /usr/local/bin \

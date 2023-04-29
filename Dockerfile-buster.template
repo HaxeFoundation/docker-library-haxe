@@ -56,10 +56,6 @@ ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
 		make \
-		ocaml-nox \
-		ocaml-native-compilers \
-		camlp4 \
-		ocaml-findlib \
 		zlib1g-dev \
 		::if PCRE2::libpcre2-dev::else::libpcre3-dev::end:: \
 		libmbedtls-dev \
@@ -72,6 +68,11 @@ RUN set -ex \
 		pkg-config \
 		libstring-shellquote-perl \
 		libipc-system-simple-perl \
+		::else::\
+		ocaml-nox \
+		ocaml-native-compilers \
+		camlp4 \
+		ocaml-findlib \
 		::end::\
 	' \
 	&& git clone --recursive --depth 1 --branch ::HAXE_TAG:: "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
@@ -81,10 +82,10 @@ RUN set -ex \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	\
 	::if USE_OPAM::\
-	&& opam init --disable-sandboxing \
+	&& opam init --compiler=4.08.1 --disable-sandboxing \
 	&& eval `opam env` \
 	::if ((HAXE_VERSION_MAJOR == 4) && (HAXE_VERSION_MINOR < 2))::&& opam pin add extlib 1.7.7 --no-action ::end::\
-	&& ( [ -f /usr/src/haxe/opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
+	&& ( [ -f /usr/src/haxe/opam ] || [ -f /usr/src/haxe/haxe.opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
 	::end::\
 	&& make all tools \
 	&& mkdir -p /usr/local/bin \
