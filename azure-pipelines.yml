@@ -16,10 +16,6 @@ jobs:
         haxe4.2-alpine3.15: { VERSION: 4.2, VARIANT: alpine3.15 }
         haxe4.1-alpine3.15: { VERSION: 4.1, VARIANT: alpine3.15 }
         haxe4.0-alpine3.15: { VERSION: 4.0, VARIANT: alpine3.15 }
-        haxe4.3-alpine3.14: { VERSION: 4.3, VARIANT: alpine3.14 }
-        haxe4.2-alpine3.14: { VERSION: 4.2, VARIANT: alpine3.14 }
-        haxe4.1-alpine3.14: { VERSION: 4.1, VARIANT: alpine3.14 }
-        haxe4.0-alpine3.14: { VERSION: 4.0, VARIANT: alpine3.14 }
         haxe4.3-bullseye: { VERSION: 4.3, VARIANT: bullseye }
         haxe4.2-bullseye: { VERSION: 4.2, VARIANT: bullseye }
         haxe4.1-bullseye: { VERSION: 4.1, VARIANT: bullseye }
