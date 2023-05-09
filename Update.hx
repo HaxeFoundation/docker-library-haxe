@@ -65,7 +65,7 @@ class Update {
 			"win64": true,
 			"nekowin64": false,
 			"sha256": {"win": "609acdcb58a2253e357487d495ffe19e9034165f3102f8716ca968afbee8f1b2"},
-			"exclude": ["alpine3.15", "alpine3.16", "alpine3.17", "bullseye"],
+			"exclude": ["alpine3.15", "alpine3.16", "alpine3.17", "alpine3.18", "bullseye"],
 			"opam": false
 		},
 		{
@@ -74,7 +74,7 @@ class Update {
 			"win64": false,
 			"nekowin64": false,
 			"sha256": {"win": "fa51621132432328a47e5e0416ab3b9f2f734b217a2bc9b650826aae2f12c6f4"},
-			"exclude": ["alpine3.15", "alpine3.16", "alpine3.17", "bullseye"],
+			"exclude": ["alpine3.15", "alpine3.16", "alpine3.17", "alpine3.18", "bullseye"],
 			"opam": false
 		},
 		{
@@ -83,7 +83,7 @@ class Update {
 			"win64": false,
 			"nekowin64": false,
 			"sha256": {"win": "af57d42ca474bba826426e9403b2cb21c210d56addc8bbc0e8fafa88b3660db3"},
-			"exclude": ["alpine3.15", "alpine3.16", "alpine3.17", "bullseye"],
+			"exclude": ["alpine3.15", "alpine3.16", "alpine3.17", "alpine3.18", "bullseye"],
 			"opam": false
 		},
 		{
@@ -92,7 +92,7 @@ class Update {
 			"win64": false,
 			"nekowin64": false,
 			"sha256": {"win": "4cf84cdbf7960a61ae70b0d9166c6f9bde16388c3b81e54af91446f4c9e44ae4"},
-			"exclude": ["alpine3.15", "alpine3.16", "alpine3.17", "buster", "bullseye"],
+			"exclude": ["alpine3.15", "alpine3.16", "alpine3.17", "alpine3.18", "buster", "bullseye"],
 			"opam": false
 		},
 	];
@@ -100,7 +100,7 @@ class Update {
 	static public var variants = [
 		Debian => ["bullseye", "buster"],
 		WindowsServerCore => ["windowsservercore-ltsc2022", "windowsservercore-1809"],
-		Alpine => ["alpine3.17", "alpine3.16", "alpine3.15"],
+		Alpine => ["alpine3.18", "alpine3.17", "alpine3.16", "alpine3.15"],
 	];
 
 	static public function parseVersion(version:String) {
