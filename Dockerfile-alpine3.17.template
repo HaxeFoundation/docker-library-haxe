@@ -63,13 +63,11 @@ RUN set -ex \
 		perl-ipc-system-simple \
 		ocaml-compiler-libs \
 		ocaml-ocamldoc \
-	&& opam init ::if (HAXE_VERSION_MAJOR >= 4)::--compiler=4.11.0::else::--compiler=4.09.1::end:: --disable-sandboxing \
+	&& opam init --compiler=4.11.0 --disable-sandboxing \
 	&& eval $(opam env) \
 	::if ((HAXE_VERSION_MAJOR == 4) && (HAXE_VERSION_MINOR < 2))::&& opam pin add extlib 1.7.7 --no-action ::end::\
 	&& opam install . --deps-only --no-depexts --yes \
-	::if (HAXE_VERSION_MAJOR < 4)::&& opam install camlp4 ::end::\
-	::if (HAXE_VERSION_MAJOR < 4)::&& env OCAMLPARAM=safe-string=0,_ make all tools ::end::\
-	::if (HAXE_VERSION_MAJOR >= 4)::&& make ::end::\
+	&& make \
 	&& eval $(opam env --revert) \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \

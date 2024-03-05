@@ -64,7 +64,6 @@ RUN set -ex \
 		libpcre3-dev \
 		libmbedtls-dev \
 		libxml-light-ocaml-dev \
-		\
 		opam \
 		mccs \
 		m4 \
@@ -72,7 +71,6 @@ RUN set -ex \
 		pkg-config \
 		libstring-shellquote-perl \
 		libipc-system-simple-perl \
-		\
 	' \
 	&& git clone --recursive --depth 1 --branch 4.0.5 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
@@ -80,22 +78,18 @@ RUN set -ex \
 	&& cp -r std/* $HAXE_STD_PATH \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	\
-	\
 	&& opam init --compiler=4.08.1 --disable-sandboxing \
 	&& eval `opam env` \
 	&& opam pin add extlib 1.7.7 --no-action \
 	&& ( [ -f /usr/src/haxe/opam ] || [ -f /usr/src/haxe/haxe.opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
-	\
 	&& make all tools \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \
 	&& mkdir -p /haxelib \
 	&& cd / && haxelib setup /haxelib \
 	\
-	\
 	&& eval `opam env --revert` \
 	&& rm -rf ~/.opam \
-	\
 	&& rm -rf /var/lib/apt/lists/* \
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf /usr/src/haxe ~/.cache

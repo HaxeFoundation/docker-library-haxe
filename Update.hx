@@ -3,7 +3,7 @@ import haxe.io.*;
 import sys.*;
 import sys.io.*;
 
-typedef Version = {version:String, tag:String, sha256:Dynamic, win64:Bool, nekowin64:Bool, exclude:Array<String>, opam:Bool, ?pcre2:Bool };
+typedef Version = {version:String, tag:String, sha256:Dynamic, win64:Bool, nekowin64:Bool, exclude:Array<String>, ?pcre2:Bool };
 typedef Variant = {variant:String, suffix:Array<String>};
 
 enum Family {
@@ -29,7 +29,6 @@ class Update {
 			"nekowin64": true,
 			"sha256": {"win": "70953a966b90bceb664639d1a690567e39cf9e3ebacf8c622c17df76fa0a199b"},
 			"exclude": [],
-			"opam": true,
 			"pcre2": true,
 		},
 		{
@@ -39,7 +38,6 @@ class Update {
 			"nekowin64": true,
 			"sha256": {"win": "9e7913999eb3693d540926219b45107b3dc249feb44204c0378fcdc6a74a9132"},
 			"exclude": [],
-			"opam": true
 		},
 		{
 			"version": "4.1.5",
@@ -48,7 +46,6 @@ class Update {
 			"nekowin64": true,
 			"sha256": {"win": "ce4134cdf49814f8f8694648408d006116bd171b957a37be74c79cf403db9633"},
 			"exclude": [],
-			"opam": true
 		},
 		{
 			"version": "4.0.5",
@@ -57,7 +54,6 @@ class Update {
 			"nekowin64": true,
 			"sha256": {"win": "93130ae2b1083efbcd9b8911afe2ba00d5af995f016149fd7ec629fa439c6120"},
 			"exclude": [],
-			"opam": true
 		},
 	];
 
@@ -139,7 +135,6 @@ class Update {
 					},
 					NEKO_WIN: version.nekowin64 ? "win64" : "win",
 					HEADER: HEADER,
-					USE_OPAM: version.opam,
 					PCRE2: version.pcre2,
 				};
 				var path = dockerfilePath(version, variant);

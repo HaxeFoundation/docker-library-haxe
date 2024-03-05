@@ -71,8 +71,6 @@ RUN set -ex \
 	&& eval $(opam env) \
 	\
 	&& opam install . --deps-only --no-depexts --yes \
-	\
-	\
 	&& make \
 	&& eval $(opam env --revert) \
 	&& mkdir -p /usr/local/bin \

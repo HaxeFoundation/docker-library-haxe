@@ -71,8 +71,6 @@ RUN set -ex \
 	&& eval $(opam env) \
 	&& opam pin add extlib 1.7.7 --no-action \
 	&& opam install . --deps-only --no-depexts --yes \
-	\
-	\
 	&& make \
 	&& eval $(opam env --revert) \
 	&& mkdir -p /usr/local/bin \
