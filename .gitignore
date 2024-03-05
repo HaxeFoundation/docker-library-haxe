@@ -1,2 +1,6 @@
 haxe
 .DS_Store
+
+# haxe win64 binary archives
+# we manually download them to get their sha256sum to update Update.hx
+haxe-*-win64.zip
