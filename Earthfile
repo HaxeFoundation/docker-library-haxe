@@ -1,4 +1,4 @@
-VERSION 0.6
+VERSION 0.8
 
 haxe-dockerfiles:
     FROM haxe:4.2
