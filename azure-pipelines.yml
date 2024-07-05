@@ -24,10 +24,6 @@ jobs:
         haxe4.2-bullseye: { VERSION: 4.2, VARIANT: bullseye }
         haxe4.1-bullseye: { VERSION: 4.1, VARIANT: bullseye }
         haxe4.0-bullseye: { VERSION: 4.0, VARIANT: bullseye }
-        haxe4.3-buster: { VERSION: 4.3, VARIANT: buster }
-        haxe4.2-buster: { VERSION: 4.2, VARIANT: buster }
-        haxe4.1-buster: { VERSION: 4.1, VARIANT: buster }
-        haxe4.0-buster: { VERSION: 4.0, VARIANT: buster }
     steps:
       - template: azure-pipelines-steps.yml
       - bash: docker run --rm "${IMAGE}" haxe -version 2>&1 | grep "$VERSION"
