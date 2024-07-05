@@ -60,7 +60,7 @@ class Update {
 	static public var variants = [
 		Debian => ["bookworm", "bullseye"],
 		WindowsServerCore => ["windowsservercore-ltsc2022", "windowsservercore-1809"],
-		Alpine => ["alpine3.19", "alpine3.18", "alpine3.17", "alpine3.16"],
+		Alpine => ["alpine3.19", "alpine3.18", "alpine3.17"],
 	];
 
 	static public function parseVersion(version:String) {
