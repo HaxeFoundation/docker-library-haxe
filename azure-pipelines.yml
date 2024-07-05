@@ -20,6 +20,10 @@ jobs:
         haxe4.2-alpine3.16: { VERSION: 4.2, VARIANT: alpine3.16 }
         haxe4.1-alpine3.16: { VERSION: 4.1, VARIANT: alpine3.16 }
         haxe4.0-alpine3.16: { VERSION: 4.0, VARIANT: alpine3.16 }
+        haxe4.3-bookworm: { VERSION: 4.3, VARIANT: bookworm }
+        haxe4.2-bookworm: { VERSION: 4.2, VARIANT: bookworm }
+        haxe4.1-bookworm: { VERSION: 4.1, VARIANT: bookworm }
+        haxe4.0-bookworm: { VERSION: 4.0, VARIANT: bookworm }
         haxe4.3-bullseye: { VERSION: 4.3, VARIANT: bullseye }
         haxe4.2-bullseye: { VERSION: 4.2, VARIANT: bullseye }
         haxe4.1-bullseye: { VERSION: 4.1, VARIANT: bullseye }
