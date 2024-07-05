@@ -45,7 +45,7 @@ class Update {
 			"win64": true,
 			"nekowin64": true,
 			"sha256": {"win": "ce4134cdf49814f8f8694648408d006116bd171b957a37be74c79cf403db9633"},
-			"exclude": [],
+			"exclude": ["bookworm"],
 		},
 		{
 			"version": "4.0.5",
@@ -53,7 +53,7 @@ class Update {
 			"win64": true,
 			"nekowin64": true,
 			"sha256": {"win": "93130ae2b1083efbcd9b8911afe2ba00d5af995f016149fd7ec629fa439c6120"},
-			"exclude": [],
+			"exclude": ["bookworm"],
 		},
 	];
 
