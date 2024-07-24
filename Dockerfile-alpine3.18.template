@@ -28,10 +28,10 @@ RUN set -ex \
 		cmake \
 		gc-dev \
 		gcc \
-		gtk+2.0-dev \
+		::if NEKO_GTK3::gtk+3.0-dev::else::gtk+2.0-dev::end:: \
 		libc-dev \
 		linux-headers \
-		pcre-dev \
+		::if NEKO_PCRE2::pcre2-dev::else::pcre-dev::end:: \
 		mariadb-dev \
 		mbedtls-dev \
 		ninja \

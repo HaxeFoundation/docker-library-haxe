@@ -13,7 +13,7 @@ ENV PATH /usr/local/bin:$PATH
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		libgc1 \
 		zlib1g \
-		 \
+		libpcre2-8-0 \
 		libpcre3 \
 		libmariadb3 \
 		libsqlite3-0 \
@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
 # install neko, which is a dependency of haxelib
-ENV NEKO_VERSION 2.3.0
+ENV NEKO_VERSION 2.4.0
 RUN set -ex \
 	&& buildDeps=' \
 		gcc \
@@ -31,18 +31,18 @@ RUN set -ex \
 		cmake \
 		libgc-dev \
 		libssl-dev \
-		libpcre3-dev \
+		libpcre2-dev \
 		zlib1g-dev \
 		apache2-dev \
 		libmariadb-dev-compat \
 		libsqlite3-dev \
 		libmbedtls-dev \
-		libgtk2.0-dev \
+		libgtk-3-dev \
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
 	\
-	&& wget -O neko.tar.gz "https://github.com/HaxeFoundation/neko/archive/v2-3-0/neko-2.3.0.tar.gz" \
-	&& echo "850e7e317bdaf24ed652efeff89c1cb21380ca19f20e68a296c84f6bad4ee995 *neko.tar.gz" | sha256sum -c - \
+	&& wget -O neko.tar.gz "https://github.com/HaxeFoundation/neko/archive/v2-4-0/neko-2.4.0.tar.gz" \
+	&& echo "232d030ce27ce648f3b3dd11e39dca0a609347336b439a4a59e9a5c0a465ce15 *neko.tar.gz" | sha256sum -c - \
 	&& mkdir -p /usr/src/neko \
 	&& tar -xC /usr/src/neko --strip-components=1 -f neko.tar.gz \
 	&& rm neko.tar.gz \

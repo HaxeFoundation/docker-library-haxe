@@ -43,14 +43,14 @@ RUN $url = 'https://download.microsoft.com/download/0/5/6/056dcda9-d667-4e27-800
 RUN New-Item -ItemType directory -Path $env:HAXETOOLKIT_PATH;
 
 # install neko, which is a dependency of haxelib
-ENV NEKO_VERSION 2.3.0
-RUN $url = 'https://github.com/HaxeFoundation/neko/releases/download/v2-3-0/neko-2.3.0-win64.zip'; \
+ENV NEKO_VERSION 2.4.0
+RUN $url = 'https://github.com/HaxeFoundation/neko/releases/download/v2-4-0/neko-2.4.0-win64.zip'; \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
 	Invoke-WebRequest -Uri $url -OutFile 'neko.zip'; \
 	\
-	Write-Host 'Verifying sha256 (d09fdf362cd2e3274f6c8528be7211663260c3a5323ce893b7637c2818995f0b) ...'; \
-	if ((Get-FileHash neko.zip -Algorithm sha256).Hash -ne 'd09fdf362cd2e3274f6c8528be7211663260c3a5323ce893b7637c2818995f0b') { \
+	Write-Host 'Verifying sha256 (334e192434483ddcd7062132a1af1cf961c4871258d92d2710a3c2e7a8225aca) ...'; \
+	if ((Get-FileHash neko.zip -Algorithm sha256).Hash -ne '334e192434483ddcd7062132a1af1cf961c4871258d92d2710a3c2e7a8225aca') { \
 		Write-Host 'FAILED!'; \
 		exit 1; \
 	}; \

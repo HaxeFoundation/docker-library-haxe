@@ -14,13 +14,6 @@ typedef Entry = {
 }
 
 class GenerateStackbrewLibrary {
-	static var HEADER =
-'#
-# NOTE: THIS DOCKERFILE IS GENERATED VIA "haxe generate-stackbrew-library.hxml"
-#
-# PLEASE DO NOT EDIT IT DIRECTLY.
-#';
-
 	static public function isShared(suffix:String):Bool {
 		return switch (suffix) {
 			case "" | "windowsservercore": true;
@@ -29,11 +22,11 @@ class GenerateStackbrewLibrary {
 	}
 
 	static public function verAliases(version:String, suffix:Array<String>):Array<String> {
-		var versions = [
+		final versions = [
 			for (v in [version , verMajorMinorPatch(version), verMajorMinor(version)])
 			v => v
 		];
-		var versions = [
+		final versions = [
 			for (v in versions)
 			for (s in suffix)
 			s == "" ? v : v + "-" + s
@@ -43,8 +36,8 @@ class GenerateStackbrewLibrary {
 	}
 
 	static public function fileCommit(file:String):String {
-		var p = new Process("git", ["log", "-1", "--format=%H", "HEAD", "--", file]);
-		var commit = p.stdout.readAll().toString().trim();
+		final p = new Process("git", ["log", "-1", "--format=%H", "HEAD", "--", file]);
+		final commit = p.stdout.readAll().toString().trim();
 		if (p.exitCode() != 0)
 			throw p.stderr.readAll().toString().trim();
 		p.close();
@@ -52,7 +45,7 @@ class GenerateStackbrewLibrary {
 	}
 
 	static public function printEntry(e:Entry):String {
-		var buf = new StringBuf();
+		final buf = new StringBuf();
 		buf.add('Tags: ' + e.tags.join(", ") + "\n");
 		if (e.sharedTags != null && e.sharedTags.length > 0)
 			buf.add('SharedTags: ' + e.sharedTags.join(", ") + "\n");
@@ -65,16 +58,16 @@ class GenerateStackbrewLibrary {
 	}
 
 	static function main():Void {
-		var stackbrew = new StringBuf();
+		final stackbrew = new StringBuf();
 		stackbrew.add("Maintainers: Andy Li <andy@onthewings.net> (@andyli)\n");
 		stackbrew.add("GitRepo: https://github.com/HaxeFoundation/docker-library-haxe.git\n");
 		stackbrew.add("\n");
 
-		var entries:Array<Entry> = [
+		final entries:Array<Entry> = [
 			for (version in versions)
 			for (family => variants in variants)
 			for (i => variant in variants.filter(variant -> version.exclude.indexOf(variant) < 0)) {
-				var suffix = [variant];
+				final suffix = [variant];
 				
 				switch [family, i] {
 					case [Debian, 0]:

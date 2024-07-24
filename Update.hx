@@ -3,7 +3,9 @@ import haxe.io.*;
 import sys.*;
 import sys.io.*;
 
-typedef Version = {version:String, tag:String, sha256:Dynamic, win64:Bool, nekowin64:Bool, exclude:Array<String>, ?pcre2:Bool };
+typedef Sha256Values = {?src:String, ?win:String};
+typedef NekoVersion = {version:String, tag:String, sha256:Sha256Values, pcre2:Bool, gtk3:Bool}; 
+typedef HaxeVersion = {version:String, tag:String, sha256:Sha256Values, exclude:Array<String>, pcre2:Bool, winNeko:NekoVersion};
 typedef Variant = {variant:String, suffix:Array<String>};
 
 enum Family {
@@ -13,59 +15,80 @@ enum Family {
 }
 
 class Update {
-	static var HEADER =
+	static final HEADER =
 '#
 # NOTE: THIS DOCKERFILE IS GENERATED VIA "haxe update.hxml"
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #';
+	static final neko = {
+		v2_4_0: {
+			"version": "2.4.0",
+			"tag": "v2-4-0",
+			"sha256": {
+				"src": "232d030ce27ce648f3b3dd11e39dca0a609347336b439a4a59e9a5c0a465ce15",
+				"win": "334e192434483ddcd7062132a1af1cf961c4871258d92d2710a3c2e7a8225aca",
+			},
+			pcre2: true,
+			gtk3: true,
+		},
+		v2_3_0: {
+			"version": "2.3.0",
+			"tag": "v2-3-0",
+			"sha256": {
+				"src": "850e7e317bdaf24ed652efeff89c1cb21380ca19f20e68a296c84f6bad4ee995",
+				"win": "d09fdf362cd2e3274f6c8528be7211663260c3a5323ce893b7637c2818995f0b",
+			},
+			pcre2: false,
+			gtk3: false,
+		}
+	}
 
 	//The first item is considered as "latest". Beta/RC versions should not be put as the first item.
-	static public var versions:Array<Version> = [
+	static public final versions:Array<HaxeVersion> = [
 		{
 			"version": "4.3.4",
 			"tag": "4.3.4",
-			"win64": true,
-			"nekowin64": true,
 			"sha256": {"win": "402ca2e8fd08477b5c08191bddc0e9af3b58484308dde4558f670a455bc3e503"},
 			"exclude": [],
 			"pcre2": true,
+			"winNeko": neko.v2_4_0,
 		},
 		{
 			"version": "4.2.5",
 			"tag": "4.2.5",
-			"win64": true,
-			"nekowin64": true,
 			"sha256": {"win": "9e7913999eb3693d540926219b45107b3dc249feb44204c0378fcdc6a74a9132"},
 			"exclude": [],
+			"pcre2": false,
+			"winNeko": neko.v2_3_0,
 		},
 		{
 			"version": "4.1.5",
 			"tag": "4.1.5",
-			"win64": true,
-			"nekowin64": true,
 			"sha256": {"win": "ce4134cdf49814f8f8694648408d006116bd171b957a37be74c79cf403db9633"},
 			"exclude": ["bookworm"],
+			"pcre2": false,
+			"winNeko": neko.v2_3_0,
 		},
 		{
 			"version": "4.0.5",
 			"tag": "4.0.5",
-			"win64": true,
-			"nekowin64": true,
 			"sha256": {"win": "93130ae2b1083efbcd9b8911afe2ba00d5af995f016149fd7ec629fa439c6120"},
 			"exclude": ["bookworm"],
+			"pcre2": false,
+			"winNeko": neko.v2_3_0,
 		},
 	];
 
-	static public var variants = [
+	static public final variants = [
 		Debian => ["bookworm", "bullseye"],
 		WindowsServerCore => ["windowsservercore-ltsc2022", "windowsservercore-1809"],
 		Alpine => ["alpine3.20", "alpine3.19", "alpine3.18", "alpine3.17"],
 	];
 
 	static public function parseVersion(version:String) {
-		var t = version.split("-");
-		var nums = t[0].split(".").map(Std.parseInt);
+		final t = version.split("-");
+		final nums = t[0].split(".").map(Std.parseInt);
 		return {
 			major: nums[0],
 			minor: nums[1],
@@ -75,17 +98,17 @@ class Update {
 	}
 
 	static public function verMajorMinor(version:String):String {
-		var v = parseVersion(version);
+		final v = parseVersion(version);
 		return v.major + "." + v.minor;
 	}
 
 	static public function verMajorMinorPatch(version:String):String {
-		var v = parseVersion(version);
+		final v = parseVersion(version);
 		return v.major + "." + v.minor + "." + v.patch;
 	}
 
-	static public function dockerfilePath(version:Version, variant:String):String {
-		var majorMinor = verMajorMinor(version.version);
+	static public function dockerfilePath(version:HaxeVersion, variant:String):String {
+		final majorMinor = verMajorMinor(version.version);
 		return Path.join([majorMinor, variant, "Dockerfile"]);
 	}
 
@@ -93,18 +116,18 @@ class Update {
 		for (family => variants in variants)
 		for (variant in variants)
 		{
-			var tmpl = new Template(File.getContent('Dockerfile-${variant}.template'));
+			final tmpl = new Template(File.getContent('Dockerfile-${variant}.template'));
 			for (version in versions) {
 				if (version.exclude.indexOf(variant) >= 0)
 					continue;
-				switch ([variant, version.win64]) {
-					case ["nanoserver", false]:
-						continue;
+				final v = parseVersion(version.version);
+				final neko = switch (family) {
+					case WindowsServerCore:
+						version.winNeko;
 					case _:
-						//pass
-				}
-				var v = parseVersion(version.version);
-				var vars = {
+						neko.v2_4_0;
+				};
+				final vars = {
 					HAXE_VERSION: version.version,
 					HAXE_VERSION_MAJOR: v.major,
 					HAXE_VERSION_MINOR: v.minor,
@@ -112,7 +135,7 @@ class Update {
 					HAXE_TAG: version.tag,
 					HAXE_FILE: switch(family) {
 						case WindowsServerCore:
-							'https://github.com/HaxeFoundation/haxe/releases/download/${version.tag}/haxe-${version.version}-win${version.win64 ? "64" : ""}.zip';
+							'https://github.com/HaxeFoundation/haxe/releases/download/${version.tag}/haxe-${version.version}-win64.zip';
 						case _:
 							null;
 					},
@@ -122,22 +145,20 @@ class Update {
 						case _:
 							null;
 					},
-					NEKO_VERSION: "2.3.0",
-					NEKO_TAG: "v2-3-0",
+					NEKO_VERSION: neko.version,
+					NEKO_TAG: neko.tag,
 					NEKO_SHA256: switch(family) {
 						case WindowsServerCore:
-							if (version.nekowin64)
-								"d09fdf362cd2e3274f6c8528be7211663260c3a5323ce893b7637c2818995f0b"
-							else
-								"fe5a11350d2dd74338f971d62115f2bd21ec6912f193db04c5d28eb987a50485";
+							neko.sha256.win;
 						case _:
-							"850e7e317bdaf24ed652efeff89c1cb21380ca19f20e68a296c84f6bad4ee995";
+							neko.sha256.src;
 					},
-					NEKO_WIN: version.nekowin64 ? "win64" : "win",
+					NEKO_PCRE2: neko.pcre2,
+					NEKO_GTK3: neko.gtk3,
 					HEADER: HEADER,
 					PCRE2: version.pcre2,
 				};
-				var path = dockerfilePath(version, variant);
+				final path = dockerfilePath(version, variant);
 				FileSystem.createDirectory(Path.directory(path));
 				File.saveContent(path, tmpl.execute(vars));
 			}
