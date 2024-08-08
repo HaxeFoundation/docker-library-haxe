@@ -48,9 +48,9 @@ class Update {
 	//The first item is considered as "latest". Beta/RC versions should not be put as the first item.
 	static public final versions:Array<HaxeVersion> = [
 		{
-			"version": "4.3.5",
-			"tag": "4.3.5",
-			"sha256": {"win": "b82d656232e5b4cc823bab2767c5339be591c6c323442be601768675b214c6b3"},
+			"version": "4.3.6",
+			"tag": "4.3.6",
+			"sha256": {"win": "336090b9c32d6cb9b674130794fea0e9c2240a72bceb7a5d6b44d37c796d1a9a"},
 			"exclude": [],
 			"pcre2": true,
 			"winNeko": neko.v2_4_0,
