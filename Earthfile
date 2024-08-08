@@ -1,7 +1,7 @@
 VERSION 0.8
 
 haxe-dockerfiles:
-    FROM haxe:4.2
+    FROM haxe:4.3
     WORKDIR /workspace
     COPY Dockerfile-*.template .
     COPY Update.hx update.hxml .
@@ -10,7 +10,7 @@ haxe-dockerfiles:
 
 # https://github.com/docker-library/bashbrew
 haxe-stackbrew-library:
-    FROM haxe:4.2
+    FROM haxe:4.3
     WORKDIR /workspace
     COPY .git .
     COPY GenerateStackbrewLibrary.hx Update.hx generate-stackbrew-library.hxml .
@@ -34,6 +34,14 @@ haxe-images:
             END
         END
     END
+
+haxe-sha256-win:
+    FROM haxe:4.3
+    WORKDIR /workspace
+    COPY Update.hx update.hxml .
+    ARG --required VERSION
+    RUN wget "$(haxe update.hxml getHaxeFileUrl $VERSION WindowsServerCore)"
+    RUN --no-cache sha256sum *.zip
 
 github-src:
     FROM buildpack-deps:focal-curl

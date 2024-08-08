@@ -2,6 +2,7 @@ import haxe.*;
 import haxe.io.*;
 import sys.*;
 import sys.io.*;
+using Lambda;
 
 typedef Sha256Values = {?src:String, ?win:String};
 typedef NekoVersion = {version:String, tag:String, sha256:Sha256Values, pcre2:Bool, gtk3:Bool}; 
@@ -112,7 +113,27 @@ class Update {
 		return Path.join([majorMinor, variant, "Dockerfile"]);
 	}
 
+	static public function getHaxeFileUrl(version:HaxeVersion, family:Family):String {
+		return switch(family) {
+			case WindowsServerCore:
+				'https://github.com/HaxeFoundation/haxe/releases/download/${version.tag}/haxe-${version.version}-win64.zip';
+			case _:
+				null;
+		}
+	}
+
 	static function main():Void {
+		switch (Sys.args()) {
+			case ["getHaxeFileUrl", version, family]:
+				final version = versions.find(v -> v.version == version);
+				Sys.println(getHaxeFileUrl(version, Family.createByName(family)));
+				Sys.exit(0);
+			case []:
+				//pass
+			case _:
+				throw 'Invalid arguments';
+		}
+
 		for (family => variants in variants)
 		for (variant in variants)
 		{
@@ -133,12 +154,7 @@ class Update {
 					HAXE_VERSION_MINOR: v.minor,
 					HAXE_VERSION_PATCH: v.patch,
 					HAXE_TAG: version.tag,
-					HAXE_FILE: switch(family) {
-						case WindowsServerCore:
-							'https://github.com/HaxeFoundation/haxe/releases/download/${version.tag}/haxe-${version.version}-win64.zip';
-						case _:
-							null;
-					},
+					HAXE_FILE: getHaxeFileUrl(version, family),
 					HAXE_SHA256: switch(family) {
 						case WindowsServerCore:
 							version.sha256.win;
