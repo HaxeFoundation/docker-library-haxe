@@ -6,7 +6,7 @@ using Lambda;
 
 typedef Sha256Values = {?src:String, ?win:String};
 typedef NekoVersion = {version:String, tag:String, sha256:Sha256Values, pcre2:Bool, gtk3:Bool}; 
-typedef HaxeVersion = {version:String, tag:String, sha256:Sha256Values, exclude:Array<String>, pcre2:Bool, winNeko:NekoVersion};
+typedef HaxeVersion = {version:String, tag:String, sha256:Sha256Values, exclude:Array<String>, pcre2:Bool, winNeko:NekoVersion, opamPins:Array<{lib:String, version:String}>};
 typedef Variant = {variant:String, suffix:Array<String>};
 
 enum Family {
@@ -54,6 +54,9 @@ class Update {
 			"exclude": [],
 			"pcre2": true,
 			"winNeko": neko.v2_4_0,
+			"opamPins": [
+				{"lib": "extlib", "version": "1.7.9"},
+			],
 		},
 		{
 			"version": "4.2.5",
@@ -62,6 +65,9 @@ class Update {
 			"exclude": [],
 			"pcre2": false,
 			"winNeko": neko.v2_3_0,
+			"opamPins": [
+				{"lib": "extlib", "version": "1.7.9"},
+			],
 		},
 		{
 			"version": "4.1.5",
@@ -70,6 +76,9 @@ class Update {
 			"exclude": ["bookworm"],
 			"pcre2": false,
 			"winNeko": neko.v2_3_0,
+			"opamPins": [
+				{"lib": "extlib", "version": "1.7.7"},
+			],
 		},
 		{
 			"version": "4.0.5",
@@ -78,6 +87,9 @@ class Update {
 			"exclude": ["bookworm"],
 			"pcre2": false,
 			"winNeko": neko.v2_3_0,
+			"opamPins": [
+				{"lib": "extlib", "version": "1.7.7"},
+			],
 		},
 	];
 
@@ -173,6 +185,7 @@ class Update {
 					NEKO_GTK3: neko.gtk3,
 					HEADER: HEADER,
 					PCRE2: version.pcre2,
+					OPAM_PINS: version.opamPins,
 				};
 				final path = dockerfilePath(version, variant);
 				FileSystem.createDirectory(Path.directory(path));

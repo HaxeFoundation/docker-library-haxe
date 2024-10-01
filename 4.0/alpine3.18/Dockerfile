@@ -69,7 +69,9 @@ RUN set -ex \
 		ocaml-ocamldoc \
 	&& opam init --compiler=4.11.0 --disable-sandboxing \
 	&& eval $(opam env) \
+	\
 	&& opam pin add extlib 1.7.7 --no-action \
+	\
 	&& opam install . --deps-only --no-depexts --yes \
 	&& make \
 	&& eval $(opam env --revert) \

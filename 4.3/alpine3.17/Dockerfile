@@ -70,6 +70,8 @@ RUN set -ex \
 	&& opam init --compiler=4.11.0 --disable-sandboxing \
 	&& eval $(opam env) \
 	\
+	&& opam pin add extlib 1.7.9 --no-action \
+	\
 	&& opam install . --deps-only --no-depexts --yes \
 	&& make \
 	&& eval $(opam env --revert) \

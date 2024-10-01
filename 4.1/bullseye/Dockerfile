@@ -84,7 +84,9 @@ RUN set -ex \
 	\
 	&& opam init --disable-sandboxing \
 	&& eval `opam env` \
+	\
 	&& opam pin add extlib 1.7.7 --no-action \
+	\
 	&& ( [ -f /usr/src/haxe/opam ] || [ -f /usr/src/haxe/haxe.opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
 	&& make all tools \
 	&& mkdir -p /usr/local/bin \
