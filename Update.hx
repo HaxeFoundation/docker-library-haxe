@@ -6,7 +6,18 @@ using Lambda;
 
 typedef Sha256Values = {?src:String, ?win:String};
 typedef NekoVersion = {version:String, tag:String, sha256:Sha256Values, pcre2:Bool, gtk3:Bool}; 
-typedef HaxeVersion = {version:String, tag:String, sha256:Sha256Values, exclude:Array<String>, pcre2:Bool, winNeko:NekoVersion, opamPins:Array<{lib:String, version:String}>};
+typedef HaxeVersion = {
+	version:String,
+	tag:String,
+	sha256:Sha256Values,
+	exclude:Array<String>,
+	pcre2:Bool, winNeko:NekoVersion,
+	opamPins:Array<{
+		lib:String,
+		version:String,
+		?variants:Array<String>,
+	}>
+};
 typedef Variant = {variant:String, suffix:Array<String>};
 
 enum Family {
@@ -78,6 +89,7 @@ class Update {
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.7"},
+				{"lib": "camlp5", "version": "8.03.01", "variants":["bullseye"]},
 			],
 		},
 		{
@@ -89,6 +101,7 @@ class Update {
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.7"},
+				{"lib": "camlp5", "version": "8.03.01", "variants":["bullseye"]},
 			],
 		},
 	];
@@ -185,7 +198,7 @@ class Update {
 					NEKO_GTK3: neko.gtk3,
 					HEADER: HEADER,
 					PCRE2: version.pcre2,
-					OPAM_PINS: version.opamPins,
+					OPAM_PINS: version.opamPins.filter(pin -> pin.variants == null || pin.variants.indexOf(variant) >= 0),
 				};
 				final path = dockerfilePath(version, variant);
 				FileSystem.createDirectory(Path.directory(path));

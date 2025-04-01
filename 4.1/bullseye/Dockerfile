@@ -87,6 +87,8 @@ RUN set -ex \
 	\
 	&& opam pin add extlib 1.7.7 --no-action \
 	\
+	&& opam pin add camlp5 8.03.01 --no-action \
+	\
 	&& ( [ -f /usr/src/haxe/opam ] || [ -f /usr/src/haxe/haxe.opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
 	&& make all tools \
 	&& mkdir -p /usr/local/bin \
