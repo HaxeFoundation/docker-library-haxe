@@ -66,7 +66,6 @@ class Update {
 			"pcre2": true,
 			"winNeko": neko.v2_4_1,
 			"opamPins": [
-				{"lib": "extlib", "version": "1.7.9"},
 			],
 		},
 		{

@@ -63,12 +63,13 @@ RUN set -ex \
 		perl-ipc-system-simple \
 		ocaml-compiler-libs \
 		ocaml-ocamldoc \
-	&& opam init --compiler=4.11.0 --disable-sandboxing \
-	&& eval $(opam env) \
+	&& opam init --compiler=4.14.2 --disable-sandboxing \
+	&& eval $(opam env --switch=4.14.2) \
 	::foreach OPAM_PINS::\
 	&& opam pin add ::lib:: ::version:: --no-action \
 	::end::\
-	&& opam install . --deps-only --no-depexts --yes \
+	&& opam pin add haxe . --no-action \
+	&& opam install haxe --deps-only --no-depexts --yes \
 	&& make \
 	&& eval $(opam env --revert) \
 	&& mkdir -p /usr/local/bin \
