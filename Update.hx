@@ -39,7 +39,7 @@ class Update {
 			"tag": "v2-4-1",
 			"sha256": {
 				"src": "702282028190dffa2078b00cca515b8e2ba889186a221df2226d2b6deb3ffaca",
-				"win": "334e192434483ddcd7062132a1af1cf961c4871258d92d2710a3c2e7a8225aca",
+				"win": "3902933da42320e8bc04dbee07959ee9ff09a7848e9af48072396400cc3618c9",
 			},
 			pcre2: true,
 			gtk3: true,
@@ -61,7 +61,17 @@ class Update {
 		{
 			"version": "4.3.7",
 			"tag": "4.3.7",
-			"sha256": {"win": "336090b9c32d6cb9b674130794fea0e9c2240a72bceb7a5d6b44d37c796d1a9a"},
+			"sha256": {"win": "29f7acb0fb9fc66a2b9f6bd9453af3474ccb14ebd9fd0142f351d7311c4010c9"},
+			"exclude": [],
+			"pcre2": true,
+			"winNeko": neko.v2_4_1,
+			"opamPins": [
+			],
+		},
+		{
+			"version": "5.0.0-preview.1",
+			"tag": "5.0.0-preview.1",
+			"sha256": {"win": "c223025518c6a527c66bd6c9ca51b4eff848ffcac97fc6c1833d1338cef1622e"},
 			"exclude": [],
 			"pcre2": true,
 			"winNeko": neko.v2_4_1,
