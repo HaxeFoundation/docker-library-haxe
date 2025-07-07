@@ -13,7 +13,7 @@ ENV PATH /usr/local/bin:$PATH
 # the other runtime dependencies are installed later
 RUN apk add --no-cache ca-certificates
 
-ENV NEKO_VERSION 2.4.0
+ENV NEKO_VERSION 2.4.1
 ENV HAXE_VERSION 4.0.5
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 
@@ -22,8 +22,8 @@ RUN set -ex \
 		tar \
 		git \
 	\
-	&& wget -O neko.tar.gz "https://github.com/HaxeFoundation/neko/archive/v2-4-0/neko-2.4.0.tar.gz" \
-	&& echo "232d030ce27ce648f3b3dd11e39dca0a609347336b439a4a59e9a5c0a465ce15 *neko.tar.gz" | sha256sum -c - \
+	&& wget -O neko.tar.gz "https://github.com/HaxeFoundation/neko/archive/v2-4-1/neko-2.4.1.tar.gz" \
+	&& echo "702282028190dffa2078b00cca515b8e2ba889186a221df2226d2b6deb3ffaca *neko.tar.gz" | sha256sum -c - \
 	&& mkdir -p /usr/src/neko \
 	&& tar -xC /usr/src/neko --strip-components=1 -f neko.tar.gz \
 	&& rm neko.tar.gz \

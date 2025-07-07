@@ -5,7 +5,7 @@ import sys.io.*;
 using Lambda;
 
 typedef Sha256Values = {?src:String, ?win:String};
-typedef NekoVersion = {version:String, tag:String, sha256:Sha256Values, pcre2:Bool, gtk3:Bool}; 
+typedef NekoVersion = {version:String, tag:String, sha256:Sha256Values, pcre2:Bool, gtk3:Bool};
 typedef HaxeVersion = {
 	version:String,
 	tag:String,
@@ -34,11 +34,11 @@ class Update {
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #';
 	static final neko = {
-		v2_4_0: {
-			"version": "2.4.0",
-			"tag": "v2-4-0",
+		v2_4_1: {
+			"version": "2.4.1",
+			"tag": "v2-4-1",
 			"sha256": {
-				"src": "232d030ce27ce648f3b3dd11e39dca0a609347336b439a4a59e9a5c0a465ce15",
+				"src": "702282028190dffa2078b00cca515b8e2ba889186a221df2226d2b6deb3ffaca",
 				"win": "334e192434483ddcd7062132a1af1cf961c4871258d92d2710a3c2e7a8225aca",
 			},
 			pcre2: true,
@@ -64,7 +64,7 @@ class Update {
 			"sha256": {"win": "336090b9c32d6cb9b674130794fea0e9c2240a72bceb7a5d6b44d37c796d1a9a"},
 			"exclude": [],
 			"pcre2": true,
-			"winNeko": neko.v2_4_0,
+			"winNeko": neko.v2_4_1,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.9"},
 			],
@@ -171,7 +171,7 @@ class Update {
 					case WindowsServerCore:
 						version.winNeko;
 					case _:
-						neko.v2_4_0;
+						neko.v2_4_1;
 				};
 				final vars = {
 					HAXE_VERSION: version.version,
