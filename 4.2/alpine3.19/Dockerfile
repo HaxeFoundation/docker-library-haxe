@@ -66,14 +66,16 @@ RUN set -ex \
 		perl-string-shellquote \
 		perl-ipc-system-simple \
 		ocaml-compiler-libs \
-		ocaml-ocamldoc \
+		ocaml-ocamldoc
+
+COPY haxe.opam /usr/src/haxe/opam
+
+RUN set -ex \
+	&& cd /usr/src/haxe \
 	&& opam init --compiler=4.14.2 --disable-sandboxing \
 	&& eval $(opam env --switch=4.14.2) \
-	\
-	&& opam pin add extlib 1.7.9 --no-action \
-	\
-	&& opam pin add haxe . --no-action \
-	&& opam install haxe --deps-only --no-depexts --yes \
+	&& opam pin add haxe . --no-action --working-dir \
+	&& opam install haxe --deps-only --no-depexts --yes --working-dir \
 	&& make \
 	&& eval $(opam env --revert) \
 	&& mkdir -p /usr/local/bin \
