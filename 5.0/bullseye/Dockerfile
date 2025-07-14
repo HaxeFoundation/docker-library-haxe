@@ -82,7 +82,7 @@ RUN set -ex \
 	&& cp -r std/* $HAXE_STD_PATH \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	\
-	&& opam init --compiler=5.3.0 --disable-sandboxing \
+	&& opam init --disable-sandboxing \
 	&& eval `opam env` \
 	\
 	&& ( [ -f /usr/src/haxe/opam ] || [ -f /usr/src/haxe/haxe.opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \

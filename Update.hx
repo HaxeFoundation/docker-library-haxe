@@ -9,6 +9,7 @@ typedef NekoVersion = {version:String, tag:String, sha256:Sha256Values, pcre2:Bo
 typedef HaxeVersion = {
 	version:String,
 	tag:String,
+	ocaml:String,
 	sha256:Sha256Values,
 	exclude:Array<String>,
 	pcre2:Bool, winNeko:NekoVersion,
@@ -61,6 +62,7 @@ class Update {
 		{
 			"version": "4.3.7",
 			"tag": "4.3.7",
+			"ocaml": "4.14.2",
 			"sha256": {"win": "29f7acb0fb9fc66a2b9f6bd9453af3474ccb14ebd9fd0142f351d7311c4010c9"},
 			"exclude": [],
 			"pcre2": true,
@@ -71,6 +73,7 @@ class Update {
 		{
 			"version": "5.0.0-preview.1",
 			"tag": "5.0.0-preview.1",
+			"ocaml": "5.3.0",
 			"sha256": {"win": "c223025518c6a527c66bd6c9ca51b4eff848ffcac97fc6c1833d1338cef1622e"},
 			"exclude": [],
 			"pcre2": true,
@@ -81,36 +84,43 @@ class Update {
 		{
 			"version": "4.2.5",
 			"tag": "4.2.5",
+			"ocaml": "4.14.2",
 			"sha256": {"win": "9e7913999eb3693d540926219b45107b3dc249feb44204c0378fcdc6a74a9132"},
 			"exclude": [],
 			"pcre2": false,
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.9"},
+				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.18", "alpine3.19", "alpine3.20"]},
+				{"lib": "camlp5", "version": "8.00.04", "variants":["bookworm", "bullseye"]},
 			],
 		},
 		{
 			"version": "4.1.5",
 			"tag": "4.1.5",
+			"ocaml": "4.11.2",
 			"sha256": {"win": "ce4134cdf49814f8f8694648408d006116bd171b957a37be74c79cf403db9633"},
 			"exclude": ["bookworm"],
 			"pcre2": false,
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.7"},
-				{"lib": "camlp5", "version": "8.03.01", "variants":["bullseye"]},
+				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.18", "alpine3.19", "alpine3.20"]},
+				{"lib": "camlp5", "version": "8.00.04", "variants":["bullseye"]},
 			],
 		},
 		{
 			"version": "4.0.5",
 			"tag": "4.0.5",
+			"ocaml": "4.11.2",
 			"sha256": {"win": "93130ae2b1083efbcd9b8911afe2ba00d5af995f016149fd7ec629fa439c6120"},
 			"exclude": ["bookworm"],
 			"pcre2": false,
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.7"},
-				{"lib": "camlp5", "version": "8.03.01", "variants":["bullseye"]},
+				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.18", "alpine3.19", "alpine3.20"]},
+				{"lib": "camlp5", "version": "8.00.04", "variants":["bullseye"]},
 			],
 		},
 	];
@@ -189,6 +199,7 @@ class Update {
 					HAXE_VERSION_PATCH: v.patch,
 					HAXE_TAG: version.tag,
 					HAXE_FILE: getHaxeFileUrl(version, family),
+					OCAML_VERSION: version.ocaml,
 					HAXE_SHA256: switch(family) {
 						case WindowsServerCore:
 							version.sha256.win;

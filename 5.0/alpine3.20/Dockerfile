@@ -68,7 +68,7 @@ RUN set -ex \
 		ocaml-compiler-libs \
 		ocaml-ocamldoc \
 	&& opam init --compiler=5.3.0 --disable-sandboxing \
-	&& eval $(opam env) \
+	&& eval $(opam env --switch=5.3.0) \
 	\
 	&& opam pin add haxe . --no-action \
 	&& opam install haxe --deps-only --no-depexts --yes \

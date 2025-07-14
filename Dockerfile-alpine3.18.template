@@ -63,8 +63,8 @@ RUN set -ex \
 		perl-ipc-system-simple \
 		ocaml-compiler-libs \
 		ocaml-ocamldoc \
-	&& opam init --compiler=4.14.2 --disable-sandboxing \
-	&& eval $(opam env --switch=4.14.2) \
+	&& opam init --compiler=::OCAML_VERSION:: --disable-sandboxing \
+	&& eval $(opam env --switch=::OCAML_VERSION::) \
 	::foreach OPAM_PINS::\
 	&& opam pin add ::lib:: ::version:: --no-action \
 	::end::\
