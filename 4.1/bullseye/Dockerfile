@@ -82,14 +82,14 @@ RUN set -ex \
 	&& cp -r std/* $HAXE_STD_PATH \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	\
-	&& opam init --disable-sandboxing \
+	&& opam init --compiler=4.11.2 --disable-sandboxing \
 	&& eval `opam env` \
 	\
 	&& opam pin add extlib 1.7.7 --no-action \
 	\
 	&& opam pin add camlp5 8.00.04 --no-action \
 	\
-	&& ( [ -f /usr/src/haxe/opam ] || [ -f /usr/src/haxe/haxe.opam ] && opam install /usr/src/haxe --deps-only --yes || make opam_install ) \
+	&& ( [ -f /usr/src/haxe/opam ] || [ -f /usr/src/haxe/haxe.opam ] && opam install /usr/src/haxe --deps-only --yes --ignore-constraints-on= || make opam_install ) \
 	&& make all tools \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \

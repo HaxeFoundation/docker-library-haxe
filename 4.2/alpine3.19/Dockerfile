@@ -75,7 +75,7 @@ RUN set -ex \
 	&& opam pin add camlp5 8.03.04 --no-action \
 	\
 	&& opam pin add haxe . --no-action \
-	&& opam install haxe --deps-only --no-depexts --yes \
+	&& opam install haxe --deps-only --no-depexts --yes --ignore-constraints-on=camlp5 \
 	&& make \
 	&& eval $(opam env --revert) \
 	&& mkdir -p /usr/local/bin \

@@ -17,6 +17,7 @@ typedef HaxeVersion = {
 		lib:String,
 		version:String,
 		?variants:Array<String>,
+		?ignoreConstraints:Bool
 	}>
 };
 typedef Variant = {variant:String, suffix:Array<String>};
@@ -91,8 +92,8 @@ class Update {
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.9"},
-				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.18", "alpine3.19", "alpine3.20"]},
-				{"lib": "camlp5", "version": "8.00.04", "variants":["bookworm", "bullseye"]},
+				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.18", "alpine3.19", "alpine3.20"], "ignoreConstraints": true},
+				{"lib": "camlp5", "version": "8.00.04", "variants":["bookworm", "bullseye"], "ignoreConstraints": true},
 			],
 		},
 		{
@@ -192,6 +193,7 @@ class Update {
 					case _:
 						neko.v2_4_1;
 				};
+				final opamIgnoreConstraints = version.opamPins.filter(pin -> (pin.variants == null || pin.variants.indexOf(variant) >= 0) && pin.ignoreConstraints);
 				final vars = {
 					HAXE_VERSION: version.version,
 					HAXE_VERSION_MAJOR: v.major,
@@ -218,6 +220,7 @@ class Update {
 					NEKO_GTK3: neko.gtk3,
 					HEADER: HEADER,
 					PCRE2: version.pcre2,
+					OPAM_IGNORE_CONSTRAINTS: opamIgnoreConstraints == null ? "nope" : opamIgnoreConstraints.map(pin -> pin.lib).join(","),
 					OPAM_PINS: version.opamPins.filter(pin -> pin.variants == null || pin.variants.indexOf(variant) >= 0),
 				};
 				final path = dockerfilePath(version, variant);

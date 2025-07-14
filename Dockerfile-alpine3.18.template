@@ -69,7 +69,7 @@ RUN set -ex \
 	&& opam pin add ::lib:: ::version:: --no-action \
 	::end::\
 	&& opam pin add haxe . --no-action \
-	&& opam install haxe --deps-only --no-depexts --yes \
+	&& opam install haxe --deps-only --no-depexts --yes --ignore-constraints-on=::OPAM_IGNORE_CONSTRAINTS:: \
 	&& make \
 	&& eval $(opam env --revert) \
 	&& mkdir -p /usr/local/bin \

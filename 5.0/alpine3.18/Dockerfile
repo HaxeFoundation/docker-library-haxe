@@ -71,7 +71,7 @@ RUN set -ex \
 	&& eval $(opam env --switch=5.3.0) \
 	\
 	&& opam pin add haxe . --no-action \
-	&& opam install haxe --deps-only --no-depexts --yes \
+	&& opam install haxe --deps-only --no-depexts --yes --ignore-constraints-on= \
 	&& make \
 	&& eval $(opam env --revert) \
 	&& mkdir -p /usr/local/bin \
