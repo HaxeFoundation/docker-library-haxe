@@ -39,12 +39,6 @@ jobs:
         haxe4.2-windowsservercore-ltsc2022: { VMIMAGE: 'windows-2022', VERSION: 4.2, VARIANT: windowsservercore-ltsc2022 }
         haxe4.1-windowsservercore-ltsc2022: { VMIMAGE: 'windows-2022', VERSION: 4.1, VARIANT: windowsservercore-ltsc2022 }
         haxe4.0-windowsservercore-ltsc2022: { VMIMAGE: 'windows-2022', VERSION: 4.0, VARIANT: windowsservercore-ltsc2022 }
-        # 1809
-        haxe5.0-windowsservercore-1809: { VMIMAGE: 'windows-2019', VERSION: 5.0, VARIANT: windowsservercore-1809 }
-        haxe4.3-windowsservercore-1809: { VMIMAGE: 'windows-2019', VERSION: 4.3, VARIANT: windowsservercore-1809 }
-        haxe4.2-windowsservercore-1809: { VMIMAGE: 'windows-2019', VERSION: 4.2, VARIANT: windowsservercore-1809 }
-        haxe4.1-windowsservercore-1809: { VMIMAGE: 'windows-2019', VERSION: 4.1, VARIANT: windowsservercore-1809 }
-        haxe4.0-windowsservercore-1809: { VMIMAGE: 'windows-2019', VERSION: 4.0, VARIANT: windowsservercore-1809 }
     pool:
       vmImage: $(VMIMAGE)
     steps:

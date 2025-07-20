@@ -128,7 +128,7 @@ class Update {
 
 	static public final variants = [
 		Debian => ["bookworm", "bullseye"],
-		WindowsServerCore => ["windowsservercore-ltsc2022", "windowsservercore-1809"],
+		WindowsServerCore => ["windowsservercore-ltsc2022"],
 		Alpine => ["alpine3.20", "alpine3.19"],
 	];
 
