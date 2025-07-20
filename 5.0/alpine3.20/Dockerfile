@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM alpine:3.18
+FROM alpine:3.20
 
 # ensure local haxe is preferred over distribution haxe
 ENV PATH /usr/local/bin:$PATH
@@ -14,7 +14,7 @@ ENV PATH /usr/local/bin:$PATH
 RUN apk add --no-cache ca-certificates
 
 ENV NEKO_VERSION 2.4.1
-ENV HAXE_VERSION 4.1.5
+ENV HAXE_VERSION 5.0.0-preview.1
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 
 RUN set -ex \
@@ -37,7 +37,7 @@ RUN set -ex \
 		linux-headers \
 		pcre2-dev \
 		mariadb-dev \
-		mbedtls-dev \
+		mbedtls2-dev \
 		ninja \
 		sqlite-dev \
 	&& cd /usr/src/neko \
@@ -45,15 +45,15 @@ RUN set -ex \
 	&& ninja \
 	&& ninja install \
 	\
-	&& git clone --recursive --depth 1 --branch 4.1.5 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 5.0.0-preview.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& mkdir -p $HAXE_STD_PATH \
 	&& cp -r std/* $HAXE_STD_PATH \
 	&& apk add --no-cache --virtual .haxe-build-deps \
 		bash \
-		pcre-dev \
+		pcre2-dev \
 		zlib-dev \
-		mbedtls-dev \
+		mbedtls2-dev \
 		make \
 		opam \
 		aspcud \
@@ -67,12 +67,8 @@ RUN set -ex \
 		perl-ipc-system-simple \
 		ocaml-compiler-libs \
 		ocaml-ocamldoc \
-	&& opam init --compiler=4.11.2 --disable-sandboxing \
-	&& eval $(opam env --switch=4.11.2) \
-	\
-	&& opam pin add extlib 1.7.7 --no-action \
-	\
-	&& opam pin add camlp5 8.03.04 --no-action \
+	&& opam init --compiler=5.3.0 --disable-sandboxing \
+	&& eval $(opam env --switch=5.3.0) \
 	\
 	&& opam pin add haxe . --no-action \
 	&& opam install haxe --deps-only --no-depexts --yes --ignore-constraints-on= \

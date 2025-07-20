@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		libgc1 \
 		zlib1g \
 		libpcre2-8-0 \
-		libpcre3 \
+		 \
 		libmariadb3 \
 		libsqlite3-0 \
 		libmbedcrypto3 \
@@ -55,7 +55,7 @@ RUN set -ex \
 	&& rm -rf /usr/src/neko ~/.cache
 
 # install haxe
-ENV HAXE_VERSION 4.2.5
+ENV HAXE_VERSION 5.0.0-preview.1
 ENV HAXE_STD_PATH /usr/local/share/haxe/std
 RUN set -ex \
 	&& buildDeps=' \
@@ -65,7 +65,7 @@ RUN set -ex \
 		camlp4 \
 		ocaml-findlib \
 		zlib1g-dev \
-		libpcre3-dev \
+		libpcre2-dev \
 		libmbedtls-dev \
 		libxml-light-ocaml-dev \
 		opam \
@@ -76,20 +76,16 @@ RUN set -ex \
 		libstring-shellquote-perl \
 		libipc-system-simple-perl \
 	' \
-	&& git clone --recursive --depth 1 --branch 4.2.5 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& git clone --recursive --depth 1 --branch 5.0.0-preview.1 "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
 	&& cd /usr/src/haxe \
 	&& mkdir -p $HAXE_STD_PATH \
 	&& cp -r std/* $HAXE_STD_PATH \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	\
-	&& opam init --compiler=4.14.2 --disable-sandboxing \
+	&& opam init --compiler=5.3.0 --disable-sandboxing \
 	&& eval `opam env` \
 	\
-	&& opam pin add extlib 1.7.9 --no-action \
-	\
-	&& opam pin add camlp5 8.00.04 --no-action \
-	\
-	&& ( [ -f /usr/src/haxe/opam ] || [ -f /usr/src/haxe/haxe.opam ] && opam install /usr/src/haxe --deps-only --yes --ignore-constraints-on=camlp5 || make opam_install ) \
+	&& ( [ -f /usr/src/haxe/opam ] || [ -f /usr/src/haxe/haxe.opam ] && opam install /usr/src/haxe --deps-only --yes --ignore-constraints-on= || make opam_install ) \
 	&& make all tools \
 	&& mkdir -p /usr/local/bin \
 	&& cp haxe haxelib /usr/local/bin \

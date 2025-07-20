@@ -5,10 +5,11 @@ import sys.io.*;
 using Lambda;
 
 typedef Sha256Values = {?src:String, ?win:String};
-typedef NekoVersion = {version:String, tag:String, sha256:Sha256Values, pcre2:Bool, gtk3:Bool}; 
+typedef NekoVersion = {version:String, tag:String, sha256:Sha256Values, pcre2:Bool, gtk3:Bool};
 typedef HaxeVersion = {
 	version:String,
 	tag:String,
+	ocaml:String,
 	sha256:Sha256Values,
 	exclude:Array<String>,
 	pcre2:Bool, winNeko:NekoVersion,
@@ -16,6 +17,7 @@ typedef HaxeVersion = {
 		lib:String,
 		version:String,
 		?variants:Array<String>,
+		?ignoreConstraints:Bool
 	}>
 };
 typedef Variant = {variant:String, suffix:Array<String>};
@@ -34,12 +36,12 @@ class Update {
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #';
 	static final neko = {
-		v2_4_0: {
-			"version": "2.4.0",
-			"tag": "v2-4-0",
+		v2_4_1: {
+			"version": "2.4.1",
+			"tag": "v2-4-1",
 			"sha256": {
-				"src": "232d030ce27ce648f3b3dd11e39dca0a609347336b439a4a59e9a5c0a465ce15",
-				"win": "334e192434483ddcd7062132a1af1cf961c4871258d92d2710a3c2e7a8225aca",
+				"src": "702282028190dffa2078b00cca515b8e2ba889186a221df2226d2b6deb3ffaca",
+				"win": "3902933da42320e8bc04dbee07959ee9ff09a7848e9af48072396400cc3618c9",
 			},
 			pcre2: true,
 			gtk3: true,
@@ -59,49 +61,67 @@ class Update {
 	//The first item is considered as "latest". Beta/RC versions should not be put as the first item.
 	static public final versions:Array<HaxeVersion> = [
 		{
-			"version": "4.3.6",
-			"tag": "4.3.6",
-			"sha256": {"win": "336090b9c32d6cb9b674130794fea0e9c2240a72bceb7a5d6b44d37c796d1a9a"},
+			"version": "4.3.7",
+			"tag": "4.3.7",
+			"ocaml": "4.14.2",
+			"sha256": {"win": "29f7acb0fb9fc66a2b9f6bd9453af3474ccb14ebd9fd0142f351d7311c4010c9"},
 			"exclude": [],
 			"pcre2": true,
-			"winNeko": neko.v2_4_0,
+			"winNeko": neko.v2_4_1,
 			"opamPins": [
-				{"lib": "extlib", "version": "1.7.9"},
+			],
+		},
+		{
+			"version": "5.0.0-preview.1",
+			"tag": "5.0.0-preview.1",
+			"ocaml": "5.3.0",
+			"sha256": {"win": "c223025518c6a527c66bd6c9ca51b4eff848ffcac97fc6c1833d1338cef1622e"},
+			"exclude": [],
+			"pcre2": true,
+			"winNeko": neko.v2_4_1,
+			"opamPins": [
 			],
 		},
 		{
 			"version": "4.2.5",
 			"tag": "4.2.5",
+			"ocaml": "4.14.2",
 			"sha256": {"win": "9e7913999eb3693d540926219b45107b3dc249feb44204c0378fcdc6a74a9132"},
 			"exclude": [],
 			"pcre2": false,
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.9"},
+				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.18", "alpine3.19", "alpine3.20"], "ignoreConstraints": true},
+				{"lib": "camlp5", "version": "8.00.04", "variants":["bookworm", "bullseye"], "ignoreConstraints": true},
 			],
 		},
 		{
 			"version": "4.1.5",
 			"tag": "4.1.5",
+			"ocaml": "4.11.2",
 			"sha256": {"win": "ce4134cdf49814f8f8694648408d006116bd171b957a37be74c79cf403db9633"},
 			"exclude": ["bookworm"],
 			"pcre2": false,
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.7"},
-				{"lib": "camlp5", "version": "8.03.01", "variants":["bullseye"]},
+				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.18", "alpine3.19", "alpine3.20"]},
+				{"lib": "camlp5", "version": "8.00.04", "variants":["bullseye"]},
 			],
 		},
 		{
 			"version": "4.0.5",
 			"tag": "4.0.5",
+			"ocaml": "4.11.2",
 			"sha256": {"win": "93130ae2b1083efbcd9b8911afe2ba00d5af995f016149fd7ec629fa439c6120"},
 			"exclude": ["bookworm"],
 			"pcre2": false,
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.7"},
-				{"lib": "camlp5", "version": "8.03.01", "variants":["bullseye"]},
+				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.18", "alpine3.19", "alpine3.20"]},
+				{"lib": "camlp5", "version": "8.00.04", "variants":["bullseye"]},
 			],
 		},
 	];
@@ -171,8 +191,9 @@ class Update {
 					case WindowsServerCore:
 						version.winNeko;
 					case _:
-						neko.v2_4_0;
+						neko.v2_4_1;
 				};
+				final opamIgnoreConstraints = version.opamPins.filter(pin -> (pin.variants == null || pin.variants.indexOf(variant) >= 0) && pin.ignoreConstraints);
 				final vars = {
 					HAXE_VERSION: version.version,
 					HAXE_VERSION_MAJOR: v.major,
@@ -180,6 +201,7 @@ class Update {
 					HAXE_VERSION_PATCH: v.patch,
 					HAXE_TAG: version.tag,
 					HAXE_FILE: getHaxeFileUrl(version, family),
+					OCAML_VERSION: version.ocaml,
 					HAXE_SHA256: switch(family) {
 						case WindowsServerCore:
 							version.sha256.win;
@@ -198,6 +220,7 @@ class Update {
 					NEKO_GTK3: neko.gtk3,
 					HEADER: HEADER,
 					PCRE2: version.pcre2,
+					OPAM_IGNORE_CONSTRAINTS: opamIgnoreConstraints == null ? "nope" : opamIgnoreConstraints.map(pin -> pin.lib).join(","),
 					OPAM_PINS: version.opamPins.filter(pin -> pin.variants == null || pin.variants.indexOf(variant) >= 0),
 				};
 				final path = dockerfilePath(version, variant);
