@@ -14,11 +14,6 @@ jobs:
         haxe4.2-alpine3.19: { VERSION: 4.2, VARIANT: alpine3.19 }
         haxe4.1-alpine3.19: { VERSION: 4.1, VARIANT: alpine3.19 }
         haxe4.0-alpine3.19: { VERSION: 4.0, VARIANT: alpine3.19 }
-        haxe5.0-alpine3.18: { VERSION: 5.0, VARIANT: alpine3.18 }
-        haxe4.3-alpine3.18: { VERSION: 4.3, VARIANT: alpine3.18 }
-        haxe4.2-alpine3.18: { VERSION: 4.2, VARIANT: alpine3.18 }
-        haxe4.1-alpine3.18: { VERSION: 4.1, VARIANT: alpine3.18 }
-        haxe4.0-alpine3.18: { VERSION: 4.0, VARIANT: alpine3.18 }
         haxe5.0-bookworm: { VERSION: 5.0, VARIANT: bookworm }
         haxe4.3-bookworm: { VERSION: 4.3, VARIANT: bookworm }
         haxe4.2-bookworm: { VERSION: 4.2, VARIANT: bookworm }

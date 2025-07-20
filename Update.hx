@@ -92,7 +92,7 @@ class Update {
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.9"},
-				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.18", "alpine3.19", "alpine3.20"], "ignoreConstraints": true},
+				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.19", "alpine3.20"], "ignoreConstraints": true},
 				{"lib": "camlp5", "version": "8.00.04", "variants":["bookworm", "bullseye"], "ignoreConstraints": true},
 			],
 		},
@@ -106,7 +106,7 @@ class Update {
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.7"},
-				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.18", "alpine3.19", "alpine3.20"]},
+				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.19", "alpine3.20"]},
 				{"lib": "camlp5", "version": "8.00.04", "variants":["bullseye"]},
 			],
 		},
@@ -120,7 +120,7 @@ class Update {
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.7"},
-				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.18", "alpine3.19", "alpine3.20"]},
+				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.19", "alpine3.20"]},
 				{"lib": "camlp5", "version": "8.00.04", "variants":["bullseye"]},
 			],
 		},
@@ -129,7 +129,7 @@ class Update {
 	static public final variants = [
 		Debian => ["bookworm", "bullseye"],
 		WindowsServerCore => ["windowsservercore-ltsc2022", "windowsservercore-1809"],
-		Alpine => ["alpine3.20", "alpine3.19", "alpine3.18"],
+		Alpine => ["alpine3.20", "alpine3.19"],
 	];
 
 	static public function parseVersion(version:String) {
