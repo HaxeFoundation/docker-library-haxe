@@ -1,6 +1,6 @@
 steps:
   - bash: |
-      IMAGE="haxe:$(awk '$1 == "ENV" && $2 == "HAXE_VERSION" { print $3; exit }' ${VARIANT:+$VARIANT}/Dockerfile)"
+      IMAGE="haxe:$(grep -oP '(?<=ENV HAXE_VERSION[=\s]).+' ${VARIANT:+$VARIANT}/Dockerfile)"
       echo "$IMAGE"
       echo "##vso[task.setvariable variable=IMAGE]$IMAGE"
     workingDirectory: $(VERSION)
