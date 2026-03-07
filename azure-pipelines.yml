@@ -48,6 +48,8 @@ jobs:
         haxe4.0-windowsservercore-ltsc2025: { VMIMAGE: 'windows-2025', VERSION: 4.0, VARIANT: windowsservercore-ltsc2025 }
     pool:
       vmImage: $(VMIMAGE)
+    variables:
+      LC_ALL: en_US.utf8
     steps:
       - template: azure-pipelines-steps.yml
       - bash: docker run --rm "${IMAGE}" haxe -version 2>&1 | grep "$VERSION"
