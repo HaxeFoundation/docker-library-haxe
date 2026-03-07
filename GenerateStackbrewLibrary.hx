@@ -59,7 +59,8 @@ class GenerateStackbrewLibrary {
 
 	static function main():Void {
 		final stackbrew = new StringBuf();
-		stackbrew.add("Maintainers: Andy Li <andy@onthewings.net> (@andyli)\n");
+		stackbrew.add("Maintainers: Andy Li <andy@onthewings.net> (@andyli),\n");
+		stackbrew.add("             Rudy Ges <k@klabz.org> (@kLabz)\n");
 		stackbrew.add("GitRepo: https://github.com/HaxeFoundation/docker-library-haxe.git\n");
 		stackbrew.add("\n");
 
