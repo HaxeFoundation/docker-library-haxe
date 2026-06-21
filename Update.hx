@@ -69,7 +69,7 @@ class Update {
 			"pcre2": true,
 			"winNeko": neko.v2_4_1,
 			"opamPins": [
-				{"lib": "luv", "version": "0.5.14", "variants":["alpine3.21", "alpine3.22", "alpine3.23"], "ignoreConstraints": true},
+				{"lib": "luv", "version": "0.5.14", "variants":["alpine3.21", "alpine3.22", "alpine3.23", "alpine3.24"], "ignoreConstraints": true},
 			],
 		},
 		{
@@ -88,12 +88,12 @@ class Update {
 			"tag": "4.2.5",
 			"ocaml": "4.14.2",
 			"sha256": {"win": "9e7913999eb3693d540926219b45107b3dc249feb44204c0378fcdc6a74a9132"},
-			"exclude": ["alpine3.21", "alpine3.22", "alpine3.23"],
+			"exclude": ["alpine3.21", "alpine3.22", "alpine3.23", "alpine3.24"],
 			"pcre2": false,
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.9"},
-				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.21", "alpine3.22", "alpine3.23"], "ignoreConstraints": true},
+				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.21", "alpine3.22", "alpine3.23", "alpine3.24"], "ignoreConstraints": true},
 				{"lib": "camlp5", "version": "8.00.04", "variants":["bookworm", "bullseye"], "ignoreConstraints": true},
 			],
 		},
@@ -102,12 +102,12 @@ class Update {
 			"tag": "4.1.5",
 			"ocaml": "4.11.2",
 			"sha256": {"win": "ce4134cdf49814f8f8694648408d006116bd171b957a37be74c79cf403db9633"},
-			"exclude": ["bookworm", "alpine3.21", "alpine3.22", "alpine3.23"],
+			"exclude": ["bookworm", "alpine3.21", "alpine3.22", "alpine3.23", "alpine3.24"],
 			"pcre2": false,
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.7"},
-				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.21", "alpine3.22", "alpine3.23"]},
+				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.21", "alpine3.22", "alpine3.23", "alpine3.24"]},
 				{"lib": "camlp5", "version": "8.00.04", "variants":["bullseye"]},
 			],
 		},
@@ -116,12 +116,12 @@ class Update {
 			"tag": "4.0.5",
 			"ocaml": "4.11.2",
 			"sha256": {"win": "93130ae2b1083efbcd9b8911afe2ba00d5af995f016149fd7ec629fa439c6120"},
-			"exclude": ["bookworm", "alpine3.21", "alpine3.22", "alpine3.23"],
+			"exclude": ["bookworm", "alpine3.21", "alpine3.22", "alpine3.23", "alpine3.24"],
 			"pcre2": false,
 			"winNeko": neko.v2_3_0,
 			"opamPins": [
 				{"lib": "extlib", "version": "1.7.7"},
-				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.21", "alpine3.22", "alpine3.23"]},
+				{"lib": "camlp5", "version": "8.03.04", "variants":["alpine3.21", "alpine3.22", "alpine3.23", "alpine3.24"]},
 				{"lib": "camlp5", "version": "8.00.04", "variants":["bullseye"]},
 			],
 		},
@@ -130,7 +130,7 @@ class Update {
 	static public final variants = [
 		Debian => ["bookworm", "bullseye"],
 		WindowsServerCore => ["windowsservercore-ltsc2025", "windowsservercore-ltsc2022"],
-		Alpine => ["alpine3.23", "alpine3.22", "alpine3.21"],
+		Alpine => ["alpine3.24", "alpine3.23", "alpine3.22", "alpine3.21"],
 	];
 
 	static public function parseVersion(version:String) {

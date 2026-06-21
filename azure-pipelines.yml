@@ -4,6 +4,8 @@ jobs:
       vmImage: 'ubuntu-latest'
     strategy:
       matrix:
+        haxe5.0-alpine3.24: { VERSION: 5.0, VARIANT: alpine3.24 }
+        haxe4.3-alpine3.24: { VERSION: 4.3, VARIANT: alpine3.24 }
         haxe5.0-alpine3.23: { VERSION: 5.0, VARIANT: alpine3.23 }
         haxe4.3-alpine3.23: { VERSION: 4.3, VARIANT: alpine3.23 }
         haxe5.0-alpine3.22: { VERSION: 5.0, VARIANT: alpine3.22 }
