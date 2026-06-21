@@ -1,0 +1,96 @@
+::HEADER::
+
+FROM buildpack-deps:trixie-scm
+
+# ensure local haxe is preferred over distribution haxe
+ENV PATH /usr/local/bin:$PATH
+
+# runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+		libgc1 \
+		zlib1g \
+		::if (PCRE2 || NEKO_PCRE2)::libpcre2-8-0::end:: \
+		::if (!PCRE2 || !NEKO_PCRE2)::libpcre3::end:: \
+		libmariadb3 \
+		libsqlite3-0 \
+		libmbedcrypto16 \
+		libmbedtls21 \
+		libmbedx509-7 \
+	&& rm -rf /var/lib/apt/lists/*
+
+# install neko, which is a dependency of haxelib
+ENV NEKO_VERSION ::NEKO_VERSION::
+RUN set -ex \
+	&& buildDeps=' \
+		gcc \
+		make \
+		cmake \
+		libgc-dev \
+		libssl-dev \
+		::if NEKO_PCRE2::libpcre2-dev::else::libpcre3-dev::end:: \
+		zlib1g-dev \
+		apache2-dev \
+		libmariadb-dev-compat \
+		libsqlite3-dev \
+		libmbedtls-dev \
+		::if NEKO_GTK3::libgtk-3-dev::else::libgtk2.0-dev::end:: \
+	' \
+	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
+	\
+	&& wget -O neko.tar.gz "https://github.com/HaxeFoundation/neko/archive/::NEKO_TAG::/neko-::NEKO_VERSION::.tar.gz" \
+	&& echo "::NEKO_SHA256:: *neko.tar.gz" | sha256sum -c - \
+	&& mkdir -p /usr/src/neko \
+	&& tar -xC /usr/src/neko --strip-components=1 -f neko.tar.gz \
+	&& rm neko.tar.gz \
+	&& cd /usr/src/neko \
+	&& cmake -DRELOCATABLE=OFF . \
+	&& make \
+	&& make install \
+	\
+	&& apt-get purge -y --auto-remove $buildDeps \
+	&& rm -rf /usr/src/neko ~/.cache
+
+# install haxe
+ENV HAXE_VERSION ::HAXE_VERSION::
+ENV HAXE_STD_PATH /usr/local/share/haxe/std
+RUN set -ex \
+	&& buildDeps=' \
+		make \
+		ocaml \
+		ocaml-findlib \
+		zlib1g-dev \
+		::if PCRE2::libpcre2-dev::else::libpcre3-dev::end:: \
+		libmbedtls-dev \
+		opam \
+		mccs \
+		m4 \
+		unzip \
+		pkg-config \
+		libstring-shellquote-perl \
+		libipc-system-simple-perl \
+	' \
+	&& git clone --recursive --depth 1 --branch ::HAXE_TAG:: "https://github.com/HaxeFoundation/haxe.git" /usr/src/haxe \
+	&& cd /usr/src/haxe \
+	&& mkdir -p $HAXE_STD_PATH \
+	&& cp -r std/* $HAXE_STD_PATH \
+	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
+	\
+	&& opam init --compiler=::OCAML_VERSION:: --disable-sandboxing \
+	&& eval `opam env` \
+	::foreach OPAM_PINS::\
+	&& opam pin add ::lib:: ::version:: --no-action \
+	::end::\
+	&& ( [ -f /usr/src/haxe/opam ] || [ -f /usr/src/haxe/haxe.opam ] && opam install /usr/src/haxe --deps-only --assume-depexts --yes --ignore-constraints-on=::OPAM_IGNORE_CONSTRAINTS:: || make opam_install ) \
+	&& make all tools \
+	&& mkdir -p /usr/local/bin \
+	&& cp haxe haxelib /usr/local/bin \
+	&& mkdir -p /haxelib \
+	&& cd / && haxelib setup /haxelib \
+	\
+	&& eval `opam env --revert` \
+	&& rm -rf ~/.opam \
+	&& rm -rf /var/lib/apt/lists/* \
+	&& apt-get purge -y --auto-remove $buildDeps \
+	&& rm -rf /usr/src/haxe ~/.cache
+
+CMD ["haxe"]
