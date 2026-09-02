@@ -67,8 +67,8 @@ RUN set -ex \
 		perl-ipc-system-simple \
 		ocaml-compiler-libs \
 		ocaml-ocamldoc \
-	&& opam init --compiler=5.3.0 --disable-sandboxing \
-	&& eval $(opam env --switch=5.3.0) \
+	&& opam init --compiler=ocaml-variants.5.5.1+trunk --disable-sandboxing \
+	&& eval $(opam env --switch=ocaml-variants.5.5.1+trunk) \
 	\
 	&& opam pin add haxe . --no-action \
 	&& opam install haxe --deps-only --no-depexts --yes --ignore-constraints-on= \
