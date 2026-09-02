@@ -82,7 +82,7 @@ RUN set -ex \
 	&& cp -r std/* $HAXE_STD_PATH \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	\
-	&& opam init --compiler=ocaml-variants.5.5.1+trunk --disable-sandboxing \
+	&& opam init --compiler=5.5.0 --disable-sandboxing \
 	&& eval `opam env` \
 	\
 	&& ( [ -f /usr/src/haxe/opam ] || [ -f /usr/src/haxe/haxe.opam ] && opam install /usr/src/haxe --deps-only --yes --ignore-constraints-on= || make opam_install ) \
