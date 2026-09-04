@@ -75,13 +75,7 @@ class Update {
 		{
 			"version": "5.0.0-preview.1",
 			"tag": "5.0.0-preview.1",
-			"ocaml": variant -> switch (variant) {
-				// Somehow opam cannot create the 5.5.1+trunk switch for bullseye
-				case "bullseye": "5.5.0";
-				// We should use ocaml 5.5.1 when it is released
-				// https://github.com/HaxeFoundation/docker-library-haxe/issues/14
-				case _: "ocaml-variants.5.5.1+trunk";
-			},
+			"ocaml": _ -> "5.5.1",
 			"sha256": {"win": "c223025518c6a527c66bd6c9ca51b4eff848ffcac97fc6c1833d1338cef1622e"},
 			"exclude": [],
 			"pcre2": true,
