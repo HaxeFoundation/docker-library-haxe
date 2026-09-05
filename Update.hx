@@ -75,7 +75,10 @@ class Update {
 		{
 			"version": "5.0.0-preview.1",
 			"tag": "5.0.0-preview.1",
-			"ocaml": _ -> "5.5.1",
+			"ocaml": variant -> switch (variant) {
+				case "trixie": "5.4.1"; // https://github.com/HaxeFoundation/docker-library-haxe/issues/15
+				case _: "5.5.1";
+			},
 			"sha256": {"win": "c223025518c6a527c66bd6c9ca51b4eff848ffcac97fc6c1833d1338cef1622e"},
 			"exclude": [],
 			"pcre2": true,
